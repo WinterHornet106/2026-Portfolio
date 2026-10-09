@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MEC Connect — Jay Ho</title>
+  <meta name="description" content="MEC Connect — an events app for a co-op coming home. Designed in collaboration with Mountain Equipment Company at SFU IAT." />
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='6' fill='%234c7aa3'/%3E%3C/svg%3E" />
+</head>
+<body>
+
+  <nav class="nav" aria-label="Primary">
+    <a href="../index.html" class="nav__brand" aria-label="Jay Ho — Home">
+      <svg class="nav__logo" viewBox="0 0 35 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M20.8651 0H13.9639V33.9625H6.9012V3.73333H0V69.0517H6.9012V40.0861H13.9639V46.17C13.9639 53.4923 12.7975 61.3008 10.4647 69.5952L7.54867 79.8011H14.6443L17.6575 69.5952C19.7959 62.208 20.8651 54.3669 20.8651 46.0728V40.0861H27.702V69.0517H34.6667V3.73333H27.702V33.9625H20.8651V0Z" fill="currentColor"/>
+      </svg>
+    </a>
+    <div class="nav__links">
+      <a href="../index.html" class="nav__link is-active">Work</a>
+      <a href="../about.html" class="nav__link">About</a>
+      <a href="../resume.html" class="nav__link">Resume</a>
+      <a href="../contact.html" class="nav__link">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="shell" style="padding: var(--s-6) 0 0;">
+      <a href="../index.html#work" class="back">
+        <span class="arr" aria-hidden="true">&larr;</span> All work
+      </a>
+    </section>
+
+    <header class="hero shell">
+      <div class="hero__rail hero__rail--top reveal">
+        <span class="status">
+          <span class="pulse" aria-hidden="true"></span>
+          <span>Case study &middot; 01</span>
+        </span>
+        <span>2024 &middot; 2025 &middot; Brand collaboration</span>
+      </div>
+
+      <h1 class="hero__lead reveal" data-delay="1">
+        An events app for a
+        <span class="accent">co-op coming home.</span>
+      </h1>
+
+      <div class="hero__sub reveal" data-delay="2">
+        <p class="hero__discipline">MEC Connect</p>
+        <p class="hero__tag">
+          What if your next outdoor adventure started with a new friendship?
+          Designed in collaboration with Mountain Equipment Company to help rebuild
+          community engagement through a better events experience.
+        </p>
+      </div>
+    </header>
+
+    <section class="shell section--first">
+      <dl class="cs-meta reveal">
+        <div>
+          <dt>Role</dt>
+          <dd>Designer &amp; researcher</dd>
+        </div>
+        <div>
+          <dt>Year</dt>
+          <dd>2024 &mdash; 2025</dd>
+        </div>
+        <div>
+          <dt>Team</dt>
+          <dd>SFU IAT team + MEC stakeholders</dd>
+        </div>
+        <div>
+          <dt>Client</dt>
+          <dd>Mountain Equipment Company</dd>
+        </div>
+      </dl>
+
+      <figure class="cs-image reveal">
+        <div class="cs-frame cs-frame--bigwide cs-frame--contain">
+          <div class="cover-fill cover-mec" aria-hidden="true"></div>
+          <svg viewBox="0 0 1600 700" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="mix-blend-mode: multiply;">
+            <g fill="none" stroke="oklch(28% 0.06 170)" stroke-width="1.4">
+              <path d="M40 540 Q 320 420 600 460 T 1180 400 Q 1380 380 1560 350"/>
+              <path d="M40 480 Q 320 360 600 400 T 1180 340 Q 1380 320 1560 290" opacity="0.6"/>
+              <path d="M40 420 Q 320 300 600 340 T 1180 280 Q 1380 260 1560 230" opacity="0.4"/>
+            </g>
+            <g fill="oklch(28% 0.06 170)" font-family="monospace" font-size="14" letter-spacing="2" opacity="0.85">
+              <text x="60" y="80">MEC CONNECT &middot; FINAL CONCEPT</text>
+            </g>
+          </svg>
+          <img src="../assets/mec/06-final-concept.png" alt="MEC Connect — final concept presentation showing app mockups and design focus." onerror="this.style.display='none'">
+          <span class="cs-frame__label">Final concept &middot; MEC Connect</span>
+        </div>
+      </figure>
+    </section>
+
+    <div class="section-divider reveal" aria-hidden="true">
+      <span class="section-divider__line"></span>
+      <span class="section-divider__dot"></span>
+      <span class="section-divider__line"></span>
+    </div>
+
+    <section class="shell section--roomy">
+      <div class="sec-head reveal">
+        <span class="num">02 / The collaboration</span>
+        <div>
+          <h2>A real client,<br />not a hypothetical brief.</h2>
+        </div>
+      </div>
+
+      <div class="cs-prose reveal" data-delay="1">
+        <p>
+          This project was developed in collaboration with <strong>MEC</strong> &mdash;
+          allowing our team to work with a real organization rather than designing in
+          isolation. We engaged with MEC stakeholders, explored current challenges around
+          community engagement and events, and used those insights to shape a more
+          grounded and realistic solution.
+        </p>
+        <p>
+          Working directly with MEC helped ensure the project addressed real business and
+          user needs, while giving our team experience designing within authentic
+          organizational constraints. Unlike conceptual student projects, this work
+          involved feedback and context from an established brand &mdash; balancing
+          <strong>user needs, brand identity, feasibility, and business goals</strong>
+          throughout the design process.
+        </p>
+      </div>
+
+      <div class="cs-showcase cs-showcase--two reveal" data-delay="2">
+        <div class="cs-frame">
+          <div class="cover-fill cover-mec" aria-hidden="true" style="opacity: 0.6;"></div>
+          <svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="mix-blend-mode: multiply;">
+            <g fill="oklch(28% 0.06 170)" font-family="monospace" font-size="11" opacity="0.8">
+              <text x="40" y="60">TEAM &middot; MEC HQ &middot; VANCOUVER</text>
+            </g>
+          </svg>
+          <img src="../assets/mec/02-team-mec-hq.jpg" alt="The team standing in front of the MEC sign at Mountain Equipment Company headquarters." onerror="this.style.display='none'">
+          <span class="cs-frame__label">Team &middot; on-site at MEC HQ</span>
+        </div>
+        <div class="cs-frame">
+          <div class="cover-fill cover-mec" aria-hidden="true" style="opacity: 0.6;"></div>
+          <svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="mix-blend-mode: multiply;">
+            <g fill="oklch(28% 0.06 170)" font-family="monospace" font-size="11" opacity="0.8">
+              <text x="40" y="60">PRESENTING &middot; MEC HQ</text>
+            </g>
+          </svg>
+          <img src="../assets/mec/03-presenting-mec.jpg" alt="The team presenting the MEC Connect concept at MEC headquarters." onerror="this.style.display='none'">
+          <span class="cs-frame__label">Presenting the concept at MEC</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider reveal" aria-hidden="true">
+      <span class="section-divider__line"></span>
+      <span class="section-divider__dot"></span>
+      <span class="section-divider__line"></span>
+    </div>
+
+    <section class="shell section--roomy">
+      <div class="sec-head reveal">
+        <span class="num">03 / The problem</span>
+        <div>
+          <h2>A co-op that lost<br />its sense of community.</h2>
+        </div>
+      </div>
+
+      <div class="cs-prose reveal" data-delay="1">
+        <p>
+          MEC has a complicated story. Founded as a Canadian co-operative deeply rooted in
+          environmental values and community, it was acquired by US-based Kingswood
+          Capital in 2020 over loud member protest &mdash; then bought back by Canadian
+          owners (3F Capital) in 2025. Three eras, two ruptures, and a lingering trust
+          gap with the people who used to call MEC theirs.
+        </p>
+        <p>
+          We interviewed eleven retail customers, store staff, and longtime members.
+          Three patterns kept surfacing:
+        </p>
+        <ul>
+          <li><strong>A legacy trust gap.</strong> Long-time customers and ex-co-op
+            members felt MEC had lost its mythology, its community, and its identity
+            through the corporate years.</li>
+          <li><strong>Difficulty for beginners.</strong> Newcomers felt overwhelmed and
+            unsure where to begin or get guidance &mdash; despite MEC's reputation as a
+            place that welcomes them.</li>
+          <li><strong>A strong but hidden community.</strong> Loyal customers existed,
+            but lacked visibility or any real way to connect with each other.</li>
+        </ul>
+        <p>
+          A line from a MEC store staff member became our north star:
+        </p>
+        <p style="font-family: var(--display); font-size: var(--fs-h4); line-height: 1.25; color: var(--ink); max-width: 28ch; padding-left: var(--s-4); border-left: 2px solid var(--accent);">
+          &ldquo;We host events to keep people connected. Community is a big part of
+          what MEC stands for.&rdquo;
+        </p>
+      </div>
+
+      <figure class="cs-image reveal" data-delay="2">
+        <div class="cs-frame cs-frame--wide cs-frame--contain">
+          <div class="cover-fill cover-mec" aria-hidden="true" style="opacity: 0.55;"></div>
+          <svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="mix-blend-mode: multiply;">
+            <g fill="oklch(28% 0.06 170)" font-family="monospace" font-size="16" opacity="0.7">
+              <text x="80" y="80">PROCESS DECK &middot; ETHNOGRAPHY &rarr; PROBLEM REFRAME</text>
+            </g>
+          </svg>
+          <img src="../assets/mec/08-process-deck.png" alt="Composite of process deck slides showing ethnography, problem framing, and design exploration." onerror="this.style.display='none'">
+          <span class="cs-frame__label">Process deck &middot; ethnography &rarr; reframe</span>
+        </div>
+        <p class="cs-image__caption">
+          Excerpt from our process deck &middot; from early ethnography through reframing
+          the problem space around community and trust.
+        </p>
+      </figure>
+    </section>
+
+    <div class="section-divider reveal" aria-hidden="true">
+      <span class="section-divider__line"></span>
+      <span class="section-divider__dot"></span>
+      <span class="section-divider__line"></span>
+    </div>
+
+    <section class="shell section--roomy">
+      <div class="sec-head reveal">
+        <span class="num">04 / Who we designed for</span>
+        <div>
+          <h2>Three people,<br />three reasons MEC matters.</h2>
+        </div>
+      </div>
+
+      <div class="cs-prose reveal" data-delay="1">
+        <p>
+          We developed personas and journeys around the people most affected by MEC's
+          identity shift &mdash; <strong>George</strong>, a backcountry pro nostalgic
+          for the co-op years; <strong>Piper</strong>, a sustainability-minded gear
+          enthusiast searching for clear answers; and <strong>Spike</strong>, a newcomer
+          to Vancouver who wanted to find his community through the outdoors.
+        </p>
+      </div>
+
+      <figure class="cs-image reveal" data-delay="2">
+        <div class="cs-frame cs-frame--tall cs-frame--contain" style="max-width: 540px; margin: 0 auto;">
+          <div class="cover-fill" aria-hidden="true" style="background: oklch(95% 0.02 90); opacity: 0.5;"></div>
+          <svg viewBox="0 0 400 533" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="mix-blend-mode: multiply;">
+            <g fill="oklch(28% 0.06 170)" font-family="monospace" font-size="11" opacity="0.7">
+              <text x="32" y="44">PERSONA &middot; BACKCOUNTRY PRO &middot; GEORGE</text>
+            </g>
+          </svg>
+          <img src="../assets/mec/04-persona-george.png" alt="Persona document — Backcountry Pro George, a mid-30s park ranger and longtime MEC customer." onerror="this.style.display='none'">
+          <span class="cs-frame__label">Persona &middot; Backcountry Pro &middot; George</span>
+        </div>
+        <p class="cs-image__caption">
+          One of three personas we developed. George represents the long-time member
+          who watched MEC drift &mdash; and wants its community spirit back.
+        </p>
+      </figure>
+
+      <figure class="cs-image reveal" data-delay="3">
+        <div class="cs-frame cs-frame--xwide">
+          <div class="cover-fill" aria-hidden="true" style="background: oklch(35% 0.06 165);"></div>
+          <svg viewBox="0 0 1600 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g fill="oklch(82% 0.04 170)" font-family="monospace" font-size="13" opacity="0.8" letter-spacing="1">
+              <text x="60" y="60">JOURNEY MAP &middot; PIPER &middot; LOOKING BEYOND THE LABEL</text>
+            </g>
+            <g fill="none" stroke="oklch(82% 0.04 170)" stroke-width="1.4" opacity="0.6">
+              <path d="M120 280 Q 320 220 520 260 T 920 280 Q 1120 320 1320 240 T 1500 220"/>
+            </g>
+          </svg>
+          <img src="../assets/mec/05-journey-piper.png" alt="Journey map — Piper's experience looking for sustainability information at MEC." onerror="this.style.display='none'">
+          <span class="cs-frame__label cs-frame__label--dark">Journey map &middot; Piper &middot; looking beyond the label</span>
+        </div>
+        <p class="cs-image__caption">
+          Piper's journey through MEC's sustainability messaging &mdash; from store
+          shelf to website to competitor research &mdash; revealed where information
+          breaks down for value-driven customers.
+        </p>
+      </figure>
+    </section>
+
+    <div class="section-divider reveal" aria-hidden="true">
+      <span class="section-divider__line"></span>
+      <span class="section-divider__dot"></span>
+      <span class="section-divider__line"></span>
+    </div>
+
+    <section class="shell section--roomy">
+      <div class="sec-head reveal">
+        <span class="num">05 / The design</span>
+        <div>
+          <h2>MEC Connect &mdash; an events app<br />that puts community first.</h2>
+        </div>
+      </div>
+
+      <div class="cs-prose reveal" data-delay="1">
+        <p>
+          The team converged on a single insight: <strong>events are how MEC's community
+          actually shows up</strong>, but the events themselves were buried &mdash; hard
+          to find on the website, easy to miss on Instagram, invisible in store. The
+          response was <strong>MEC Connect</strong>: a dedicated events app that helps
+          beginners discover events, helps members RSVP and connect with other attendees
+          before they arrive, and gives long-time customers a tangible reason to come
+          back to the brand.
+        </p>
+        <ul>
+          <li><strong>Discover</strong> &mdash; an events feed surfaced by location,
+            community, and adventure type, with QR-code entry from in-store signage.</li>
+          <li><strong>Connect before the event</strong> &mdash; opt-in group chat with
+            other attendees, designed so newcomers like Spike don't show up alone.</li>
+          <li><strong>Earn &amp; belong</strong> &mdash; lightweight rewards (Fire Safety,
+            Tent Technician, Hiking Expert badges) tied to MEC's heritage, not points
+            farming.</li>
+          <li><strong>Community feed</strong> &mdash; ambassadors, announcements, and
+            post-event posts that make MEC's hidden community visible again.</li>
+        </ul>
+      </div>
+
+      <figure class="cs-image reveal" data-delay="2">
+        <div class="cs-frame cs-frame--wide cs-frame--contain">
+          <div class="cover-fill" aria-hidden="true" style="background: oklch(14% 0.02 250);"></div>
+          <svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g fill="oklch(82% 0.04 170)" font-family="monospace" font-size="14" opacity="0.6" letter-spacing="1.5">
+              <text x="80" y="80">MEC CONNECT &middot; KEY SCREENS</text>
+            </g>
+          </svg>
+          <img src="../assets/mec/01-app-screens.png" alt="Six MEC Connect app screens — onboarding, my events, community, event detail, rewards, and a returning user view." onerror="this.style.display='none'">
+          <span class="cs-frame__label cs-frame__label--dark">Six key screens &middot; MEC Connect</span>
+        </div>
+        <p class="cs-image__caption">
+          Six screens covering the core flows: onboarding, my events, community, event
+          detail, rewards, and the returning-user view.
+        </p>
+      </figure>
+    </section>
+
+    <div class="section-divider reveal" aria-hidden="true">
+      <span class="section-divider__line"></span>
+      <span class="section-divider__dot"></span>
+      <span class="section-divider__line"></span>
+    </div>
+
+    <section class="shell section--roomy">
+      <div class="sec-head reveal">
+        <span class="num">06 / Walking through it</span>
+        <div>
+          <h2>Spike's first event,<br />step by step.</h2>
+        </div>
+      </div>
+
+      <div class="cs-prose reveal" data-delay="1">
+        <p>
+          Spike just moved to Vancouver. He's an avid trail runner but doesn't know any
+          locals. He scans a QR code at his nearest MEC store, downloads MEC Connect,
+          finds the <em>We Run the Cold</em> event, RSVPs, and opts into the
+          pre-event group chat &mdash; arriving on the morning of with new friends
+          already lined up.
+        </p>
+      </div>
+
+      <figure class="cs-image reveal" data-delay="2">
+        <div class="cs-frame cs-frame--xwide cs-frame--contain">
+          <div class="cover-fill cover-mec" aria-hidden="true" style="opacity: 0.4;"></div>
+          <svg viewBox="0 0 1600 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="mix-blend-mode: multiply;">
+            <g fill="oklch(28% 0.06 170)" font-family="monospace" font-size="13" opacity="0.7" letter-spacing="1">
+              <text x="60" y="60">STORYBOARD &middot; SPIKE'S FIRST EVENT</text>
+            </g>
+          </svg>
+          <img src="../assets/mec/07-storyboard-spike.png" alt="Storyboard — Spike's journey using MEC Connect, from in-store QR scan to event arrival." onerror="this.style.display='none'">
+          <span class="cs-frame__label">Storyboard &middot; Spike's first event</span>
+        </div>
+        <p class="cs-image__caption">
+          Six-frame storyboard covering action / thought / goal at each step of Spike's
+          first MEC Connect experience.
+        </p>
+      </figure>
+    </section>
+
+    <div class="section-divider reveal" aria-hidden="true">
+      <span class="section-divider__line"></span>
+      <span class="section-divider__dot"></span>
+      <span class="section-divider__line"></span>
+    </div>
+
+    <section class="shell section--roomy">
+      <div class="sec-head reveal">
+        <span class="num">07 / My role</span>
+        <div>
+          <h2>What I owned<br />in this collaboration.</h2>
+        </div>
+      </div>
+
+      <div class="contributions reveal" data-delay="1">
+        <div class="contributions__cluster">
+          <h4 class="contributions__lbl">Research</h4>
+          <ul>
+            <li>Research synthesis from direct MEC collaboration</li>
+            <li>Translating stakeholder needs into product opportunities</li>
+            <li>UX problem framing</li>
+          </ul>
+        </div>
+        <div class="contributions__cluster">
+          <h4 class="contributions__lbl">Strategy &amp; vision</h4>
+          <ul>
+            <li>Community / event experience strategy</li>
+            <li>Final product direction</li>
+          </ul>
+        </div>
+        <div class="contributions__cluster">
+          <h4 class="contributions__lbl">Design artifacts</h4>
+          <ul>
+            <li>Persona development</li>
+            <li>Journey mapping</li>
+            <li>Concept ideation</li>
+            <li>Storyboarding</li>
+          </ul>
+        </div>
+        <div class="contributions__cluster">
+          <h4 class="contributions__lbl">Facilitation</h4>
+          <ul>
+            <li>Workshop activities with the team and stakeholders</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider reveal" aria-hidden="true">
+      <span class="section-divider__line"></span>
+      <span class="section-divider__dot"></span>
+      <span class="section-divider__line"></span>
+    </div>
+
+    <section class="shell section--roomy">
+      <div class="sec-head reveal">
+        <span class="num">08 / Reflection</span>
+        <div>
+          <h2>What I took<br />from MEC.</h2>
+        </div>
+      </div>
+
+      <div class="cs-prose reveal" data-delay="1">
+        <p style="font-size: var(--fs-lede); line-height: 1.45; color: var(--ink);">
+          Designing alongside MEC showed me how product decisions become stronger when
+          they are informed by real stakeholder context, not just assumptions.
+        </p>
+        <p>
+          Working with a real client changed the way I prioritized. Every choice had to
+          earn its place against MEC's brand identity, the team's feasibility, and the
+          realities of how community actually forms around events. That pressure made
+          the work better &mdash; and made me a sharper designer.
+        </p>
+      </div>
+    </section>
+
+    <section class="shell">
+      <a href="arcline.html" class="cs-next">
+        <span class="lbl">Next project</span>
+        <span class="title">Arcline &mdash; advisory you can read</span>
+        <span class="arr" aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+
+  </main>
+
+  <footer class="foot">
+    <div><div class="brand-line">Jay Ho</div><p class="blurb">Independent product &amp; interaction designer, operating out of Vancouver &amp; HK.</p></div>
+    <div><h5>Contact</h5><a href="mailto:jayho5403@gmail.com">jayho5403@gmail.com</a><a href="tel:+17787515163">+1 778‑751‑5163</a></div>
+    <div class="fine"><span>&copy; <span data-year>2026</span> Jay Ho</span></div>
+  </footer>
+
+  <script src="../assets/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Moraine — Jay Ho</title>
+  <meta name="description" content="Moraine — field notes for urban researchers." />
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='6' fill='%234c7aa3'/%3E%3C/svg%3E" />
+</head>
+<body>
+
+  <nav class="nav" aria-label="Primary">
+    <a href="../index.html" class="nav__brand" aria-label="Jay Ho — Home">
+      <svg class="nav__logo" viewBox="0 0 35 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M20.8651 0H13.9639V33.9625H6.9012V3.73333H0V69.0517H6.9012V40.0861H13.9639V46.17C13.9639 53.4923 12.7975 61.3008 10.4647 69.5952L7.54867 79.8011H14.6443L17.6575 69.5952C19.7959 62.208 20.8651 54.3669 20.8651 46.0728V40.0861H27.702V69.0517H34.6667V3.73333H27.702V33.9625H20.8651V0Z" fill="currentColor"/>
+      </svg>
+    </a>
+    <div class="nav__links">
+      <a href="../index.html" class="nav__link is-active">Work</a>
+      <a href="../about.html" class="nav__link">About</a>
+      <a href="../resume.html" class="nav__link">Resume</a>
+      <a href="../contact.html" class="nav__link">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="shell" style="padding: var(--s-6) 0 0;">
+      <a href="../index.html#work" class="back">
+        <span class="arr" aria-hidden="true">&larr;</span> All work
+      </a>
+    </section>
+
+    <header class="hero shell">
+      <div class="hero__rail hero__rail--top reveal">
+        <span class="status">
+          <span class="pulse" aria-hidden="true"></span>
+          <span>Case study &middot; 04</span>
+        </span>
+        <span>2023 &middot; Mobile research tool</span>
+      </div>
+
+      <h1 class="hero__lead reveal" data-delay="1">
+        Field notes
+        <span class="accent">for cities.</span>
+      </h1>
+
+      <div class="hero__sub reveal" data-delay="2">
+        <p class="hero__discipline">Moraine</p>
+        <p class="hero__tag">
+          A mobile research notebook for urbanists. Shipped to 340 working researchers
+          in year one &mdash; built around how they actually take notes in the rain,
+          on a bus, with one hand.
+        </p>
+      </div>
+    </header>
+
+    <section class="shell section--first">
+      <dl class="cs-meta reveal">
+        <div>
+          <dt>Role</dt>
+          <dd>Co-founder, designer</dd>
+        </div>
+        <div>
+          <dt>Year</dt>
+          <dd>2023</dd>
+        </div>
+        <div>
+          <dt>Team</dt>
+          <dd>2 urbanists, 1 engineer, me</dd>
+        </div>
+        <div>
+          <dt>Surface</dt>
+          <dd>iOS &amp; Android</dd>
+        </div>
+      </dl>
+
+      <figure class="cs-image reveal">
+        <div class="cs-frame cs-frame--bigwide">
+          <div class="cover-fill cover-moraine" aria-hidden="true"></div>
+          <svg viewBox="0 0 1600 700" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="mix-blend-mode: multiply;">
+            <g fill="none" stroke="oklch(30% 0.04 220)" stroke-width="1.4">
+              <path d="M40 480 Q 320 340 600 380 T 1180 320 Q 1380 300 1560 270"/>
+              <path d="M40 540 Q 320 420 600 460 T 1180 400 Q 1380 380 1560 360" opacity="0.5"/>
+            </g>
+            <g stroke="oklch(30% 0.04 220)" stroke-width="1" opacity="0.5" stroke-dasharray="3 5">
+              <line x1="320" y1="100" x2="320" y2="640"/>
+              <line x1="640" y1="80" x2="640" y2="640"/>
+              <line x1="960" y1="120" x2="960" y2="640"/>
+              <line x1="1280" y1="100" x2="1280" y2="640"/>
+            </g>
+            <g fill="oklch(30% 0.04 220)" font-family="monospace" font-size="13" letter-spacing="1">
+              <text x="332" y="92">40.71 N</text>
+              <text x="652" y="72">EAST RIVER</text>
+              <text x="972" y="112">BRIDGE</text>
+              <text x="1292" y="92">DUMBO</text>
+            </g>
+            <g>
+              <circle cx="320" cy="120" r="7" fill="oklch(56% 0.10 240)"/>
+              <circle cx="640" cy="100" r="7" fill="oklch(56% 0.10 240)"/>
+              <circle cx="960" cy="140" r="7" fill="oklch(56% 0.10 240)"/>
+              <circle cx="1280" cy="120" r="7" fill="oklch(56% 0.10 240)"/>
+            </g>
+          </svg>
+          <span class="cs-frame__label">Hero shot &middot; Map view &middot; v1.4</span>
+        </div>
+      </figure>
+    </section>
+
+    <div class="section-divider reveal" aria-hidden="true">
+      <span class="section-divider__line"></span>
+      <span class="section-divider__dot"></span>
+      <span class="section-divider__line"></span>
+    </div>
+
+    <section class="shell section--roomy">
+      <div class="sec-head reveal">
+        <span class="num">02 / The problem</span>
+        <div>
+          <h2>The notebook<br />in the rain.</h2>
+        </div>
+      </div>
+
+      <div class="cs-prose reveal" data-delay="1">
+        <p>
+          Urban researchers make their living noticing things on foot &mdash; how a
+          street corner empties out at 4&nbsp;pm, where the cyclists actually go,
+          who&rsquo;s photographed and who&rsquo;s ignored. The tools they used were a
+          waterlogged Moleskine, an iPhone camera roll, a half-charged voice recorder,
+          and three hours of cleanup back at the office.
+        </p>
+        <p>
+          We did fourteen ride-alongs across Brooklyn, Mexico City, and Lisbon.
+          Researchers needed: <strong>one-thumb capture</strong>, an interface that
+          worked through a glove or a screen smudged with rain, and a way to find
+          notes again that wasn&rsquo;t a search bar. The product had to be more
+          forgiving than precise.
+        </p>
+      </div>
+
+      <div class="cs-showcase cs-showcase--two reveal" data-delay="2">
+        <div class="cs-frame">
+          <div class="cover-fill cover-moraine" aria-hidden="true" style="opacity: 0.5;"></div>
+          <svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="mix-blend-mode: multiply;">
+            <g fill="none" stroke="oklch(30% 0.04 220)" stroke-width="0.8">
+              <rect x="40" y="40" width="520" height="34" rx="3"/>
+              <line x1="40" y1="98" x2="560" y2="98"/>
+              <rect x="40" y="120" width="520" height="50" rx="3"/>
+              <rect x="40" y="186" width="520" height="50" rx="3"/>
+              <rect x="40" y="252" width="520" height="50" rx="3"/>
+              <rect x="40" y="318" width="520" height="50" rx="3"/>
+              <rect x="40" y="384" width="520" height="36" rx="3"/>
+            </g>
+            <g fill="oklch(30% 0.04 220)" font-family="monospace" font-size="10" opacity="0.7">
+              <text x="56" y="64">RIDE-ALONG &middot; M.O. &middot; BROOKLYN &middot; 04:32 PM</text>
+              <text x="56" y="148">Q: How do you log a stranger?</text>
+              <text x="56" y="214">Q: Where does this note live tomorrow?</text>
+              <text x="56" y="280">Q: What if the phone dies mid-walk?</text>
+              <text x="56" y="346">Q: Do you trust voice over typing?</text>
+              <text x="56" y="406">14 ride-alongs &middot; 3 cities &middot; 9 hrs of audio</text>
+            </g>
+          </svg>
+          <span class="cs-frame__label">Field study &middot; ride-along notes</span>
+        </div>
+        <div class="cs-frame">
+          <div class="cover-fill cover-moraine" aria-hidden="true" style="opacity: 0.5;"></div>
+          <svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="mix-blend-mode: multiply;">
+            <g fill="oklch(30% 0.04 220)" font-family="monospace" font-size="10" opacity="0.7">
+              <text x="40" y="60">CURRENT TOOLS &middot; FIELD STACK</text>
+            </g>
+            <g fill="none" stroke="oklch(30% 0.04 220)" stroke-width="0.9" opacity="0.6">
+              <rect x="40" y="80" width="160" height="120" rx="6"/>
+              <rect x="220" y="80" width="160" height="120" rx="6"/>
+              <rect x="400" y="80" width="160" height="120" rx="6"/>
+              <rect x="40" y="220" width="160" height="120" rx="6"/>
+              <rect x="220" y="220" width="160" height="120" rx="6"/>
+              <rect x="400" y="220" width="160" height="120" rx="6"/>
+            </g>
+            <g fill="oklch(30% 0.04 220)" font-family="monospace" font-size="11" opacity="0.85">
+              <text x="56" y="146">Moleskine</text>
+              <text x="240" y="146">Camera roll</text>
+              <text x="416" y="146">Voice memos</text>
+              <text x="56" y="286">Notes app</text>
+              <text x="240" y="286">Strava</text>
+              <text x="416" y="286">Notebook scan</text>
+            </g>
+            <g fill="oklch(56% 0.12 25)" font-family="monospace" font-size="10" opacity="0.85">
+              <text x="56" y="408">3 hrs cleanup &middot; per fieldwork session</text>
+            </g>
+          </svg>
+          <span class="cs-frame__label">Audit &middot; existing field stack</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider reveal" aria-hidden="true">
+      <span class="section-divider__line"></span>
+      <span class="section-divider__dot"></span>
+      <span class="section-divider__line"></span>
+    </div>
+
+    <section class="shell section--roomy">
+      <div class="sec-head reveal">
+        <span class="num">03 / The approach</span>
+        <div>
+          <h2>One thumb,<br />one big button, one map.</h2>
+        </div>
+      </div>
+
+      <div class="cs-prose reveal" data-delay="1">
+        <p>
+          We treated capture as the first job and everything else as cleanup. The
+          home screen on Moraine is a map, with a single oversized capture button at
+          the bottom &mdash; reachable with the thumb of the hand holding the phone,
+          even with gloves. Tap captures a geotagged note. Press-and-hold starts a
+          voice memo. Long-press lets you draw a quick sketch on the map.
+        </p>
+        <ul>
+          <li><strong>Capture-first, organize-later.</strong> No folders, no required
+            tags at the moment of capture. Cleanup is its own surface, used at home.</li>
+          <li><strong>Geotemporal recall.</strong> &ldquo;Where I was last Tuesday at
+            5&nbsp;pm&rdquo; should find a note faster than any search query.</li>
+          <li><strong>Forgiving inputs.</strong> Voice transcription tolerates accents,
+            background noise, and partial sentences. The app saves the audio file too,
+            so the source of truth is always recoverable.</li>
+        </ul>
+      </div>
+
+      <div class="cs-showcase cs-showcase--three reveal" data-delay="2">
+        <div class="cs-frame cs-frame--tall">
+          <div class="cover-fill cover-moraine" aria-hidden="true" style="opacity: 0.55;"></div>
+          <svg viewBox="0 0 400 533" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="mix-blend-mode: multiply;">
+            <g fill="none" stroke="oklch(30% 0.04 220)" stroke-width="0.9">
+              <rect x="20" y="20" width="360" height="40" rx="6"/>
+              <rect x="20" y="76" width="360" height="320" rx="8"/>
+              <circle cx="200" cy="470" r="42"/>
+            </g>
+            <g stroke="oklch(30% 0.04 220)" stroke-width="0.7" opacity="0.5" stroke-dasharray="2 4">
+              <path d="M40 240 Q 120 200 200 220 T 360 200"/>
+              <line x1="120" y1="100" x2="120" y2="380"/>
+              <line x1="280" y1="100" x2="280" y2="380"/>
+            </g>
+            <g fill="oklch(56% 0.10 240)">
+              <circle cx="120" cy="220" r="4"/>
+              <circle cx="200" cy="220" r="4"/>
+              <circle cx="280" cy="200" r="4"/>
+            </g>
+            <g fill="oklch(30% 0.04 220)" font-family="monospace" font-size="9" opacity="0.65">
+              <text x="32" y="44">Map &middot; one-thumb mode</text>
+              <text x="172" y="475">+</text>
+            </g>
+          </svg>
+          <span class="cs-frame__label">Wireframe &middot; one-thumb map</span>
+        </div>
+        <div class="cs-frame cs-frame--tall">
+          <div class="cover-fill cover-moraine" aria-hidden="true" style="opacity: 0.55;"></div>
+          <svg viewBox="0 0 400 533" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="mix-blend-mode: multiply;">
+            <g fill="none" stroke="oklch(30% 0.04 220)" stroke-width="0.9">
+              <rect x="20" y="20" width="360" height="40" rx="6"/>
+              <rect x="20" y="76" width="360" height="180" rx="8"/>
+              <rect x="20" y="270" width="172" height="44" rx="6"/>
+              <rect x="208" y="270" width="172" height="44" rx="6"/>
+              <rect x="20" y="328" width="360" height="60" rx="6"/>
+              <rect x="20" y="402" width="360" height="44" rx="6"/>
+              <rect x="20" y="460" width="360" height="44" rx="6"/>
+            </g>
+            <g fill="oklch(82% 0.04 220)" opacity="0.85">
+              <rect x="40" y="120" width="6" height="40" rx="3"/>
+              <rect x="58" y="100" width="6" height="80" rx="3"/>
+              <rect x="76" y="120" width="6" height="40" rx="3"/>
+              <rect x="94" y="80" width="6" height="120" rx="3"/>
+              <rect x="112" y="100" width="6" height="80" rx="3"/>
+              <rect x="130" y="60" width="6" height="160" rx="3"/>
+              <rect x="148" y="100" width="6" height="80" rx="3"/>
+              <rect x="166" y="120" width="6" height="40" rx="3"/>
+              <rect x="184" y="80" width="6" height="120" rx="3"/>
+              <rect x="202" y="100" width="6" height="80" rx="3"/>
+              <rect x="220" y="60" width="6" height="160" rx="3"/>
+              <rect x="238" y="100" width="6" height="80" rx="3"/>
+              <rect x="256" y="120" width="6" height="40" rx="3"/>
+              <rect x="274" y="80" width="6" height="120" rx="3"/>
+              <rect x="292" y="100" width="6" height="80" rx="3"/>
+              <rect x="310" y="120" width="6" height="40" rx="3"/>
+              <rect x="328" y="80" width="6" height="120" rx="3"/>
+              <rect x="346" y="100" width="6" height="80" rx="3"/>
+            </g>
+            <g fill="oklch(30% 0.04 220)" font-family="monospace" font-size="9" opacity="0.7">
+              <text x="32" y="44">Voice memo &middot; recording</text>
+              <text x="32" y="294">tag &middot; corner</text>
+              <text x="222" y="294">tag &middot; rush hr</text>
+            </g>
+          </svg>
+          <span class="cs-frame__label">Wireframe &middot; voice capture</span>
+        </div>
+        <div class="cs-frame cs-frame--tall">
+          <div class="cover-fill cover-moraine" aria-hidden="true" style="opacity: 0.55;"></div>
+          <svg viewBox="0 0 400 533" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="mix-blend-mode: multiply;">
+            <g fill="none" stroke="oklch(30% 0.04 220)" stroke-width="0.9">
+              <rect x="20" y="20" width="360" height="40" rx="6"/>
+              <rect x="20" y="76" width="360" height="50" rx="6"/>
+              <rect x="20" y="138" width="360" height="50" rx="6"/>
+              <rect x="20" y="200" width="360" height="50" rx="6"/>
+              <rect x="20" y="262" width="360" height="50" rx="6"/>
+              <rect x="20" y="324" width="360" height="50" rx="6"/>
+              <rect x="20" y="386" width="360" height="50" rx="6"/>
+              <rect x="20" y="448" width="360" height="50" rx="6"/>
+            </g>
+            <g fill="oklch(30% 0.04 220)" font-family="monospace" font-size="9" opacity="0.65">
+              <text x="32" y="44">Cleanup &middot; last Tuesday, 5pm</text>
+              <text x="38" y="106">04:48 &middot; bridge approach &middot; 12 cyclists</text>
+              <text x="38" y="168">04:52 &middot; corner empties out, kids</text>
+              <text x="38" y="230">04:58 &middot; voice memo &middot; 1m 12s</text>
+              <text x="38" y="292">05:01 &middot; sketch &middot; one-block radius</text>
+              <text x="38" y="354">05:09 &middot; photo &middot; bus shelter, lit</text>
+              <text x="38" y="416">05:14 &middot; voice memo &middot; 0m 38s</text>
+              <text x="38" y="478">05:22 &middot; geotag &middot; cafe, edge</text>
+            </g>
+          </svg>
+          <span class="cs-frame__label">Wireframe &middot; cleanup feed</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider reveal" aria-hidden="true">
+      <span class="section-divider__line"></span>
+      <span class="section-divider__dot"></span>
+      <span class="section-divider__line"></span>
+    </div>
+
+    <section class="shell section--roomy">
+      <div class="sec-head reveal">
+        <span class="num">04 / The design</span>
+        <div>
+          <h2>Built for the<br />wet, gloved, hurried hand.</h2>
+        </div>
+      </div>
+
+      <div class="cs-prose reveal" data-delay="1">
+        <p>
+          The capture button is 88&nbsp;pt across &mdash; deliberately bigger than
+          Apple&rsquo;s recommendation. Map gestures use whole-thumb arcs, not
+          two-finger pinches. Type sizes go up at night and in low light, automatically.
+          Every interaction has a haptic confirmation that doesn&rsquo;t require
+          looking at the screen.
+        </p>
+        <p>
+          The cleanup surface is the slow counterpart: a long-form feed where you
+          retag, transcribe, link, and write up. Researchers do this with coffee
+          on Saturday morning. The feed knows that and shows up that way &mdash;
+          unhurried, full of room to think.
+        </p>
+      </div>
+
+      <figure class="cs-image reveal" data-delay="2">
+        <div class="cs-frame cs-frame--wide">
+          <div class="cover-fill cover-moraine" aria-hidden="true"></div>
+          <svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="mix-blend-mode: multiply;">
+            <g fill="none" stroke="oklch(30% 0.04 220)" stroke-width="1.4">
+              <path d="M60 600 Q 320 460 600 500 T 1180 440 Q 1380 420 1540 390"/>
+              <path d="M60 660 Q 320 540 600 580 T 1180 520 Q 1380 500 1540 470" opacity="0.4"/>
+              <path d="M60 720 Q 320 620 600 660 T 1180 600 Q 1380 580 1540 550" opacity="0.25"/>
+            </g>
+            <g stroke="oklch(30% 0.04 220)" stroke-width="0.9" opacity="0.45" stroke-dasharray="3 6">
+              <line x1="320" y1="120" x2="320" y2="820"/>
+              <line x1="640" y1="100" x2="640" y2="820"/>
+              <line x1="960" y1="140" x2="960" y2="820"/>
+              <line x1="1280" y1="120" x2="1280" y2="820"/>
+            </g>
+            <g>
+              <circle cx="320" cy="140" r="9" fill="oklch(56% 0.10 240)"/>
+              <circle cx="640" cy="120" r="9" fill="oklch(56% 0.10 240)"/>
+              <circle cx="960" cy="160" r="9" fill="oklch(56% 0.10 240)"/>
+              <circle cx="1280" cy="140" r="9" fill="oklch(56% 0.10 240)"/>
+              <circle cx="500" cy="280" r="6" fill="oklch(56% 0.10 240)" opacity="0.7"/>
+              <circle cx="780" cy="240" r="6" fill="oklch(56% 0.10 240)" opacity="0.7"/>
+              <circle cx="1100" cy="320" r="6" fill="oklch(56% 0.10 240)" opacity="0.7"/>
+            </g>
+            <g fill="oklch(30% 0.04 220)" font-family="monospace" font-size="13" letter-spacing="1" opacity="0.75">
+              <text x="332" y="112">40.71 N &middot; 7 notes</text>
+              <text x="652" y="92">EAST RIVER &middot; 12 notes</text>
+              <text x="972" y="132">BRIDGE &middot; 4 notes</text>
+              <text x="1292" y="112">DUMBO &middot; 9 notes</text>
+            </g>
+            <g fill="oklch(30% 0.04 220)" font-family="monospace" font-size="14" letter-spacing="2" opacity="0.85">
+              <text x="60" y="80">MORAINE / FIELDWORK 03:04 / TUESDAY</text>
+            </g>
+          </svg>
+          <span class="cs-frame__label">Final &middot; map view, walked corridor</span>
+        </div>
+        <p class="cs-image__caption">Final map surface &middot; v1.4 &middot; shipped May 2023</p>
+      </figure>
+
+      <div class="cs-showcase cs-showcase--two reveal" data-delay="3">
+        <div class="cs-frame">
+          <div class="cover-fill cover-moraine" aria-hidden="true" style="opacity: 0.7;"></div>
+          <svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="mix-blend-mode: multiply;">
+            <g fill="none" stroke="oklch(30% 0.04 220)" stroke-width="0.9">
+              <rect x="40" y="40" width="520" height="34" rx="6"/>
+              <circle cx="300" cy="240" r="80"/>
+              <circle cx="300" cy="240" r="44"/>
+            </g>
+            <g fill="oklch(56% 0.10 240)">
+              <circle cx="300" cy="240" r="6"/>
+            </g>
+            <g fill="none" stroke="oklch(56% 0.10 240)" stroke-width="0.9" opacity="0.5" stroke-dasharray="3 5">
+              <circle cx="300" cy="240" r="120"/>
+            </g>
+            <g fill="oklch(30% 0.04 220)" font-family="monospace" font-size="10" opacity="0.65">
+              <text x="56" y="64">Capture &middot; press-and-hold radius</text>
+              <text x="56" y="408">88pt button &middot; thumb-reachable</text>
+            </g>
+          </svg>
+          <span class="cs-frame__label">Detail &middot; thumb-reach diagram</span>
+        </div>
+        <div class="cs-frame">
+          <div class="cover-fill cover-moraine" aria-hidden="true" style="opacity: 0.7;"></div>
+          <svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+               style="mix-blend-mode: multiply;">
+            <g fill="none" stroke="oklch(30% 0.04 220)" stroke-width="0.9">
+              <rect x="40" y="40" width="520" height="34" rx="6"/>
+              <line x1="40" y1="92" x2="560" y2="92"/>
+              <rect x="40" y="108" width="244" height="50" rx="6"/>
+              <rect x="316" y="108" width="244" height="50" rx="6"/>
+              <rect x="40" y="170" width="244" height="50" rx="6"/>
+              <rect x="316" y="170" width="244" height="50" rx="6"/>
+              <rect x="40" y="232" width="244" height="50" rx="6"/>
+              <rect x="316" y="232" width="244" height="50" rx="6"/>
+              <rect x="40" y="294" width="244" height="50" rx="6"/>
+              <rect x="316" y="294" width="244" height="50" rx="6"/>
+              <rect x="40" y="356" width="244" height="50" rx="6"/>
+              <rect x="316" y="356" width="244" height="50" rx="6"/>
+            </g>
+            <g fill="oklch(30% 0.04 220)" font-family="monospace" font-size="9" opacity="0.7">
+              <text x="56" y="62">Cleanup feed &middot; Saturday morning</text>
+              <text x="56" y="138">04:48 &middot; bridge</text>
+              <text x="332" y="138">corner</text>
+              <text x="56" y="200">04:52 &middot; voice 1m12s</text>
+              <text x="332" y="200">cyclists</text>
+              <text x="56" y="262">04:58 &middot; sketch</text>
+              <text x="332" y="262">block radius</text>
+              <text x="56" y="324">05:01 &middot; photo</text>
+              <text x="332" y="324">bus shelter</text>
+              <text x="56" y="386">05:09 &middot; voice 0m38s</text>
+              <text x="332" y="386">edge</text>
+            </g>
+          </svg>
+          <span class="cs-frame__label">Detail &middot; cleanup feed</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider reveal" aria-hidden="true">
+      <span class="section-divider__line"></span>
+      <span class="section-divider__dot"></span>
+      <span class="section-divider__line"></span>
+    </div>
+
+    <section class="shell section--roomy">
+      <div class="sec-head reveal">
+        <span class="num">05 / Outcomes</span>
+        <div>
+          <h2>What changed,<br />and how we measured.</h2>
+        </div>
+      </div>
+
+      <div class="cs-outcomes">
+        <div class="o reveal">
+          <span class="lbl">Active researchers, year one</span>
+          <span class="big tabular">340</span>
+          <p>Across the US, Mexico, and Europe. 92% of paid users active in week-12 cohort.</p>
+        </div>
+        <div class="o reveal" data-delay="1">
+          <span class="lbl">Cleanup time</span>
+          <span class="big tabular">&minus;58%</span>
+          <p>Median time from fieldwork end to write-up published. Down from 3 hrs to ~75 min.</p>
+        </div>
+        <div class="o reveal" data-delay="2">
+          <span class="lbl">Notes per session</span>
+          <span class="big tabular">+2.4&times;</span>
+          <p>Researchers captured more, faster, in the field &mdash; and more of those notes survived to the final write-up.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell">
+      <a href="mec.html" class="cs-next">
+        <span class="lbl">Back to start</span>
+        <span class="title">MEC Connect &mdash; events for a co-op coming home</span>
+        <span class="arr" aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+
+  </main>
+
+  <footer class="foot">
+    <div><div class="brand-line">Jay Ho</div><p class="blurb">Independent product &amp; interaction designer, operating out of Vancouver &amp; HK.</p></div>
+    <div><h5>Contact</h5><a href="mailto:jayho5403@gmail.com">jayho5403@gmail.com</a><a href="tel:+17787515163">+1 778‑751‑5163</a></div>
+    <div class="fine"><span>&copy; <span data-year>2026</span> Jay Ho</span></div>
+  </footer>
+
+  <script src="../assets/main.js"></script>
+</body>
+</html>
