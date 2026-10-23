@@ -28,15 +28,10 @@
 
     <aside class="cs-toc" aria-label="Sections in this case study">
       <ul class="cs-toc__list">
-        <li class="cs-toc__item"><a class="cs-toc__link" href="#overview"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">Overview</span></a></li>
         <li class="cs-toc__item"><a class="cs-toc__link" href="#problem"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">Problem</span></a></li>
-        <li class="cs-toc__item"><a class="cs-toc__link" href="#insights"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">What we heard</span></a></li>
+        <li class="cs-toc__item"><a class="cs-toc__link" href="#insights"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">Research</span></a></li>
         <li class="cs-toc__item"><a class="cs-toc__link" href="#solution"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">Solution</span></a></li>
-        <li class="cs-toc__item"><a class="cs-toc__link" href="#in-use"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">In use</span></a></li>
-        <li class="cs-toc__item"><a class="cs-toc__link" href="#people"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">Who it&rsquo;s for</span></a></li>
-        <li class="cs-toc__item"><a class="cs-toc__link" href="#client"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">The client</span></a></li>
-        <li class="cs-toc__item"><a class="cs-toc__link" href="#role"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">My role</span></a></li>
-        <li class="cs-toc__item"><a class="cs-toc__link" href="#reflection"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">Reflection</span></a></li>
+        <li class="cs-toc__item"><a class="cs-toc__link" href="#collaboration"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">Working with MEC</span></a></li>
       </ul>
     </aside>
 
@@ -59,8 +54,8 @@
       <div class="hero__sub reveal" data-delay="2">
         <p class="hero__discipline">MEC Connect</p>
         <p class="hero__tag">
-          What if your next outdoor adventure started with a new friendship?
-          Built with Mountain Equipment Company to rebuild community engagement.
+          An events app built with Mountain Equipment Company to rebuild community
+          after five years of foreign ownership.
         </p>
       </div>
     </header>
@@ -77,7 +72,7 @@
         </div>
         <div>
           <dt>Team</dt>
-          <dd>SFU IAT team + MEC Head of Product Design Department</dd>
+          <dd>6 designers at SFU, with MEC&rsquo;s product team</dd>
         </div>
         <div>
           <dt>Client</dt>
@@ -85,23 +80,16 @@
         </div>
       </dl>
 
-      <figure class="cs-image reveal">
-        <div class="cs-frame cs-frame--bigwide cs-frame--contain">
-          <div class="cover-fill cover-mec" aria-hidden="true"></div>
-          <svg viewBox="0 0 1600 700" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
-               style="mix-blend-mode: multiply;">
-            <g fill="none" stroke="oklch(28% 0.06 170)" stroke-width="1.4">
-              <path d="M40 540 Q 320 420 600 460 T 1180 400 Q 1380 380 1560 350"/>
-              <path d="M40 480 Q 320 360 600 400 T 1180 340 Q 1380 320 1560 290" opacity="0.6"/>
-              <path d="M40 420 Q 320 300 600 340 T 1180 280 Q 1380 260 1560 230" opacity="0.4"/>
-            </g>
-            <g fill="oklch(28% 0.06 170)" font-family="monospace" font-size="14" letter-spacing="2" opacity="0.85">
-              <text x="60" y="80">MEC CONNECT &middot; FINAL CONCEPT</text>
-            </g>
-          </svg>
-          <img src="../assets/mec/06-final-concept.png" alt="MEC Connect · final concept presentation showing app mockups and design focus." onerror="this.style.display='none'">
-          <span class="cs-frame__label">Final concept &middot; MEC Connect</span>
-        </div>
+      <!-- IMAGE NOTE (hero): current final-concept PNG is right. Optional upgrade: a 6-8s
+     muted looping MP4 of the Figma prototype (home > discover > event > rewards) in a
+     single phone. Use <video autoplay muted loop playsinline>, not GIF (GIF is 5-10x
+     heavier). Figma: "W13: FINAL PROTOTYPE" page, or the walkthrough video linked on
+     the last Handover Documentation page. -->
+      <figure class="cs-image cs-image--bleed reveal">
+        <img src="../assets/mec/06-final-concept.png"
+             alt="MEC Connect &middot; six app screens: onboarding, event discovery, community feed, event detail, rewards badges, and a returning member&rsquo;s home."
+             width="1784" height="525" decoding="async">
+        <p class="cs-image__caption">Final concept &middot; MEC Connect</p>
       </figure>
     </section>
 
@@ -109,6 +97,12 @@
       <span class="section-divider__line"></span>
     </div>
 
+    <!-- IMAGE NOTE (problem): best visual here is EVIDENCE, not a mockup. A 3-up row of real
+     screenshots: mec.ca events buried in nav, events lost in the Instagram grid, and the
+     third-party sign-up page. Figma: "W8/9: REFRAME DESIGN SLIDES FINAL", slides 15 + 16
+     ("Events on their website are hard to find" / "...easily overlooked"). Crop to just
+     the screenshot, no slide chrome. Optional: the 2014 > 2020 > 2025 ownership timeline
+     from slide 12 ("MEC History") as a slim xwide strip. -->
     <section class="shell section--roomy" id="problem" data-section>
       <div class="sec-head reveal">
         <span class="num">02 / The problem</span>
@@ -119,13 +113,15 @@
 
       <div class="cs-prose reveal" data-delay="1">
         <p>
-          MEC was founded as a Canadian co-operative rooted in environmental values
-          and community. In 2020 US-based Kingswood Capital acquired it over loud
-          member protest. In 2025 Canadian owners 3F Capital bought it back.
+          MEC was a Canadian co-op until 2020, when its board sold it to a US private
+          equity firm without consulting members. Majority Canadian ownership returned in
+          2025, but the trust didn&rsquo;t come back with it.
         </p>
         <p>
-          Three eras, two ruptures, and a lingering trust gap with the people who used
-          to call MEC theirs.
+          Events were still MEC&rsquo;s strongest link to its community, and they sell out
+          within hours. But they&rsquo;re buried on the website, lost on Instagram, and
+          booked through a third-party tool with no community attached. As a for-profit,
+          MEC now also needs them to <strong>prove their value</strong>.
         </p>
       </div>
     </section>
@@ -136,36 +132,35 @@
 
     <section class="shell section--roomy" id="insights" data-section>
       <div class="sec-head reveal">
-        <span class="num">03 / What we heard</span>
+        <span class="num">03 / The research</span>
         <div>
-          <h2>Eleven conversations,<br />three patterns.</h2>
-          <p class="aside">Retail customers, store staff, and longtime members.</p>
+          <h2>Three patterns,<br />one we could act on.</h2>
+          <p class="aside">In-store observation, then interviews with MEC&rsquo;s product team, six staff and two customers.</p>
         </div>
       </div>
 
+      <!-- IMAGE NOTE (research insights): text cards are enough. If you add one image, make it
+     an in-store observation photo (signage, event posters) from W4 ETHNOGRAPHY, 4:3. -->
       <div class="cs-insights reveal" data-delay="2">
         <div class="cs-insight">
           <span class="cs-insight__num">Insight 01</span>
           <h3>A legacy trust gap</h3>
           <p>
-            Long-time customers and ex-co-op members felt MEC had lost its
-            mythology, community, and identity through the corporate years.
+            Long-time members felt the co-op values left with the ownership change.
           </p>
         </div>
         <div class="cs-insight">
           <span class="cs-insight__num">Insight 02</span>
-          <h3>Beginners had nowhere to start</h3>
+          <h3>Beginners don&rsquo;t know where to start</h3>
           <p>
-            Newcomers felt overwhelmed and unsure where to begin, despite
-            MEC&rsquo;s reputation as a place that welcomes them.
+            Newcomers struggled to choose gear and assumed MEC was for pros.
           </p>
         </div>
         <div class="cs-insight">
           <span class="cs-insight__num">Insight 03</span>
           <h3>A strong but hidden community</h3>
           <p>
-            Loyal customers existed, but lacked visibility or any real way to connect
-            with each other.
+            Events were scattered and hard to join, so loyal customers rarely met.
           </p>
         </div>
       </div>
@@ -175,22 +170,147 @@
           &ldquo;We host events to keep people connected. Community is a big part of
           what MEC stands for.&rdquo;
         </p>
-        <cite>MEC store staff &middot; our north star</cite>
+        <cite>MEC store staff</cite>
       </blockquote>
 
       <figure class="cs-image reveal" data-delay="3">
-        <div class="cs-frame cs-frame--wide cs-frame--contain">
-          <div class="cover-fill cover-mec" aria-hidden="true" style="opacity: 0.55;"></div>
-          <svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
-               style="mix-blend-mode: multiply;">
-            <g fill="oklch(28% 0.06 170)" font-family="monospace" font-size="16" opacity="0.7">
-              <text x="80" y="80">PROCESS DECK &middot; ETHNOGRAPHY &rarr; PROBLEM REFRAME</text>
-            </g>
-          </svg>
-          <img src="../assets/mec/08-process-deck.png" alt="Composite of process deck slides showing ethnography, problem framing, and design exploration." onerror="this.style.display='none'">
-          <span class="cs-frame__label">Process deck &middot; ethnography &rarr; reframe</span>
+        <div class="poster">
+          <img class="poster__shot" src="../assets/mec/09-ethnography-preview.jpg"
+               alt="" aria-hidden="true" width="323" height="500" loading="lazy" decoding="async">
+          <div class="poster__veil" aria-hidden="true"></div>
+          <button type="button" class="btn btn--primary poster__open"
+                  data-poster-open aria-haspopup="dialog">
+            View full poster <span class="arr" aria-hidden="true">&rarr;</span>
+          </button>
         </div>
+        <p class="cs-image__caption">Ethnography poster &middot; research methodology &rarr; design focus</p>
       </figure>
+
+      <p class="eyebrow cs-sublabel reveal" data-delay="4">Who we built for</p>
+
+      <div class="personas">
+        <article class="persona reveal">
+          <div class="persona__head">
+            <img class="persona__mark" src="../assets/mec/10-persona-jesse.png" alt="Jesse, a young nurse in a brown fleece on a forest trail."
+                   width="128" height="128" loading="lazy" decoding="async">
+            <div class="persona__id">
+              <h3 class="persona__role">Trail Rookie</h3>
+              <p class="persona__who">Jesse</p>
+            </div>
+            <ul class="persona__chips">
+              <li>Early-20s</li>
+              <li>Nurse</li>
+              <li>Beginner Adventurer</li>
+            </ul>
+            <p class="persona__bio">A fit young nurse with a hectic schedule, new to the outdoors and ready to learn the basics. Wants gear that is simple, affordable, and beginner-friendly, so the first hike doesn&rsquo;t feel overwhelming before it starts.</p>
+          </div>
+
+
+          <div class="persona__focus">
+            <p>Design focus</p>
+            <div>
+              <h4>Gear Education for Beginners</h4>
+              <p>Offer product education that makes gear choices approachable and helps beginners feel more confident in getting started.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="persona reveal" data-delay="1">
+          <div class="persona__head">
+            <img class="persona__mark" src="../assets/mec/11-persona-piper.png" alt="Piper, in a dark jacket with sunglasses pushed up, outdoors."
+                   width="128" height="128" loading="lazy" decoding="async">
+            <div class="persona__id">
+              <h3 class="persona__role">Gear-Savvy Explorer</h3>
+              <p class="persona__who">Piper</p>
+            </div>
+            <ul class="persona__chips">
+              <li>Mid-20s</li>
+              <li>PE Teacher</li>
+              <li>Experienced Adventurer</li>
+            </ul>
+            <p class="persona__bio">A PE teacher and avid hiker, confident on the trail and loyal to MEC gear. Buys for sustainability as much as performance, but finds the labels and certificates hard to tell apart or trust.</p>
+          </div>
+
+
+          <div class="persona__focus">
+            <p>Design focus</p>
+            <div>
+              <h4>Clarity on Sustainability</h4>
+              <p>Make sustainability information more digestible, visible, and accessible across products so shoppers can make informed choices with confidence.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="persona reveal" data-delay="2">
+          <div class="persona__head">
+            <img class="persona__mark" src="../assets/mec/12-persona-george.png" alt="George, in a cap and backpack among autumn trees."
+                   width="128" height="128" loading="lazy" decoding="async">
+            <div class="persona__id">
+              <h3 class="persona__role">Backcountry Pro</h3>
+              <p class="persona__who">George</p>
+            </div>
+            <ul class="persona__chips">
+              <li>Mid-30s</li>
+              <li>Park Ranger</li>
+              <li>Expert Adventurer</li>
+            </ul>
+            <p class="persona__bio">A veteran park ranger with 10+ years of backcountry experience, self-sufficient on the trail and a mentor to newer adventurers. Remembers MEC as the hub of Canadian outdoor culture, not just a place that sells gear.</p>
+          </div>
+
+
+          <div class="persona__focus">
+            <p>Design focus</p>
+            <div>
+              <h4>Community Trust and Legacy</h4>
+              <p>Strengthen engagement in MEC&rsquo;s community events to rebuild trust and highlight the brand&rsquo;s Canadian legacy and values.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- IMAGE NOTE (pivot): a small before/after pair makes the pivot instant to read.
+     Left: one sustainability-app concept screen ("W7: CONCEPT AND STORYBOARD FINAL" >
+     "combined sustainability app"). Right: the events app home. Caption: "Dropped" /
+     "Built". cs-showcase--two, keep both muted so it reads as process, not a hero. -->
+      <p class="eyebrow cs-sublabel reveal">The pivot</p>
+
+      <div class="cs-prose reveal" data-delay="1">
+        <p>
+          We started with Piper: an app that explains each product&rsquo;s sustainability.
+          MEC&rsquo;s team pushed back. Nobody downloads an app that only educates, and
+          verifying per-product impact stats would cost more than it was worth. We
+          refocused on George&rsquo;s problem, community, and took it to MEC&rsquo;s team.
+        </p>
+      </div>
+
+      <!-- IMAGE NOTE (workshop): a real photo of the session or the sticky-note boards beats
+     any slide. Figma: "W10: PARTICIPATORY WORKSHOP SLIDES" (the Nov 6 screenshot and
+     the activity boards). One wide 16:9 photo above the three finding cards. -->
+      <p class="eyebrow cs-sublabel reveal">Co-design workshop with MEC</p>
+
+      <div class="cs-insights reveal" data-delay="1">
+        <div class="cs-insight">
+          <span class="cs-insight__num">Finding 01</span>
+          <h3>Demand isn&rsquo;t the problem</h3>
+          <p>
+            Events sell out within hours. Attendance fell because of capacity, not interest.
+          </p>
+        </div>
+        <div class="cs-insight">
+          <span class="cs-insight__num">Finding 02</span>
+          <h3>&ldquo;Nobody talked to me&rdquo;</h3>
+          <p>
+            First-timers don&rsquo;t return when they arrive alone or land at the wrong skill level.
+          </p>
+        </div>
+        <div class="cs-insight">
+          <span class="cs-insight__num">Finding 03</span>
+          <h3>Events have to earn their keep</h3>
+          <p>
+            MEC&rsquo;s product lead suggested event-specific coupons to tie attendance to sales.
+          </p>
+        </div>
+      </div>
     </section>
 
     <div class="section-divider reveal" aria-hidden="true">
@@ -201,41 +321,48 @@
       <div class="sec-head reveal">
         <span class="num">04 / The solution</span>
         <div>
-          <h2>MEC Connect, an events app<br />that puts community first.</h2>
+          <h2>One home for MEC&rsquo;s events,<br />and the people at them.</h2>
         </div>
       </div>
 
       <div class="cs-prose reveal" data-delay="1">
         <p>
-          Events are how MEC&rsquo;s community actually shows up. But they were
-          buried, hard to find on the website, easy to miss on Instagram, invisible
-          in store. <strong>MEC Connect</strong> is a dedicated events app.
+          <strong>MEC Connect</strong> brings discovery, sign-up and community into one
+          app MEC owns. Each feature answers a workshop finding.
         </p>
       </div>
 
+      <!-- IMAGE NOTE (features): each feature card could get a tiny loop (3-4s, MP4) showing
+     the one interaction: filter sheet opening, event tabs Details/Highlights/Community,
+     joining unlocks the community, badge-unlocked toast. Strongest single choice if you
+     only do one: the badge unlock + progress bar ("Attend 2 more...") on Home. -->
       <ul class="cs-features reveal" data-delay="2">
         <li>
           <h4>Discover</h4>
-          <p>Surfaced by location, community, and adventure type, with QR entry from
-            in-store signage.</p>
+          <p>Tuned at onboarding by city, activity and skill level, then filtered by
+            date, skill or activity.</p>
         </li>
         <li>
-          <h4>Connect before the event</h4>
-          <p>Opt-in group chat with other attendees, so newcomers don&rsquo;t show up
-            alone.</p>
+          <h4>Know before you go</h4>
+          <p>Every event lists its agenda, skill level and what to bring, with
+            highlights from past sessions.</p>
         </li>
         <li>
-          <h4>Earn &amp; belong</h4>
-          <p>Fire Safety, Tent Technician, and Hiking Expert badges, tied to
-            MEC&rsquo;s heritage rather than points farming.</p>
+          <h4>Event communities</h4>
+          <p>Joining unlocks a space for host announcements and attendee posts, so
+            nobody arrives alone.</p>
         </li>
         <li>
-          <h4>Community feed</h4>
-          <p>Ambassadors, announcements, and post-event posts that make MEC&rsquo;s
-            hidden community visible again.</p>
+          <h4>Badges &amp; coupons</h4>
+          <p>Every event earns a badge. Five unlock 10% off, ten unlock 20%, and MEC
+            sees which events drive sales.</p>
         </li>
       </ul>
 
+      <!-- IMAGE NOTE (01-app-screens slot): the overview hero already shows six screens, so
+     don't repeat them. Use this slot for the REWARDS flow instead: Rewards tab > badge
+     detail > coupon, 3 phones side by side (cs-showcase--phones, like Jackalope).
+     Figma: "W13: HANDOVER DOCUMENTATION" pages 18-20. -->
       <figure class="cs-image reveal" data-delay="3">
         <div class="cs-frame cs-frame--wide cs-frame--contain">
           <div class="cover-fill" aria-hidden="true" style="background: oklch(14% 0.02 250);"></div>
@@ -248,29 +375,19 @@
           <span class="cs-frame__label cs-frame__label--dark">Six key screens &middot; MEC Connect</span>
         </div>
       </figure>
-    </section>
 
-    <div class="section-divider reveal" aria-hidden="true">
-      <span class="section-divider__line"></span>
-    </div>
-
-    <section class="shell section--roomy" id="in-use" data-section>
-      <div class="sec-head reveal">
-        <span class="num">05 / In use</span>
-        <div>
-          <h2>Spike&rsquo;s first event,<br />step by step.</h2>
-        </div>
-      </div>
+      <!-- IMAGE NOTE (Spike / 07-storyboard-spike slot): Figma has no Spike storyboard (the W11
+     one is "Mika"). Best option: a horizontal 4-5 step strip of the screens Spike touches
+     (onboarding > discover > event details > community > badge), each with a one-line
+     caption. Or a 15-20s MP4 of that exact path through the prototype. -->
+      <p class="eyebrow cs-sublabel reveal" data-delay="4">Spike&rsquo;s first event</p>
 
       <div class="cs-prose reveal" data-delay="1">
         <p>
-          Spike just moved to Vancouver. He&rsquo;s an avid trail runner who
-          knows no locals.
-        </p>
-        <p>
-          He scans a QR code at his nearest MEC store, finds the
-          <em>We Run the Cold</em> event, RSVPs, and opts into the pre-event group
-          chat, arriving with new friends already lined up.
+          Spike, our scenario user, loves the outdoors but never knows what&rsquo;s on
+          locally. He sets his city and skill level, finds a beginner event on Discover,
+          checks the gear list and joins. Its community opens, and after the event a
+          badge lands on his profile.
         </p>
       </div>
 
@@ -293,83 +410,31 @@
       <span class="section-divider__line"></span>
     </div>
 
-    <section class="shell section--roomy" id="people" data-section>
+    <section class="shell section--roomy" id="collaboration" data-section>
       <div class="sec-head reveal">
-        <span class="num">06 / Who it&rsquo;s for</span>
-        <div>
-          <h2>Three people,<br />three reasons MEC matters.</h2>
-          <p class="aside">Personas and journeys for the people most affected by
-            MEC&rsquo;s identity shift.</p>
-        </div>
-      </div>
-
-      <div class="cs-prose reveal" data-delay="1">
-        <ul>
-          <li><strong>George</strong>, a backcountry pro nostalgic for the co-op
-            years.</li>
-          <li><strong>Piper</strong>, a sustainability-minded gear enthusiast after
-            clear answers.</li>
-          <li><strong>Spike</strong>, a newcomer to Vancouver looking to find
-            community through the outdoors.</li>
-        </ul>
-      </div>
-
-      <figure class="cs-image reveal" data-delay="2">
-        <div class="cs-frame cs-frame--tall cs-frame--contain" style="max-width: 540px; margin: 0 auto;">
-          <div class="cover-fill" aria-hidden="true" style="background: oklch(95% 0.02 90); opacity: 0.5;"></div>
-          <svg viewBox="0 0 400 533" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
-               style="mix-blend-mode: multiply;">
-            <g fill="oklch(28% 0.06 170)" font-family="monospace" font-size="11" opacity="0.7">
-              <text x="32" y="44">PERSONA &middot; BACKCOUNTRY PRO &middot; GEORGE</text>
-            </g>
-          </svg>
-          <img src="../assets/mec/04-persona-george.png" alt="Persona document · Backcountry Pro George, a mid-30s park ranger and longtime MEC customer." onerror="this.style.display='none'">
-          <span class="cs-frame__label">Persona &middot; Backcountry Pro &middot; George</span>
-        </div>
-      </figure>
-
-      <figure class="cs-image reveal" data-delay="3">
-        <div class="cs-frame cs-frame--xwide">
-          <div class="cover-fill" aria-hidden="true" style="background: oklch(35% 0.06 165);"></div>
-          <svg viewBox="0 0 1600 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <g fill="oklch(82% 0.04 170)" font-family="monospace" font-size="13" opacity="0.8" letter-spacing="1">
-              <text x="60" y="60">JOURNEY MAP &middot; PIPER &middot; LOOKING BEYOND THE LABEL</text>
-            </g>
-            <g fill="none" stroke="oklch(82% 0.04 170)" stroke-width="1.4" opacity="0.6">
-              <path d="M120 280 Q 320 220 520 260 T 920 280 Q 1120 320 1320 240 T 1500 220"/>
-            </g>
-          </svg>
-          <img src="../assets/mec/05-journey-piper.png" alt="Journey map · Piper's experience looking for sustainability information at MEC." onerror="this.style.display='none'">
-          <span class="cs-frame__label cs-frame__label--dark">Journey map &middot; Piper &middot; looking beyond the label</span>
-        </div>
-        <p class="cs-image__caption">
-          From store shelf to website to competitor research, revealing where
-          information breaks down for value-driven customers.
-        </p>
-      </figure>
-    </section>
-
-    <div class="section-divider reveal" aria-hidden="true">
-      <span class="section-divider__line"></span>
-    </div>
-
-    <section class="shell section--roomy" id="client" data-section>
-      <div class="sec-head reveal">
-        <span class="num">07 / The client</span>
+        <span class="num">05 / Working with MEC</span>
         <div>
           <h2>A real client,<br />not a hypothetical brief.</h2>
         </div>
       </div>
 
       <div class="cs-prose reveal" data-delay="1">
+        <p style="font-size: var(--fs-lede); line-height: 1.45; color: var(--ink);">
+          Every choice had to earn its place against MEC&rsquo;s brand, what their team
+          could feasibly build, and how community actually forms around events.
+        </p>
         <p>
-          We shaped the solution around MEC stakeholders&rsquo; input rather than
-          designing in isolation, balancing <strong>user needs, brand identity,
-          feasibility, and business goals</strong> inside real organizational
-          constraints, not a conceptual student brief.
+          MEC&rsquo;s feedback killed our first idea and their workshop shaped the second.
+          We handed over the full flow, brand guidelines and a business case: attendance
+          and coupon data show which events build loyalty, ready to fold into the MEC Hub
+          app MEC is moving toward.
         </p>
       </div>
 
+      <!-- IMAGE NOTE (photos): 02-team-mec-hq.jpg is in. 03-presenting-mec.jpg still missing:
+     you mid-presentation at MEC is ideal (shows you speaking to a real client). If none
+     exists, swap it for the handover document cover ("W13: HANDOVER DOCUMENTATION",
+     page 1) so the slot shows the deliverable you handed over. -->
       <div class="cs-showcase cs-showcase--two reveal" data-delay="2">
         <div class="cs-frame">
           <div class="cover-fill cover-mec" aria-hidden="true" style="opacity: 0.6;"></div>
@@ -394,19 +459,8 @@
           <span class="cs-frame__label">Presenting the concept at MEC</span>
         </div>
       </div>
-    </section>
 
-    <div class="section-divider reveal" aria-hidden="true">
-      <span class="section-divider__line"></span>
-    </div>
-
-    <section class="shell section--roomy" id="role" data-section>
-      <div class="sec-head reveal">
-        <span class="num">08 / My role</span>
-        <div>
-          <h2>What I owned<br />in this collaboration.</h2>
-        </div>
-      </div>
+      <p class="eyebrow cs-sublabel reveal" data-delay="3">What I owned</p>
 
       <div class="contributions reveal" data-delay="1">
         <div class="contributions__cluster">
@@ -442,37 +496,25 @@
       </div>
     </section>
 
-    <div class="section-divider reveal" aria-hidden="true">
-      <span class="section-divider__line"></span>
-    </div>
-
-    <section class="shell section--roomy" id="reflection" data-section>
-      <div class="sec-head reveal">
-        <span class="num">09 / Reflection</span>
-        <div>
-          <h2>What I took<br />from MEC.</h2>
-        </div>
-      </div>
-
-      <div class="cs-prose reveal" data-delay="1">
-        <p style="font-size: var(--fs-lede); line-height: 1.45; color: var(--ink);">
-          Designing alongside MEC showed me how product decisions become stronger when
-          they are informed by real stakeholder context, not just assumptions.
-        </p>
-        <p>
-          Every choice had to earn its place against MEC&rsquo;s brand identity,
-          feasibility, and how community actually forms around events.
-        </p>
-      </div>
-    </section>
-
     <section class="shell">
-      <a href="arcline.html" class="cs-next">
+      <a href="jackalope.html" class="cs-next">
         <span class="lbl">Next project</span>
-        <span class="title">Arcline &middot; advisory you can read</span>
+        <span class="title">Jackalope &middot; a new city, less new</span>
         <span class="arr" aria-hidden="true">&rarr;</span>
       </a>
     </section>
+
+    <div class="pdf-modal" id="poster-modal" hidden>
+      <div class="pdf-modal__backdrop" data-poster-close></div>
+      <div class="pdf-modal__panel pdf-modal__panel--poster" role="dialog" aria-modal="true"
+           aria-label="Ethnography research poster">
+        <button type="button" class="pdf-modal__close" data-poster-close aria-label="Close">&times;</button>
+        <div class="pdf-modal__scroll">
+          <img class="pdf-modal__img" data-src="../assets/mec/09-ethnography-full.jpg"
+               alt="Ethnography research poster: research methodology (observation, interview, external data), thematic analysis covering fragmented sustainability messaging, unseen design intentions, tent usability gaps and shaken Canadian trust, closing on a design focus of strengthening community events.">
+        </div>
+      </div>
+    </div>
 
   </main>
 

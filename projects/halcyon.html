@@ -28,10 +28,9 @@
 
     <aside class="cs-toc" aria-label="Sections in this case study">
       <ul class="cs-toc__list">
-        <li class="cs-toc__item"><a class="cs-toc__link" href="#overview"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">Overview</span></a></li>
         <li class="cs-toc__item"><a class="cs-toc__link" href="#problem"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">Problem</span></a></li>
         <li class="cs-toc__item"><a class="cs-toc__link" href="#approach"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">Approach</span></a></li>
-        <li class="cs-toc__item"><a class="cs-toc__link" href="#design"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">Design</span></a></li>
+        <li class="cs-toc__item"><a class="cs-toc__link" href="#highlights"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">Highlights</span></a></li>
         <li class="cs-toc__item"><a class="cs-toc__link" href="#outcomes"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">Outcomes</span></a></li>
       </ul>
     </aside>
@@ -55,9 +54,8 @@
       <div class="hero__sub reveal" data-delay="2">
         <p class="hero__discipline">Halcyon</p>
         <p class="hero__tag">
-          A discovery app for late-night listeners. Lifted week-two retention from
-          23.4% to 41.8% by treating &ldquo;quiet hours&rdquo; as a real product surface
-          instead of a dim mode.
+          A discovery app for late-night listeners. Treating &ldquo;quiet hours&rdquo; as a
+          real product surface, not a dim mode, took week-two retention from 23.4% to 41.8%.
         </p>
       </div>
     </header>
@@ -147,14 +145,12 @@
       <div class="cs-prose reveal" data-delay="1">
         <p>
           Halcyon was a Spotify-shaped app trying to be different by being prettier.
-          The team had built a beautiful catalogue, smart recommendations, and a clean
-          home feed. The numbers were fine on day one and broken by day eight.
+          Day-one numbers were fine. By day eight they were broken.
         </p>
         <p>
-          When we read the support tickets, two patterns kept coming up. People loved
-          the app at <strong>1&nbsp;am</strong>. Then morning came and the same interface
-          felt loud, generic, indistinguishable from Spotify. Users churned because
-          there was no reason to come back during the hours they actually wanted to.
+          The tickets said why. People loved the app <strong>at 1&nbsp;am</strong>. Then
+          morning came and the same interface felt loud and generic, so nothing pulled
+          them back during the hours they actually wanted it.
         </p>
       </div>
 
@@ -237,21 +233,31 @@
 
       <div class="cs-prose reveal" data-delay="1">
         <p>
-          We split the app into two registers and let the device clock decide. Daytime
-          Halcyon stayed bright, fast, social. After 9&nbsp;pm, the app crossfaded into
-          <strong>quiet hours</strong>: dimmer palette, slower transitions, fewer
-          notifications, and a separate discovery feed seeded by user listening
-          behavior in those hours.
+          We split the app into two registers and let the device clock decide. After
+          9&nbsp;pm it crossfades into <strong>quiet hours</strong>: dimmer palette, slower
+          motion, fewer notifications, and its own discovery feed.
         </p>
-        <ul>
-          <li><strong>Two products, one app.</strong> Day-self and night-self get
-            different home feeds, different notification cadences, different copy.</li>
-          <li><strong>The 4&nbsp;am test.</strong> Every screen had to read as easily at
-            4&nbsp;am with one eye open as it did at noon. Type, contrast, motion all
-            re-tuned.</li>
-          <li><strong>Sound-first metadata.</strong> &ldquo;Quiet,&rdquo; &ldquo;sparse,&rdquo;
-            &ldquo;long-form&rdquo; tags replaced genre-only filters at night.</li>
-        </ul>
+      </div>
+
+      <div class="cs-insights reveal" data-delay="2">
+        <div class="cs-insight">
+          <span class="cs-insight__num">Principle 01</span>
+          <h3>Two products, one app</h3>
+          <p>Day-self and night-self get different feeds, notification cadences,
+            and copy.</p>
+        </div>
+        <div class="cs-insight">
+          <span class="cs-insight__num">Principle 02</span>
+          <h3>The 4&nbsp;am test</h3>
+          <p>Every screen had to read with one eye open. Type, contrast, and motion
+            were all re-tuned.</p>
+        </div>
+        <div class="cs-insight">
+          <span class="cs-insight__num">Principle 03</span>
+          <h3>Sound before genre</h3>
+          <p>&ldquo;Quiet,&rdquo; &ldquo;sparse,&rdquo; and &ldquo;long-form&rdquo;
+            replaced genre filters at night.</p>
+        </div>
       </div>
 
       <div class="cs-showcase cs-showcase--three reveal" data-delay="2">
@@ -335,28 +341,33 @@
       <span class="section-divider__line"></span>
     </div>
 
-    <section class="shell section--roomy" id="design" data-section>
+    <section class="shell section--roomy" id="highlights" data-section>
       <div class="sec-head reveal">
-        <span class="num">04 / The design</span>
+        <span class="num">04 / Highlights</span>
         <div>
           <h2>Quiet hours,<br />in three textures.</h2>
         </div>
       </div>
 
-      <div class="cs-prose reveal" data-delay="1">
-        <p>
-          The night palette dropped luminance from oklch 96% to 18%, kept the same
-          hue family (cool desaturated blue), and shifted contrast from
-          <strong>edges</strong> (light surfaces) to <strong>glow</strong> (subtle
-          inner shadow + faint accent lift on focus). The motion language slowed:
-          250&nbsp;ms transitions instead of 160&nbsp;ms; no spring; no parallax.
-        </p>
-        <p>
-          On the metadata side, &ldquo;long-form,&rdquo; &ldquo;sparse,&rdquo; and
-          &ldquo;quiet&rdquo; came from listening data, not editor tags. The system
-          watched what people actually played at 2&nbsp;am for two months, then surfaced
-          the patterns as filters.
-        </p>
+      <div class="cs-insights reveal" data-delay="1">
+        <div class="cs-insight">
+          <span class="cs-insight__num">Highlight 01</span>
+          <h3>Contrast by glow, not edges</h3>
+          <p>Luminance drops from oklch 96% to 18% on the same cool hue family, so
+            surfaces separate by lift instead of outline.</p>
+        </div>
+        <div class="cs-insight">
+          <span class="cs-insight__num">Highlight 02</span>
+          <h3>Motion that doesn&rsquo;t startle</h3>
+          <p>Transitions slow to 250&nbsp;ms. No spring, no parallax, nothing that
+            snaps at 3&nbsp;am.</p>
+        </div>
+        <div class="cs-insight">
+          <span class="cs-insight__num">Highlight 03</span>
+          <h3>Filters from listening data</h3>
+          <p>Two months of what people actually played at 2&nbsp;am, surfaced as tags
+            instead of editor-written genres.</p>
+        </div>
       </div>
 
       <figure class="cs-image reveal" data-delay="2">
@@ -476,17 +487,17 @@
         <div class="o reveal">
           <span class="lbl">Week-two retention</span>
           <span class="big tabular">23.4 &rarr; 41.8%</span>
-          <p>Cohort over six weeks post-launch. The 8-day cliff disappeared on the night surface.</p>
+          <p>Six-week cohort post-launch. The day-eight cliff disappeared on the night surface.</p>
         </div>
         <div class="o reveal" data-delay="1">
           <span class="lbl">Quiet-hour DAU</span>
           <span class="big tabular">+2.1&times;</span>
-          <p>Daily active users between 11pm and 4am, vs. comparable cohort pre-launch.</p>
+          <p>Active users between 11&nbsp;pm and 4&nbsp;am, against a comparable pre-launch cohort.</p>
         </div>
         <div class="o reveal" data-delay="2">
           <span class="lbl">Session length, night</span>
           <span class="big tabular">+47%</span>
-          <p>Median listening session 11pm&ndash;4am grew from 12 min to 18 min over twelve weeks.</p>
+          <p>Median night session went 12 &rarr; 18 minutes over twelve weeks.</p>
         </div>
       </div>
     </section>

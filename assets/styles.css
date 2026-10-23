@@ -43,7 +43,7 @@
   --fs-display: clamp(3.8rem, 2.4rem + 7vw, 9rem);
 
   /* Spacing scale — deliberately generous */
-  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 18px;
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px;
   --s-5: 28px; --s-6: 40px; --s-7: 60px; --s-8: 88px;
   --s-9: 120px; --s-10: 168px; --s-11: 240px;
 
@@ -95,6 +95,21 @@ h1 { font-size: var(--fs-h1); letter-spacing: -0.035em; line-height: 0.96; }
 h2 { font-size: var(--fs-h2); letter-spacing: -0.028em; }
 h3 { font-size: var(--fs-h3); line-height: 1.06; }
 h4 { font-size: var(--fs-h4); line-height: 1.15; }
+
+/* ---------- Widow control ----------
+   `pretty` tells the browser to spend extra passes on the last few lines so a
+   paragraph doesn't end on a single orphaned word; `balance` evens short
+   headings across their lines. Both are progressive: browsers without them
+   just wrap normally, and neither overrides a manual <br>. Section headings
+   are hand-broken on the case studies, so they're deliberately left out. */
+p, li, dd, figcaption, blockquote, .t-body, .lede, .aside,
+.cs-image__caption, .persona__bio {
+  text-wrap: pretty;
+}
+.persona__role, .persona__focus h4, .cs-insight h3, .cs-features h4,
+.project-card__desc {
+  text-wrap: balance;
+}
 .display {
   font-family: var(--display);
   font-weight: 500;
@@ -175,9 +190,24 @@ section { padding: var(--s-10) 0; }
   backdrop-filter: saturate(160%) blur(10px);
   -webkit-backdrop-filter: saturate(160%) blur(10px);
   border-bottom: 1px solid transparent;
-  transition: border-color var(--t-base) var(--ease-out);
+  transition: border-color var(--t-base) var(--ease-out),
+              transform var(--t-base) var(--ease-out),
+              opacity var(--t-base) var(--ease-out);
 }
 .nav.is-scrolled { border-bottom-color: var(--line); }
+/* A modal owns the screen — the sticky nav tucks out of the way rather than
+   sitting dimmed behind the backdrop, competing with the thing being read. */
+.has-modal .nav {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .has-modal .nav { transition: none; }
+}
+/* The case-study rail steps aside for the same reason. */
+.cs-toc { transition: opacity var(--t-base) var(--ease-out); }
+.has-modal .cs-toc { opacity: 0; pointer-events: none; }
 .nav__brand {
   font-family: var(--sans);
   font-weight: 700;
@@ -831,11 +861,8 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 .hero__sub--actions .hero__cluster .row { gap: var(--s-3); }
 
 /* Abstract CSS "cover" patterns — cool family */
-.cover-arcline {
-  background:
-    radial-gradient(circle at 22% 78%, oklch(78% 0.08 230) 0%, transparent 44%),
-    radial-gradient(circle at 78% 22%, oklch(68% 0.09 245) 0%, transparent 46%),
-    linear-gradient(180deg, oklch(94% 0.015 240), oklch(86% 0.025 240));
+.cover-jackalope {
+  background: oklch(45% 0.11 245);
 }
 .cover-halcyon {
   background:
@@ -889,7 +916,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   font-size: 15px;
   color: var(--ink-2);
   line-height: 1.55;
-  padding-left: 18px;
+  padding-left: var(--s-4);
   position: relative;
 }
 .contributions li::before {
@@ -1089,6 +1116,17 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
    the SVG placeholder remains visible. */
 .cs-frame > img { z-index: 1; }
 .cs-frame--contain > img { object-fit: contain; padding: 14px; background: var(--bg); }
+/* Real phone screens at device ratio. Capped at 300px so three screens sit
+   side by side without towering; stacks to one centred screen on mobile. */
+.cs-frame--phone { aspect-ratio: 724 / 1568; }
+.cs-showcase--phones {
+  grid-template-columns: repeat(3, minmax(0, 300px));
+  justify-content: center;
+  gap: var(--s-5);
+}
+@media (max-width: 860px) {
+  .cs-showcase--phones { grid-template-columns: minmax(0, 300px); }
+}
 .cs-frame__label {
   position: absolute;
   bottom: 14px;
@@ -1119,6 +1157,34 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   gap: var(--s-3);
 }
 .cs-image .cs-frame { aspect-ratio: 16/9; }
+/* Sub-section label inside a case-study section ("Who we built for").
+   Owns the gap to whatever follows, so the block beneath drops its own
+   top margin and all three labels sit at the same rhythm. */
+.cs-sublabel { margin: var(--s-8) 0 var(--s-4); }
+.cs-sublabel + * { margin-top: 0; }
+/* Transparent-PNG figure — no frame, no fill. The asset's own silhouette reads
+   as the edge, so it sits directly on the page at full container width. */
+.cs-image--bleed {
+  /* A borderless, transparent asset has no hard edge for the caption to sit
+     against, so it needs more air than a framed image's 12px. */
+  gap: var(--s-5);
+  /* The section's own padding-bottom already separates this from whatever
+     follows, so the figure doesn't need to add its own on top. */
+  margin-bottom: 0;
+}
+.cs-image--bleed > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* Flat screenshot with its own background: framed edge, natural height. */
+.cs-image--shot > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--r-3);
+  border: 1px solid var(--line);
+}
 .cs-image__caption {
   font-family: var(--mono);
   font-size: 12px;
@@ -1449,6 +1515,88 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   .foot { grid-template-columns: 1fr 1fr; gap: var(--s-5); }
 }
 
+/* ---------- Frosted poster teaser ----------
+   A dense research poster is unreadable at inline size and only adds noise,
+   so it sits small behind a frost and opens full-size on click. The preview
+   JPEG is deliberately low-res: nothing behind a 14px blur needs detail. */
+.poster {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 5;
+  border-radius: var(--r-3);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  isolation: isolate;
+}
+@media (max-width: 720px) { .poster { aspect-ratio: 16 / 7; } }
+.poster__shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.poster__veil {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(14px) saturate(118%);
+  -webkit-backdrop-filter: blur(14px) saturate(118%);
+  background: color-mix(in oklch, var(--bg) 40%, transparent);
+  transition: backdrop-filter var(--t-base) var(--ease-out),
+              background var(--t-base) var(--ease-out);
+}
+/* Easing the frost on hover hints that there's something real underneath. */
+.poster:hover .poster__veil {
+  backdrop-filter: blur(9px) saturate(118%);
+  -webkit-backdrop-filter: blur(9px) saturate(118%);
+  background: color-mix(in oklch, var(--bg) 28%, transparent);
+}
+.poster__open {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  white-space: nowrap;
+  box-shadow: 0 6px 24px color-mix(in oklch, var(--ink) 26%, transparent);
+}
+.poster__open:active { transform: translate(-50%, -50%) scale(0.97); }
+
+/* Poster lightbox. The panel stays put so the close button can't scroll away;
+   an inner scroller holds the image, which opens fitted to width and toggles
+   to 220% on click. A poster this dense is unreadable fitted to a laptop
+   viewport, so panning and zooming have to work without zooming the browser. */
+.pdf-modal__panel--poster {
+  width: min(880px, 100%);
+  height: min(92vh, 1400px);
+  background: var(--bg);
+}
+.pdf-modal__scroll {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y pinch-zoom;
+}
+.pdf-modal__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: zoom-in;
+}
+/* Zoomed = the image's own pixels, 1:1. A fixed percentage would upscale past
+   the source and just magnify blur. */
+.pdf-modal__img.is-zoomed {
+  width: auto;
+  max-width: none;
+  cursor: zoom-out;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pdf-modal__img { transition: width var(--t-base) var(--ease-out); }
+}
+
 /* ---------- Resume PDF modal ---------- */
 .pdf-modal {
   position: fixed;
@@ -1529,7 +1677,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   contain: layout style;
 }
 .cursor.is-link {
-  width: 44px; height: 44px;
+  width: 32px; height: 32px;
   background: transparent;
   border: 1px solid var(--ink);
   /* Light hairline on both sides of the ring, so it reads on any backdrop. */
@@ -1743,9 +1891,11 @@ body.has-toc [data-section] {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--s-6);
-  margin-top: var(--s-8);
+  margin-top: var(--s-7);
 }
-@media (max-width: 900px) { .cs-insights { grid-template-columns: 1fr; gap: var(--s-5); } }
+/* Stack rather than compress: below this the three columns fall under ~270px,
+   which puts the 15px body copy at roughly 32 characters a line. */
+@media (max-width: 1000px) { .cs-insights { grid-template-columns: 1fr; gap: var(--s-5); } }
 .cs-insight {
   border-top: 1px solid var(--line-strong);
   padding-top: var(--s-4);
@@ -1757,7 +1907,9 @@ body.has-toc [data-section] {
   text-transform: uppercase;
   color: var(--accent-ink);
   display: block;
-  margin-bottom: var(--s-3);
+  /* Tighter than the heading-to-body gap below: the label belongs to the
+     heading, the paragraph is a separate beat. */
+  margin-bottom: var(--s-2);
 }
 .cs-insight h3 {
   font-family: var(--display);
@@ -1768,6 +1920,11 @@ body.has-toc [data-section] {
   margin: 0 0 var(--s-3);
   color: var(--ink);
   max-width: 20ch;
+  /* Reserve two lines for every heading. Lengths run 13-35 characters against
+     a 20ch measure, so some wrap and some don't; without this the body copy
+     in each column starts at a different height. Headings still wrap
+     naturally, they're just not allowed to shift what follows. */
+  min-height: calc(2 * 1.15em);
 }
 .cs-insight p {
   margin: 0;
@@ -1829,4 +1986,138 @@ body.has-toc [data-section] {
   line-height: 1.6;
   color: var(--ink-2);
   max-width: 42ch;
+}
+
+/* ---------- Persona cards (MEC) ----------
+   Three compact cards side by side: who they are, what they said, what it
+   asks of the design. Sized to be skimmed in a row, not read one by one. */
+.personas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: var(--s-5);
+}
+/* Three columns only once the longest role fits beside the portrait. */
+@media (max-width: 1200px) {
+  .personas {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    max-width: 460px;
+    margin-inline: auto;
+  }
+}
+.persona {
+  /* One line to retheme: swap for an MEC green such as oklch(32% 0.07 160). */
+  --persona-accent: var(--accent-ink);
+  /* Subgrid maps each card's three bands onto shared rows, so the dividers
+     line up across all three cards however long the copy runs. */
+  display: grid;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
+  border: 1px solid var(--line);
+  border-radius: var(--r-3);
+  background: var(--bg-elev);
+  overflow: hidden;
+}
+@supports not (grid-template-rows: subgrid) {
+  .persona { display: flex; flex-direction: column; }
+}
+/* Role and name on the left, portrait on the right; chips and bio span the
+   full width beneath. The role is sized fluidly because the portrait takes
+   90px out of the line, and "Gear-Savvy Explorer" has to stay unbroken. */
+.persona__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  align-content: start;
+  gap: var(--s-4);
+  padding: var(--s-6) var(--s-5) var(--s-5);
+}
+.persona__id   { grid-column: 1; grid-row: 1; }
+.persona__mark { grid-column: 2; grid-row: 1; }
+.persona__chips,
+.persona__bio  { grid-column: 1 / -1; }
+/* The source files are already circular with transparent corners; the radius
+   and object-fit are belt-and-braces in case a square crop is swapped in. */
+.persona__mark {
+  width: 72px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+.persona__id { min-width: 0; }
+.persona__role {
+  font-family: var(--display);
+  font-size: clamp(0.95rem, 0.5rem + 0.62vw, 1.1rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--persona-accent);
+  margin: 0;
+}
+.persona__who {
+  font-size: 15px;
+  color: var(--ink-2);
+  margin: 1px 0 0;
+}
+.persona__chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 11px;
+  /* "Experienced Adventurer" pushes Piper's chips onto a second line while the
+     other two fit on one. Reserving two rows for all three keeps every bio
+     starting at the same height instead of one card sitting 24px lower. */
+  min-height: calc(2 * (1.2em + 6px) + 5px);
+}
+.persona__chips li {
+  padding: 2px 9px;
+  border: 1px solid var(--persona-accent);
+  border-radius: var(--r-pill);
+  color: var(--persona-accent);
+  white-space: nowrap;
+}
+.persona__bio {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  /* Bios run 34-36 words and land on 4 or 5 lines depending on the breakpoint.
+     Holding five keeps the divider below them in the same place on every card. */
+  min-height: calc(5 * 1.55em);
+}
+.persona__focus {
+  /* margin-top only bites in the @supports flex fallback; under subgrid the
+     row placement already pins this band to the bottom. */
+  margin-top: auto;
+  border-top: 1px solid var(--line);
+  padding: var(--s-4) var(--s-5) var(--s-5);
+}
+.persona__focus > p:first-child {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 var(--s-2);
+}
+.persona__focus h4 {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--persona-accent);
+  margin: 0 0 var(--s-3);
+}
+.persona__focus p:last-child {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-2);
 }

@@ -252,26 +252,63 @@
     }
   }
 
-  /* ---------- Resume PDF modal (in-page, no new tab) ---------- */
-  const pdfModal = document.getElementById("pdf-modal");
-  const pdfOpenBtn = document.querySelector("[data-pdf-open]");
-  if (pdfModal && pdfOpenBtn) {
-    const frame = pdfModal.querySelector(".pdf-modal__frame");
+  /* ---------- Deferred-source modals (in-page, no new tab) ----------
+     The heavy asset inside carries data-src and only loads on first open, so
+     a page that merely links to a PDF or a poster doesn't pay for it upfront.
+     Used by the resume PDF and the MEC ethnography poster. */
+  const bindModal = (modalId, openSel, closeSel) => {
+    const modal = document.getElementById(modalId);
+    const opener = document.querySelector(openSel);
+    if (!modal || !opener) return;
+    const media = modal.querySelector("[data-src]");
+    const scroller = modal.querySelector(".pdf-modal__scroll");
+    let lastFocused = null;
     const open = () => {
-      if (frame && !frame.src) frame.src = frame.dataset.src;
-      pdfModal.hidden = false;
+      if (media && !media.src) media.src = media.dataset.src;
+      lastFocused = document.activeElement;
+      modal.hidden = false;
       document.body.style.overflow = "hidden";
+      document.documentElement.classList.add("has-modal");
+      modal.querySelector(closeSel)?.focus();
     };
     const close = () => {
-      pdfModal.hidden = true;
+      modal.hidden = true;
       document.body.style.overflow = "";
+      document.documentElement.classList.remove("has-modal");
+      media?.classList.remove("is-zoomed");
+      if (scroller) scroller.scrollTo(0, 0);
+      lastFocused?.focus();
     };
-    pdfOpenBtn.addEventListener("click", open);
-    pdfModal.querySelectorAll("[data-pdf-close]").forEach((el) => el.addEventListener("click", close));
+
+    /* Click-to-zoom. A dense poster fitted to a laptop viewport is unreadable,
+       and browser zoom scales the whole page instead. Toggling to the image's
+       native pixel width inside a scroller keeps the reading where it belongs.
+       Target dimensions are computed rather than measured, so the CSS width
+       transition doesn't get read mid-flight. */
+    if (scroller && media && media.tagName === "IMG") {
+      media.addEventListener("click", (e) => {
+        const rect = media.getBoundingClientRect();
+        const fx = (e.clientX - rect.left) / rect.width;
+        const fy = (e.clientY - rect.top) / rect.height;
+        const zoomIn = !media.classList.contains("is-zoomed");
+        const w = zoomIn ? media.naturalWidth : scroller.clientWidth;
+        const h = w / (media.naturalWidth / media.naturalHeight || 1);
+        media.classList.toggle("is-zoomed", zoomIn);
+        requestAnimationFrame(() => {
+          scroller.scrollLeft = fx * w - scroller.clientWidth / 2;
+          scroller.scrollTop = fy * h - scroller.clientHeight / 2;
+        });
+      });
+    }
+
+    opener.addEventListener("click", open);
+    modal.querySelectorAll(closeSel).forEach((el) => el.addEventListener("click", close));
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && !pdfModal.hidden) close();
+      if (e.key === "Escape" && !modal.hidden) close();
     });
-  }
+  };
+  bindModal("pdf-modal", "[data-pdf-open]", "[data-pdf-close]");
+  bindModal("poster-modal", "[data-poster-open]", "[data-poster-close]");
 
   /* ---------- Case-study section rail (sub-navigation) ----------
      Wide screens: fixed vertical rail. Narrow: sticky chip bar.
