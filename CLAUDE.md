@@ -44,9 +44,9 @@ four missing MEC images; decide on a MEC outcomes section.
 - **Live at** `jayho.fyi` via GitHub Pages. `CNAME` at repo root holds the domain — never delete or rename it. The old `winterhornet106.github.io/2026-Portfolio` URL redirects here.
 - **Stack:** hand-written HTML, CSS and vanilla JS. **No build step, no framework, no package.json.** Edit files directly; what's in the repo is what ships.
 - **Pages:** `index.html`, `about.html`, `resume.html`, `contact.html`, and three case studies in `projects/` — `mec.html`, `carepath.html`, `dda.html`.
-- **Sources of truth:** MEC copy comes from the Figma file *IAT333 - MEC Client* (Final Slides + Handover Documentation pages). CarePath copy comes from *IAT 438 Final Project Design* (Week 5 FINAL Slides + speaker notes, Week 3 Final Slides for the user testing). Images in `assets/carepath/`. Dutch Design Awards copy comes from *Graphic Experimentation* (IAT 235; part4 and part5 decks, part5_website for screens); images in `assets/dda/`. Jay owned the poster explorations and microsite screens only. Check claims against these before editing.
+- **Sources of truth:** MEC copy comes from the Figma file *IAT333 - MEC Client* (Final Slides + Handover Documentation pages). CarePath copy comes from *IAT 438 Final Project Design* (Week 5 FINAL Slides + speaker notes, Week 3 Final Slides for the user testing). Images in `assets/carepath/`. Dutch Design Awards copy comes from *Graphic Experimentation* (IAT 235; part4 and part5 decks, part5_website for screens); images in `assets/dda/`. Jay owned client research (the awards and their categories), exhibition research (the nine-day Dutch Design Week event), the poster explorations and the microsite screens; added per Jay on 24 Oct 2026. Check claims against these before editing.
 - **Shared assets:** `assets/styles.css` (one stylesheet, ~2100 lines), `assets/main.js`, `assets/mec/` (images).
-- **Fonts:** Satoshi (Fontshare `@import`) + JetBrains Mono (Google Fonts `@import`), both at the top of `styles.css`.
+- **Fonts:** Apple's pairing via the system stack, no web-font downloads: SF Pro Display for headings (`--display`), SF Pro Text for everything else (`--sans`). `--mono` now points at `--sans` on purpose: small labels share the text face. Real SF shows on Apple devices; Windows/Android fall back to Helvetica/Arial. Switched 24 Oct 2026 away from Satoshi + JetBrains Mono, which an audit flagged as AI-default type (old stylesheet in `.verbose-backup/styles-before-apple-type.css`).
 - **Colour:** OKLCH throughout. No dark mode exists — don't assume one.
 
 Jay is a product/interaction designer, not primarily an engineer. Explain technical things plainly and briefly when they come up (e.g. what `git pull` does and why), without condescension or lecturing.
@@ -70,13 +70,13 @@ Jay is a product/interaction designer, not primarily an engineer. Explain techni
    - dda: Problem / Approach / Highlights / Outcomes (Dutch Design Awards microsite; replaced Halcyon 23 Oct 2026, Halcyon kept in `.verbose-backup/halcyon/`)
    - mec: Problem / Research / Solution / Working with MEC
    - "Overview" deliberately is *not* in the TOC rail.
-7. **Granularity goes inside sections, not into new sections.** Use the numbered `.cs-insight` card pattern (Insight 01 / Finding 01 / Highlight 01) rather than adding a section.
+7. **Granularity goes inside sections, not into new sections.** Use the `.cs-insight` card pattern (top rule + heading + body) rather than adding a section. **No numbering** (no "Finding 01", "01 / The problem", "01" indexes): removed 24 Oct 2026 as AI-template filler.
 8. **Consistency over everything.** Jay will ask for it repeatedly. Parallel structure across the three case studies is the goal.
 
 **Design**
 
 9. **Compact.** Jay consistently asks for smaller, tighter, shorter. When in doubt, reduce.
-10. **Weight 700 is reserved for the brand wordmark only** (`.nav__brand`, `.foot .brand-line`). Everything else is 500.
+10. **Weights:** 700 for the brand wordmark only (`.nav__brand`, `.foot .brand-line`); 600 for the big headlines (hero H1, section H2, project-card titles, `.cs-sublabel`), like Apple's semibold headlines; 500 elsewhere.
 11. Small text is sized in **px**, display type in **rem/clamp**. Don't introduce rem-based small text.
 
 ---
@@ -100,14 +100,13 @@ Sub-4px component padding on chips/pills/buttons (2, 5, 6, 7, 10, 14px) is inten
 - Sections either side of a `.section-divider` auto-tighten to 40px
 - `.sec-head` gives every section 88px to its content
 
-**Mono label tiers** — two, deliberately:
-- **12px** = section-level (`.eyebrow`, `.sec-head .num`, `.project-card__num`)
-- **11px** = component-internal (`.cs-insight__num`, `.cs-meta dt`, `.project-card__tags`)
-- Don't introduce a third tier.
+**Labels:** sentence case, no tracking, no uppercase, no monospace. Don't put an eyebrow label above section headings (removed 24 Oct 2026). Small labels are 11–14px in the text face; in-section sub-headings (`.cs-sublabel`) are 17px semibold ink, not grey labels.
+
+**Avoid the AI-template tells** an audit flagged: display-size full-sentence H1s (hero now caps at 56px), a coloured accent word inside the H1, eyebrows above every heading, 1·2·3 numbering, scroll fade-ups on everything (`.reveal` is now a style-less hook), and one identical hover across 4+ cards (the 3 project cards share an Apple-style lift + 4% image zoom; vary it if a 4th card is added).
 
 **Body text:** 15px/1.6 for card copy, 14px/1.55 for small meta. Cap measures (`max-width: 38ch` etc.) — don't let paragraphs run wide.
 
-**Typography spacing rule:** eyebrow→heading must be *tighter* than heading→body (8px → 12px). Not equal, not inverted.
+**Typography spacing rule:** a label→heading gap, where one exists, must be *tighter* than heading→body (8px → 12px). Not equal, not inverted.
 
 ---
 
@@ -119,7 +118,7 @@ against them. Treat these as the standing bar, not one-off requests.
 **Multi-column insight sections** (`.cs-insights`, and anything built like it):
 
 - Equal columns, consistent gutters, top divider lines aligned.
-- Eyebrow labels at the same vertical position, single line, identical type.
+- Headings start at the same vertical position (top rule), identical type.
 - Headings share font/size/weight/line-height/colour and wrap naturally — **never**
   shrink an individual heading to force it onto one line, and no manual `<br>`.
 - **Reserve a consistent heading area** (currently two lines) so heading length can't
@@ -189,11 +188,9 @@ variants carry a 1px border (transparent on primary) so mixed rows match in heig
 - **The resume is designed in HTML.** Edit `resume-src/resume.html`, then reprint with headless Chrome (command in that file's header comment) to `assets/resume.pdf`, and regenerate the pop-up image below. Keep it to one page and check the PDF embeds Inter (the resume uses Inter only, not the site's Satoshi/JetBrains, for a cleaner print read; no links, it is a flat sheet). The old Word-made resume is in `.verbose-backup/resume-old/`.
 - **The resume viewer shows an image, not the PDF.** `assets/resume-page.png` is a render of `assets/resume.pdf` (made with `qlmanage -t -s 2550 -o <dir> assets/resume.pdf`). If the PDF changes, regenerate the PNG or the pop-up shows the old resume. The Download PDF button still serves the real PDF.
 
-- **`grep` case-sensitivity.** `satoshi` is lowercase in the `@import`. A case-sensitive grep for "Satoshi" misses it — this caused a wrong diagnosis once.
 - **Missing images fail silently.** Every `<img>` carries `onerror="this.style.display='none'"`, so a broken path just shows the SVG placeholder underneath. Always verify paths resolve on disk.
 - **`sips -Z` fits the *longest* side.** For a portrait image, use `sips --resampleWidth N` instead or you'll get the wrong dimension.
 - **No image tooling installed** — no PIL, pngquant, oxipng or ImageMagick. Only `sips`, which doesn't optimise PNG output. For photographic content check whether alpha is actually needed (`hasAlpha` can be true while every pixel is opaque) and use JPEG; it's dramatically smaller.
-- **Satoshi loads 5 weights (300–900) but only 3 are used** (400/500/700). Trimming the `@import` to `satoshi@400,500,700` would drop two font files with no visual change. Not yet done.
 
 ---
 
@@ -212,6 +209,11 @@ front so it streams) with `walkthrough-poster.jpg` as its poster (a frame at 3.6
 with AVAssetImageGenerator via a small Swift script; there is no ffmpeg). It loads only on
 play (`preload="none"`). The local `python3 -m http.server` preview can't seek in it
 (no Range support); GitHub Pages can.
+
+DDA has the same kind of video in its Outcomes section: `assets/dda/walkthrough.mp4`
+(Figma Motion export from the "DDA walkthrough video" page, 1440×1024, 31.5s, ~16.6 MB) with
+`walkthrough-poster.jpg` (frame at 2.4s). Its frame uses `.cs-frame--site.cs-frame--desktop`
+(square corners, 1440/1024 aspect).
 
 `02-team-mec-hq.jpg` was filled from the Figma group photo. Figma has no presenting photo.
 

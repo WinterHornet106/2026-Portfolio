@@ -1,11 +1,9 @@
 /* ============================================================
    Portfolio 2026 — shared styles
-   Fonts: Satoshi (sans, weight-led hierarchy) + JetBrains Mono (labels, eyebrows)
+   Fonts: Apple's pairing via the system stack: SF Pro Display (headings) + SF Pro Text
    Color: OKLCH, cool tinted neutrals with muted steel accent
    ============================================================ */
 
-@import url("https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap");
 
 /* ---------- Tokens ---------- */
 :root {
@@ -28,9 +26,10 @@
   --ok:            oklch(62% 0.10 180);
 
   /* Type — sans throughout; hierarchy is weight + tracking */
-  --sans: "Satoshi", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --display: "Satoshi", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Small labels (tags, meta, rail) share the text face: no monospace, no caps. */
+  --mono: var(--sans);
 
   /* Scale — perfect fourth (1.333) with clamp */
   --fs-caption: clamp(0.75rem, 0.72rem + 0.15vw, 0.82rem);
@@ -98,7 +97,7 @@ h1, h2, h3, h4 {
   line-height: 1.02;
   margin: 0;
 }
-h1 { font-size: var(--fs-h1); letter-spacing: -0.035em; line-height: 0.96; }
+h1 { font-size: var(--fs-h1); letter-spacing: -0.018em; line-height: 0.96; }
 h2 { font-size: var(--fs-h2); letter-spacing: -0.028em; }
 h3 { font-size: var(--fs-h3); line-height: 1.06; }
 h4 { font-size: var(--fs-h4); line-height: 1.15; }
@@ -121,7 +120,7 @@ p, li, dd, figcaption, blockquote, .t-body, .lede, .aside,
   font-family: var(--display);
   font-weight: 500;
   font-size: var(--fs-display);
-  letter-spacing: -0.045em;
+  letter-spacing: -0.022em;
   line-height: 0.94;
 }
 .lede {
@@ -132,19 +131,18 @@ p, li, dd, figcaption, blockquote, .t-body, .lede, .aside,
   font-weight: 400;
 }
 .eyebrow {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--sans);
+  font-size: 14px;
+  letter-spacing: 0;
   color: var(--ink-3);
   font-weight: 500;
 }
-.serif { font-family: var(--display); font-weight: 500; letter-spacing: -0.03em; }
+.serif { font-family: var(--display); font-weight: 500; letter-spacing: -0.016em; }
 .rule-head {
   font-family: var(--display);
   font-weight: 500;
   font-size: var(--fs-h3);
-  letter-spacing: -0.035em;
+  letter-spacing: -0.018em;
   line-height: 1.1;
   margin: 0;
   max-width: 18ch;
@@ -154,8 +152,8 @@ em { font-style: normal; }
 .mono { font-family: var(--mono); font-size: 0.85em; letter-spacing: -0.01em; }
 
 /* Display-sized text on non-heading elements */
-.headline-lg { font-family: var(--display); font-weight: 500; font-size: var(--fs-h3); letter-spacing: -0.035em; line-height: 1.08; margin: 0; }
-.headline-md { font-family: var(--display); font-weight: 500; font-size: var(--fs-h4); letter-spacing: -0.025em; line-height: 1.2;  margin: 0; }
+.headline-lg { font-family: var(--display); font-weight: 500; font-size: var(--fs-h3); letter-spacing: -0.018em; line-height: 1.08; margin: 0; }
+.headline-md { font-family: var(--display); font-weight: 500; font-size: var(--fs-h4); letter-spacing: -0.012em; line-height: 1.2;  margin: 0; }
 .mute { color: var(--ink-3); }
 p { margin: 0 0 1.35em; max-width: 66ch; }
 p.lede { max-width: 58ch; }
@@ -219,7 +217,7 @@ section { padding: var(--s-10) 0; }
   font-family: var(--sans);
   font-weight: 700;
   font-size: 1.05rem;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.016em;
   color: var(--ink);
   display: inline-flex; align-items: center; gap: 8px;
   transition: color var(--t-fast) var(--ease-out);
@@ -264,11 +262,9 @@ section { padding: var(--s-10) 0; }
      on the pill's true centre. Every variant carries a 1px border (transparent
      on primary) so a primary and a ghost side by side are the same height. */
   min-height: 52px;
-  /* 2px of bottom padding lifts the label 1px. Measured from Satoshi Medium at
-     15px: caps sit 0.35px low and lowercase 2.1px low of true centre, and the
-     labels are mostly lowercase, so they read low. The nudge splits it
-     (caps 0.65px high, lowercase 1.1px low) and the label reads centred. */
-  padding: 0 22px 2px;
+  /* SF Pro Text centres itself in the pill (caps within 0.2px of true centre at
+     15px), so unlike the old Satoshi setup no optical nudge is needed. */
+  padding: 0 22px;
   line-height: 1;
   border: 1px solid transparent;
   border-radius: var(--r-pill);
@@ -308,25 +304,20 @@ section { padding: var(--s-10) 0; }
   transition: color var(--t-fast) var(--ease-out), gap var(--t-base) var(--ease-out);
 }
 .back:hover { color: var(--ink); gap: 14px; }
+/* On wide windows the back link hangs one gutter outside the content column.
+   Below 1600px it stays tucked in: any further left and it crowds the fixed
+   section rail, which sits at the same height. */
+@media (min-width: 1600px) {
+  .back { margin-left: calc(-1 * var(--gutter)); }
+}
 .back .arr { transition: transform var(--t-base) var(--ease-out); }
 .back:hover .arr { transform: translateX(-4px); }
 
 /* ---------- Reveal (IntersectionObserver-driven) ---------- */
 /* No will-change here: it would hold a composited layer for every revealed
    element for the whole session, long after the one transition it helps. */
-.reveal {
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 620ms var(--ease-out), transform 620ms var(--ease-out);
-}
-.reveal.is-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal[data-delay="1"] { transition-delay: 60ms; }
-.reveal[data-delay="2"] { transition-delay: 120ms; }
-.reveal[data-delay="3"] { transition-delay: 180ms; }
-.reveal[data-delay="4"] { transition-delay: 240ms; }
+/* Content is visible at rest: no scroll-triggered fade-ups. `.reveal` stays in
+   the markup as a hook but carries no styles. */
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
   * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -347,7 +338,7 @@ section { padding: var(--s-10) 0; }
   gap: var(--s-5);
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0;
   color: var(--ink-3);
 }
 .hero__rail--top {
@@ -363,7 +354,6 @@ section { padding: var(--s-10) 0; }
 .hero__rail a { color: var(--ink); }
 .hero__rail .jump {
   display: inline-flex; align-items: center; gap: 8px;
-  text-transform: uppercase;
   color: var(--ink);
 }
 .hero__rail .jump .arr {
@@ -374,20 +364,20 @@ section { padding: var(--s-10) 0; }
 /* Lead — the centerpiece headline */
 .hero__lead {
   font-family: var(--display);
-  font-weight: 500;
+  font-weight: 600;
   /* The home page's rotating role can't wrap (~6.5em wide), so on the
      narrowest phones the size also caps to the column over 6.8em. */
-  font-size: min(clamp(2.6rem, 1.6rem + 4.2vw, 5.2rem),
+  font-size: min(clamp(2.2rem, 1.6rem + 2.2vw, 3.5rem),
                  calc((100vw - 2 * var(--gutter)) / 6.8));
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   line-height: 1.04;
   color: var(--ink);
-  max-width: 20ch;
+  max-width: 24ch;
   margin: var(--s-9) 0 0;
 }
-.hero__lead .accent { color: var(--accent-ink); font-weight: 500; }
+.hero__lead .accent { color: inherit; }
 
-.role-swap { display: inline-block; color: var(--accent-ink); }
+.role-swap { display: inline-block; color: inherit; }
 .role-swap__text { display: inline-block; white-space: pre; }
 /* Between titles the text node is empty, and an empty inline-block takes its
    baseline from its bottom edge — which would drop the caret mid-pause. A
@@ -423,8 +413,7 @@ section { padding: var(--s-10) 0; }
 .hero__sub .hero__discipline {
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--ink-3);
   padding-top: 6px;
   margin: 0;
@@ -550,7 +539,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   font-size: 12px;
   font-family: var(--mono);
   color: var(--ink-2);
-  letter-spacing: 0.01em;
+  letter-spacing: 0;
 }
 .status .pulse {
   width: 6px; height: 6px; border-radius: 50%;
@@ -573,8 +562,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 .sec-head .num {
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--ink-3);
 }
 .sec-head > div {
@@ -584,9 +572,9 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 }
 .sec-head h2 {
   font-family: var(--display);
-  font-weight: 500;
-  font-size: clamp(2.2rem, 1.5rem + 2.4vw, 3.6rem);
-  letter-spacing: -0.04em;
+  font-weight: 600;
+  font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.75rem);
+  letter-spacing: -0.02em;
   line-height: 1.04;
   margin: 0;
   max-width: 22ch;
@@ -628,14 +616,13 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 }
 .work__item:hover .work__cover img,
 .work__item:hover .work__cover .cover-fill,
-.work__item:hover .work__cover svg { transform: scale(1.03); }
 .work__meta { display: flex; flex-direction: column; gap: var(--s-4); }
 .work__meta .row { justify-content: space-between; font-size: 13px; color: var(--ink-3); padding-bottom: var(--s-2); border-bottom: 1px solid var(--line); }
 .work__title {
   font-family: var(--display);
   font-size: clamp(1.9rem, 1.5rem + 1.8vw, 3rem);
   font-weight: 500;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.018em;
   line-height: 1.04;
   margin-top: var(--s-2);
 }
@@ -651,7 +638,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   border: 1px solid var(--line);
   border-radius: var(--r-pill);
   color: var(--ink-3);
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
 }
 .work__view {
   display: inline-flex; align-items: center; gap: 8px;
@@ -691,6 +678,10 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   overflow: hidden;
   background: var(--bg-elev);
   border: 1px solid var(--line);
+  /* Apple Store card hover: a soft resting shadow that deepens while the card
+     grows 1%, on Apple's ease-out over 300ms. */
+  box-shadow: 2px 4px 12px rgb(0 0 0 / 0.08);
+  transition: transform 300ms cubic-bezier(0, 0, 0.5, 1), box-shadow 300ms cubic-bezier(0, 0, 0.5, 1);
 }
 .project-card__cover > * {
   position: absolute; inset: 0;
@@ -698,7 +689,22 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   object-fit: cover;
   transition: transform 900ms var(--ease-out);
 }
-.project-card:hover .project-card__cover > * { transform: scale(1.04); }
+@media (hover: hover) and (pointer: fine) {
+  .project-card:hover .project-card__cover {
+    transform: scale3d(1.01, 1.01, 1.01);
+    box-shadow: 2px 4px 16px rgb(0 0 0 / 0.16);
+  }
+  /* The photo also eases in 4% inside its frame. */
+  .project-card:hover .project-card__cover > * { transform: scale(1.04); }
+  .project-card:hover .project-card__cta > span:first-child {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-card:hover .project-card__cover,
+  .project-card:hover .project-card__cover > * { transform: none; }
+}
 .project-card__body {
   display: flex;
   flex-direction: column;
@@ -708,15 +714,14 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 .project-card__num {
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--ink-3);
 }
 .project-card__title {
   font-family: var(--display);
-  font-weight: 500;
+  font-weight: 600;
   font-size: clamp(1.8rem, 1.3rem + 1.6vw, 2.6rem);
-  letter-spacing: -0.035em;
+  letter-spacing: -0.018em;
   line-height: 1.06;
   margin: 0;
   color: var(--ink);
@@ -740,7 +745,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 .project-card__year {
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   color: var(--ink-3);
   white-space: nowrap;
 }
@@ -754,7 +759,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   border: 1px solid var(--line);
   border-radius: var(--r-pill);
   color: var(--ink-3);
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
   white-space: nowrap;
 }
 .project-card__cta {
@@ -764,8 +769,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   margin-top: var(--s-4);
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--ink);
 }
 .project-card__cta .arr { transition: transform var(--t-base) var(--ease-out); }
@@ -794,7 +798,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   font-family: var(--display);
   font-weight: 500;
   font-size: clamp(2.4rem, 1.8rem + 2vw, 3.6rem);
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   line-height: 1;
   color: var(--accent-ink);
   margin-bottom: var(--s-3);
@@ -803,7 +807,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   font-family: var(--display);
   font-weight: 500;
   font-size: clamp(1.4rem, 1.1rem + 0.9vw, 1.85rem);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.012em;
   line-height: 1.18;
   color: var(--ink);
   margin: 0;
@@ -921,8 +925,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 .contributions__lbl {
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--accent-ink);
   font-weight: 500;
   margin: 0;
@@ -970,7 +973,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   font-weight: 500;
   font-size: clamp(3rem, 2rem + 4.8vw, 6.4rem);
   line-height: 0.98;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.022em;
   max-width: 20ch;
   margin: 0;
 }
@@ -986,7 +989,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   margin-top: var(--s-7);
 }
 .cs-meta dl { margin: 0; display: flex; flex-direction: column; gap: 6px; }
-.cs-meta dt { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); }
+.cs-meta dt { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0; color: var(--ink-3); }
 .cs-meta dd { margin: 0; font-size: 15px; color: var(--ink); }
 @media (max-width: 720px) {
   .cs-meta { grid-template-columns: repeat(2, 1fr); gap: var(--s-4); }
@@ -1009,7 +1012,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   font-family: var(--display);
   font-size: var(--fs-h3);
   font-weight: 500;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.018em;
   margin-bottom: var(--s-4);
   line-height: 1.08;
 }
@@ -1018,8 +1021,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   top: 96px;
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--ink-3);
   padding-top: 10px;
   border-top: 1px solid var(--line);
@@ -1053,11 +1055,11 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   font-family: var(--display);
   font-size: clamp(2rem, 1.5rem + 1.8vw, 3rem);
   font-weight: 500;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   color: var(--ink);
   line-height: 1;
 }
-.cs-outcomes .o .lbl { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-3); }
+.cs-outcomes .o .lbl { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0; color: var(--ink-3); }
 .cs-outcomes .o p { font-size: 14px; line-height: 1.55; margin: 0; color: var(--ink-2); max-width: 34ch; }
 @media (max-width: 720px) { .cs-outcomes { grid-template-columns: 1fr; gap: var(--s-5); } }
 
@@ -1091,7 +1093,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   font-family: var(--display);
   font-size: var(--fs-h4);
   font-weight: 500;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.012em;
   line-height: 1.18;
   margin: var(--s-6) 0 var(--s-3);
   color: var(--ink);
@@ -1130,6 +1132,9 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 .cs-frame--xwide  { aspect-ratio: 16/5; }
 .cs-frame--tall   { aspect-ratio: 3/4; }
 .cs-frame--square { aspect-ratio: 1/1; }
+/* Desktop site screens (1440×1024). Beats the 16:9 `.cs-image .cs-frame` default below. */
+.cs-frame--desktop,
+.cs-image .cs-frame.cs-frame--desktop { aspect-ratio: 1440 / 1024; }
 .cs-frame > .cover-fill,
 .cs-frame > svg,
 .cs-frame > img,
@@ -1190,8 +1195,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   z-index: 2;
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--ink-2);
   display: inline-flex;
   align-items: center;
@@ -1239,7 +1243,15 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 /* Sub-section label inside a case-study section ("Who we built for").
    Owns the gap to whatever follows, so the block beneath drops its own
    top margin and all three labels sit at the same rhythm. */
-.cs-sublabel { margin: var(--s-8) 0 var(--s-4); }
+/* Sub-headings inside a section ("What I owned", "The pivot"): a small heading,
+   not a grey label. */
+.cs-sublabel {
+  margin: var(--s-8) 0 var(--s-4);
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+}
 .cs-sublabel + * { margin-top: 0; }
 /* Transparent-PNG figure — no frame, no fill. The asset's own silhouette reads
    as the edge, so it sits directly on the page at full container width. */
@@ -1278,7 +1290,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   text-wrap: balance;
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   color: var(--ink-3);
 }
 
@@ -1297,12 +1309,12 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 section:has(> .cs-outcomes:last-child) { padding-bottom: var(--s-6); }
 section:has(> .cs-next) { padding-top: var(--s-5); }
 .cs-next:hover { padding-left: 12px; }
-.cs-next .lbl { font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.08em; }
+.cs-next .lbl { font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0; }
 .cs-next .title {
   font-family: var(--display);
   font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.6rem);
   font-weight: 500;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.018em;
 }
 .cs-next .arr { font-size: 1.4rem; transition: transform var(--t-slow) var(--ease-out); }
 .cs-next:hover .arr { transform: translateX(8px); }
@@ -1319,7 +1331,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   font-weight: 500;
   font-size: var(--fs-h1);
   line-height: 1;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.022em;
 }
 .about-intro h1 em { font-style: normal; color: var(--accent-ink); font-weight: 500; }
 .about-intro .copy p {
@@ -1356,7 +1368,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   font-size: 16px;
   line-height: 1.55;
 }
-.kv-table .k { color: var(--ink-3); font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; padding-top: calc(var(--s-5) + 6px); }
+.kv-table .k { color: var(--ink-3); font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0; padding-top: calc(var(--s-5) + 6px); }
 .kv-table .v { color: var(--ink); }
 .kv-table .v a.ulink:hover { color: var(--accent-ink); }
 
@@ -1370,8 +1382,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 .cv-grid .h {
   font-family: var(--mono);
   font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   color: var(--ink-3);
   padding-top: 18px;
   border-top: 1px solid var(--line);
@@ -1388,7 +1399,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 }
 .cv-row:first-child { border-top: 1px solid var(--line); }
 .cv-row--no-rule { border-bottom: 0; }
-.cv-row .when { font-family: var(--mono); font-size: 13px; color: var(--ink-3); letter-spacing: 0.04em; }
+.cv-row .when { font-family: var(--mono); font-size: 13px; color: var(--ink-3); letter-spacing: 0; }
 .cv-row .what .role {
   font-size: 20px;
   font-weight: 500;
@@ -1398,7 +1409,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 }
 .cv-row .what .org { color: var(--ink-3); font-size: 14px; margin-top: 4px; }
 .cv-row .what p { font-size: 15px; line-height: 1.58; color: var(--ink-2); margin: var(--s-3) 0 0; max-width: 56ch; }
-.cv-row .where { text-align: right; font-family: var(--mono); font-size: 13px; color: var(--ink-3); letter-spacing: 0.04em; }
+.cv-row .where { text-align: right; font-family: var(--mono); font-size: 13px; color: var(--ink-3); letter-spacing: 0; }
 @media (max-width: 720px) {
   .cv-row { grid-template-columns: 1fr; gap: 6px; }
   .cv-row .where { text-align: left; }
@@ -1443,7 +1454,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   font-size: min(clamp(2.8rem, 1.6rem + 6.4vw, 7rem),
                  calc((min(100vw, var(--container)) - 2 * var(--gutter)) / 11));
   line-height: 0.98;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.022em;
   color: var(--ink);
 }
 .contact-big a {
@@ -1527,8 +1538,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 .contact-cols h4 {
   font-family: var(--mono);
   font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   color: var(--ink-3);
   font-weight: 500;
   margin-bottom: var(--s-4);
@@ -1620,8 +1630,8 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   font-size: 14px;
   color: var(--ink-2);
 }
-.foot h5 { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); font-weight: 500; margin: 0 0 var(--s-3); }
-.foot .brand-line { font-family: var(--display); font-weight: 700; font-size: 1.5rem; color: var(--ink); letter-spacing: -0.035em; }
+.foot h5 { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0; color: var(--ink-3); font-weight: 500; margin: 0 0 var(--s-3); }
+.foot .brand-line { font-family: var(--display); font-weight: 700; font-size: 1.5rem; color: var(--ink); letter-spacing: -0.018em; }
 .foot .blurb { margin-top: var(--s-3); color: var(--ink-3); max-width: 32ch; font-size: 14px; line-height: 1.55; }
 .foot a { color: var(--ink-2); display: block; padding: 4px 0; }
 .foot a:hover { color: var(--ink); }
@@ -1863,8 +1873,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 .cursor__label {
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   white-space: nowrap;
   line-height: 1;
   /* Tracking adds 0.06em after the last letter; pull it back so the word is
@@ -1963,8 +1972,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   align-items: center;
   gap: 10px;
   font-size: 11px;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--ink-4);
   transition: color var(--t-fast) var(--ease-out);
 }
@@ -2093,8 +2101,7 @@ body.has-toc [data-section] {
 .cs-insight__num {
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--accent-ink);
   display: block;
   /* Tighter than the heading-to-body gap below: the label belongs to the
@@ -2105,7 +2112,7 @@ body.has-toc [data-section] {
   font-family: var(--display);
   font-weight: 500;
   font-size: var(--fs-h4);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.012em;
   line-height: 1.15;
   margin: 0 0 var(--s-3);
   color: var(--ink);
@@ -2113,9 +2120,11 @@ body.has-toc [data-section] {
   /* Reserve two lines for every heading. Lengths run 13-35 characters against
      a 20ch measure, so some wrap and some don't; without this the body copy
      in each column starts at a different height. Headings still wrap
-     naturally, they're just not allowed to shift what follows. */
+     naturally, they're just not allowed to shift what follows. Stacked (one
+     column, below 1001px) there's nothing to line up with, so no reserve. */
   min-height: calc(2 * 1.15em);
 }
+@media (max-width: 1000px) { .cs-insight h3 { min-height: 0; } }
 .cs-insight p {
   margin: 0;
   font-size: 15px;
@@ -2136,7 +2145,7 @@ body.has-toc [data-section] {
   font-weight: 500;
   font-size: var(--fs-h4);
   line-height: 1.25;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.012em;
   color: var(--ink);
   margin: 0;
 }
@@ -2146,8 +2155,7 @@ body.has-toc [data-section] {
   font-family: var(--mono);
   font-size: 11px;
   font-style: normal;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--ink-3);
 }
 
@@ -2244,9 +2252,8 @@ body.has-toc [data-section] {
   font-family: var(--mono);
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.09em;
+  letter-spacing: 0;
   line-height: 1.2;
-  text-transform: uppercase;
   color: var(--persona-accent);
   margin: 0 0 var(--s-2);
 }
@@ -2254,7 +2261,7 @@ body.has-toc [data-section] {
   font-family: var(--display);
   font-size: var(--fs-h4);
   font-weight: 500;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.012em;
   line-height: 1.15;
   color: var(--ink);
   margin: 0;
@@ -2301,8 +2308,7 @@ body.has-toc [data-section] {
 .persona__focus > p:first-child {
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--ink-3);
   margin: 0 0 var(--s-2);
 }
