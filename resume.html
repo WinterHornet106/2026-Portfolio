@@ -54,11 +54,15 @@
       </div>
     </header>
 
-    <div class="pdf-modal" id="pdf-modal" hidden>
+    <div class="pdf-modal" id="pdf-modal" data-preload="idle" hidden>
       <div class="pdf-modal__backdrop" data-pdf-close></div>
-      <div class="pdf-modal__panel" role="dialog" aria-modal="true" aria-label="Resume PDF">
+      <div class="pdf-modal__panel" role="dialog" aria-modal="true" aria-label="Resume">
         <button type="button" class="pdf-modal__close" data-pdf-close aria-label="Close">&times;</button>
-        <iframe class="pdf-modal__frame" data-src="assets/resume.pdf" title="Jay Ho &middot; Resume"></iframe>
+        <div class="pdf-modal__scroll pdf-modal__scroll--page">
+          <img class="pdf-modal__img pdf-modal__page" draggable="false" data-src="assets/resume-page.png"
+               width="1970" height="2550"
+               alt="Jay Ho's resume: projects Costco CarePath and MEC Connect, experience at World Duty Free Group and Extreme Air Park, a BA in Interactive Arts and Technology at Simon Fraser University, and design, operations and language skills.">
+        </div>
       </div>
     </div>
 
@@ -170,7 +174,7 @@
             <div class="org">Mountain Equipment Company &middot; Real-client team project</div>
             <p>
               Designed alongside MEC stakeholders to rebuild community engagement through
-              a better events experience. Owned research synthesis, UX problem framing,
+              a better events experience. Owned research synthesis,
               experience strategy, persona &amp; journey artifacts, storyboarding, and
               workshop facilitation. <a href="projects/mec.html" class="ulink">Read the case study &rarr;</a>
             </p>

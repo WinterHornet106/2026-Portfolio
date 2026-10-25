@@ -47,8 +47,13 @@
   --s-5: 28px; --s-6: 40px; --s-7: 60px; --s-8: 88px;
   --s-9: 120px; --s-10: 168px; --s-11: 240px;
 
-  /* Radius */
-  --r-1: 4px; --r-2: 8px; --r-3: 14px; --r-pill: 999px;
+  /* Radius. --r-3 is the one card/rectangle radius (covers, frames, poster,
+     modal, persona cards). It scales with the viewport like iOS surfaces do:
+     ~16px on a phone, ~21px on an iPad, ~28px on a laptop, capped at 32px.
+     Phone screenshots keep their own device-proportional radius instead. */
+  --r-1: 4px; --r-2: 8px;
+  --r-3: clamp(16px, 0.75rem + 1.1vw, 32px);
+  --r-pill: 999px;
 
   /* Easing (Emil Kowalski) */
   --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
@@ -67,7 +72,9 @@
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
-html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+/* scrollbar-gutter keeps the scrollbar's width reserved, so locking scroll
+   for a modal doesn't shift the whole page sideways as it opens. */
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; scrollbar-gutter: stable; }
 body {
   font-family: var(--sans);
   font-size: var(--fs-body);
@@ -252,8 +259,18 @@ section { padding: var(--s-10) 0; }
 
 /* ---------- Buttons & links ---------- */
 .btn {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 14px 22px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  /* Height comes from min-height, not the text's line box, so the label sits
+     on the pill's true centre. Every variant carries a 1px border (transparent
+     on primary) so a primary and a ghost side by side are the same height. */
+  min-height: 52px;
+  /* 2px of bottom padding lifts the label 1px. Measured from Satoshi Medium at
+     15px: caps sit 0.35px low and lowercase 2.1px low of true centre, and the
+     labels are mostly lowercase, so they read low. The nudge splits it
+     (caps 0.65px high, lowercase 1.1px low) and the label reads centred. */
+  padding: 0 22px 2px;
+  line-height: 1;
+  border: 1px solid transparent;
   border-radius: var(--r-pill);
   font-weight: 500;
   font-size: 15px;
@@ -358,7 +375,10 @@ section { padding: var(--s-10) 0; }
 .hero__lead {
   font-family: var(--display);
   font-weight: 500;
-  font-size: clamp(2.6rem, 1.6rem + 4.2vw, 5.2rem);
+  /* The home page's rotating role can't wrap (~6.5em wide), so on the
+     narrowest phones the size also caps to the column over 6.8em. */
+  font-size: min(clamp(2.6rem, 1.6rem + 4.2vw, 5.2rem),
+                 calc((100vw - 2 * var(--gutter)) / 6.8));
   letter-spacing: -0.04em;
   line-height: 1.04;
   color: var(--ink);
@@ -521,7 +541,10 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 /* Tiny live status pill */
 .status {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 6px 12px 6px 10px;
+  /* Left inset is 2px tighter: the pulse dot reads as part of the text. */
+  min-height: 30px;
+  padding: 0 12px 0 10px;
+  line-height: 1;
   border: 1px solid var(--line);
   border-radius: var(--r-pill);
   font-size: 12px;
@@ -620,9 +643,11 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 .work__desc { color: var(--ink-2); max-width: 50ch; font-size: var(--fs-body); line-height: 1.58; margin: var(--s-2) 0 var(--s-3); }
 .work__tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: var(--s-2); }
 .work__tags span {
+  display: inline-block;
+  line-height: 1;
   font-family: var(--mono);
   font-size: 11px;
-  padding: 6px 12px;
+  padding: 9px 14px;
   border: 1px solid var(--line);
   border-radius: var(--r-pill);
   color: var(--ink-3);
@@ -719,11 +744,13 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   color: var(--ink-3);
   white-space: nowrap;
 }
-.project-card__tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.project-card__tags { display: flex; gap: var(--s-2); flex-wrap: wrap; }
 .project-card__tags span {
+  display: inline-block;
+  line-height: 1;
   font-family: var(--mono);
   font-size: 11px;
-  padding: 5px 10px;
+  padding: 8px 12px;
   border: 1px solid var(--line);
   border-radius: var(--r-pill);
   color: var(--ink-3);
@@ -746,7 +773,6 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 
 @media (max-width: 860px) {
   .project-card { grid-template-columns: 1fr; gap: var(--s-5); }
-  .project-card__cover { aspect-ratio: 16/10; }
 }
 
 /* ---------- Approach — numbered editorial principles ---------- */
@@ -861,12 +887,11 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 .hero__sub--actions .hero__cluster .row { gap: var(--s-3); }
 
 /* Abstract CSS "cover" patterns — cool family */
-.cover-jackalope {
-  background: oklch(45% 0.11 245);
+.cover-carepath {
+  background: oklch(80% 0.07 245);
 }
-.cover-halcyon {
-  background:
-    radial-gradient(circle at 50% 50%, oklch(38% 0.07 255) 0%, oklch(22% 0.05 255) 60%, oklch(14% 0.03 255) 100%);
+.cover-dda {
+  background: oklch(40% 0.13 25);
 }
 .cover-moraine {
   background:
@@ -1107,18 +1132,36 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 .cs-frame--square { aspect-ratio: 1/1; }
 .cs-frame > .cover-fill,
 .cs-frame > svg,
-.cs-frame > img {
+.cs-frame > img,
+.cs-frame > video {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
 }
 /* Real images sit above the SVG fallback. If the image fails to load,
    the SVG placeholder remains visible. */
-.cs-frame > img { z-index: 1; }
+.cs-frame > img,
+.cs-frame > video { z-index: 1; }
+.cs-frame > video { background: oklch(16% 0.02 160); }
 .cs-frame--contain > img { object-fit: contain; padding: 14px; background: var(--bg); }
 /* Real phone screens at device ratio. Capped at 300px so three screens sit
    side by side without towering; stacks to one centred screen on mobile. */
-.cs-frame--phone { aspect-ratio: 724 / 1568; }
+/* iPhone 17 display: 62pt corners on a 402pt-wide screen. Keep that ratio at
+   any rendered width (cqw = % of the .cs-figure's width), ~46px at 300px. */
+.cs-frame--phone { aspect-ratio: 724 / 1568; border-radius: 46px; }
+@supports (width: 1cqw) {
+  .cs-frame--phone { border-radius: calc(62 / 402 * 100cqw); }
+}
+/* Scrolling screens run taller than the device; show the top, as on a phone. */
+.cs-frame--phone > img { object-position: top; }
+/* Grid item: frame + caption below it, instead of a pill over the image. */
+.cs-figure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  margin: 0;
+  container-type: inline-size;
+}
 .cs-showcase--phones {
   grid-template-columns: repeat(3, minmax(0, 300px));
   justify-content: center;
@@ -1126,6 +1169,19 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 }
 @media (max-width: 860px) {
   .cs-showcase--phones { grid-template-columns: minmax(0, 300px); }
+}
+/* Screens that illustrate a .cs-insights row above: same three columns and gap,
+   each screen centred under its own card. Holds three-up longer than the cards
+   (screens read fine at ~200px), then stacks one centred screen. */
+.cs-showcase--aligned {
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-6);
+  justify-items: center;
+}
+.cs-showcase--aligned > .cs-figure { width: 100%; max-width: 340px; }
+@media (max-width: 1000px) { .cs-showcase--aligned { gap: var(--s-5); } }
+@media (max-width: 640px) {
+  .cs-showcase--aligned { grid-template-columns: 1fr; }
 }
 .cs-frame__label {
   position: absolute;
@@ -1137,11 +1193,34 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-2);
-  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  /* Tracking adds 0.08em after the last letter; take it back off the right
+     so the text sits centred, not nudged left. */
+  padding: 9px calc(12px - 0.08em) 9px 12px;
   background: color-mix(in oklch, var(--bg) 86%, transparent);
   border: 1px solid var(--line);
   border-radius: var(--r-pill);
   backdrop-filter: blur(8px);
+}
+/* Single-label pills (tags, skill pills): trim the text box to cap height and
+   baseline, then pad evenly, so the capitals sit on the pill's exact centre.
+   These are flex items, so they're blockified and the trim applies. Padding
+   grows 2px to keep the same overall height as the untrimmed fallback. */
+@supports (text-box: trim-both cap alphabetic) {
+  .work__tags span,
+  .project-card__tags span { text-box: trim-both cap alphabetic; }
+  .work__tags span { padding-block: 11px; }
+  .project-card__tags span { padding-block: 10px; }
+}
+/* All-caps labels have no descenders, so centre on the capitals themselves:
+   trim the box to cap height and baseline, then pad evenly around it. */
+@supports (text-box: trim-both cap alphabetic) {
+  .cs-frame__label {
+    text-box: trim-both cap alphabetic;
+    padding-block: 10px;
+  }
 }
 .cs-frame__label--dark {
   color: oklch(96% 0.005 240);
@@ -1185,7 +1264,18 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   border-radius: var(--r-3);
   border: 1px solid var(--line);
 }
+/* Website screenshots: square corners. Rounding reads as an app screen; a
+   desktop site doesn't have rounded corners, so it shouldn't here either. */
+.cs-image--site > img,
+.cs-frame--site { border-radius: 0; }
+/* Captions span the image's full width so "centred" means centred under the
+   picture. Without this, the global p { max-width: 66ch } shrank caption
+   paragraphs to a left-hand box and they centred inside that instead. */
 .cs-image__caption {
+  max-width: none;
+  margin: 0;
+  text-align: center;
+  text-wrap: balance;
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 0.04em;
@@ -1315,17 +1405,26 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 }
 
 .field { display: flex; flex-direction: column; gap: var(--s-4); }
-.pill-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.pill-row { display: flex; gap: var(--s-2); flex-wrap: wrap; }
 .pill-row span {
+  display: inline-block;
+  line-height: 1;
+  /* One line per pill; the longest (~232px) still fits a 375px phone. */
+  white-space: nowrap;
   font-family: var(--mono);
   font-size: 12px;
-  padding: 7px 12px;
+  padding: 10px 14px;
   border: 1px solid var(--line);
   border-radius: var(--r-pill);
   color: var(--ink-2);
   transition: border-color var(--t-fast) var(--ease-out), color var(--t-fast) var(--ease-out);
 }
 .pill-row span:hover { border-color: var(--line-strong); color: var(--ink); }
+/* Same cap-trim as the tag pills above, kept after the base rule so its
+   padding wins. */
+@supports (text-box: trim-both cap alphabetic) {
+  .pill-row span { text-box: trim-both cap alphabetic; padding-block: 12px; }
+}
 
 /* ---------- Contact page ---------- */
 .contact-wrap {
@@ -1339,7 +1438,10 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 .contact-big {
   font-family: var(--display);
   font-weight: 500;
-  font-size: clamp(2.8rem, 1.6rem + 6.4vw, 7rem);
+  /* The email can't wrap and runs ~10.6em wide, so the size is also capped to
+     the column (viewport or container, minus gutters) over 11em. */
+  font-size: min(clamp(2.8rem, 1.6rem + 6.4vw, 7rem),
+                 calc((min(100vw, var(--container)) - 2 * var(--gutter)) / 11));
   line-height: 0.98;
   letter-spacing: -0.045em;
   color: var(--ink);
@@ -1447,8 +1549,10 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 
 .copy-btn-wrap { margin-top: var(--s-5); display: inline-flex; }
 .copy-btn {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 10px 14px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 40px;
+  padding: 0 14px;
+  line-height: 1;
   border: 1px solid var(--line);
   border-radius: var(--r-pill);
   font-family: var(--mono);
@@ -1491,6 +1595,17 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 .cta-row__copy { display: flex; flex-direction: column; gap: var(--s-3); }
 .cta-row__copy .t-body { margin: 0; }
 .cta-row__copy .eyebrow + * { margin-top: var(--s-2); }
+/* Drawn icon rather than a ⧉ glyph: the mono font has no ⧉, and the fallback
+   font's taller metrics were dragging the label off-centre. */
+.copy-btn__icon {
+  width: 13px; height: 13px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 .copy-btn:hover { border-color: var(--line-strong); color: var(--ink); }
 .copy-btn:active { transform: scale(0.97); }
 .copy-btn[data-state="copied"] { border-color: var(--ok); color: var(--ok); }
@@ -1573,6 +1688,9 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   background: var(--bg);
 }
 .pdf-modal__scroll {
+  /* Positioned so the image's offsetLeft/Top (read by the zoom in main.js)
+     are measured from the scroll content, not the panel. */
+  position: relative;
   width: 100%;
   height: 100%;
   overflow: auto;
@@ -1593,11 +1711,30 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   max-width: none;
   cursor: zoom-out;
 }
-@media (prefers-reduced-motion: no-preference) {
-  .pdf-modal__img { transition: width var(--t-base) var(--ease-out); }
+/* Resume page view: the sheet floats on a soft desk with room around it, so
+   it can be scrolled and dragged a little even before zooming, and zooming
+   opens it to its own resolution to pan freely. */
+.pdf-modal__scroll--page {
+  background: var(--bg-elev);
+  padding: var(--s-7) var(--s-6) var(--s-8);
+}
+.pdf-modal__page {
+  width: min(100%, 900px);
+  margin-inline: auto;
+  border-radius: var(--r-1);
+  box-shadow: 0 1px 2px color-mix(in oklch, var(--ink) 10%, transparent),
+              0 12px 40px color-mix(in oklch, var(--ink) 14%, transparent);
+  background: oklch(100% 0 0);
+}
+@media (max-width: 720px) {
+  .pdf-modal__scroll--page { padding: var(--s-6) var(--s-3) var(--s-7); }
 }
 
 /* ---------- Resume PDF modal ---------- */
+/* Closed, the modal stays laid out but invisible and inert (main.js), so the
+   PDF or poster is already rendered when it opens. Only opacity and transform
+   animate, which the compositor handles without repainting the page. The
+   visibility delay on close lets the fade finish before it stops painting. */
 .pdf-modal {
   position: fixed;
   inset: 0;
@@ -1605,25 +1742,65 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--s-6);
+  padding: var(--s-5);
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms var(--ease-out), visibility 0s linear 200ms;
 }
 .pdf-modal[hidden] { display: none; }
+.pdf-modal.is-open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 240ms var(--ease-out), visibility 0s;
+}
+/* A flat dim, no backdrop blur: blurring the whole page behind a fading layer
+   is one of the most expensive things to composite, and it was a source of
+   the stutter. The nav already tucks away, so there's nothing to soften. */
 .pdf-modal__backdrop {
   position: absolute;
   inset: 0;
-  background: color-mix(in oklch, var(--ink) 55%, transparent);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: color-mix(in oklch, var(--ink) 62%, transparent);
 }
+/* Near full-screen: as wide as a letter page reads comfortably, and as tall as
+   the window allows, so the resume opens large enough to read without zooming. */
 .pdf-modal__panel {
   position: relative;
-  width: min(880px, 100%);
-  height: min(90vh, 1100px);
+  width: min(1100px, 100%);
+  height: 100%;
+  max-height: 1400px;
   background: var(--bg);
   border-radius: var(--r-3);
   box-shadow: 0 24px 64px color-mix(in oklch, var(--ink) 28%, transparent);
   overflow: hidden;
+  transform: translateY(16px) scale(0.985);
+  transition: transform 260ms var(--ease-out);
 }
+.pdf-modal.is-open .pdf-modal__panel {
+  transform: none;
+  transition-duration: 360ms;
+  transition-timing-function: var(--ease-drawer);
+}
+@media (prefers-reduced-motion: reduce) {
+  .pdf-modal, .pdf-modal.is-open { transition: none; }
+  .pdf-modal__panel { transform: none; transition: none; }
+}
+/* Pointer events stop at the iframe edge, so the custom cursor dot would
+   freeze there while the PDF shows the system cursor. While a modal is open,
+   hand the whole screen back to the system cursor. */
+.has-modal .cursor { opacity: 0; }
+@media (hover: hover) and (pointer: fine) {
+  .has-modal, .has-modal * { cursor: auto !important; }
+  .has-modal .pdf-modal__backdrop,
+  .has-modal .pdf-modal__close { cursor: pointer !important; }
+  .has-modal .pdf-modal__img { cursor: zoom-in !important; }
+  .has-modal .pdf-modal__img.is-zoomed { cursor: zoom-out !important; }
+  .has-modal .pdf-modal__scroll.is-dragging,
+  .has-modal .pdf-modal__scroll.is-dragging * { cursor: grabbing !important; }
+}
+/* Dragging shouldn't select or ghost-drag the image. */
+.pdf-modal__img { user-select: none; -webkit-user-drag: none; }
 .pdf-modal__frame {
   width: 100%;
   height: 100%;
@@ -1647,8 +1824,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 }
 .pdf-modal__close:hover { border-color: var(--line-strong); }
 @media (max-width: 720px) {
-  .pdf-modal { padding: var(--s-4); }
-  .pdf-modal__panel { height: min(85vh, 1100px); }
+  .pdf-modal { padding: var(--s-3); }
 }
 
 /* ---------- Cursor indicator ---------- */
@@ -1690,8 +1866,17 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   letter-spacing: 0.06em;
   text-transform: uppercase;
   white-space: nowrap;
+  line-height: 1;
+  /* Tracking adds 0.06em after the last letter; pull it back so the word is
+     centred in the pill, not nudged left. */
+  margin-right: -0.06em;
   opacity: 0;
   transition: opacity 140ms var(--ease-out);
+}
+/* The label is a grid item (a block), so it can trim to its capitals and
+   centre exactly; it's always uppercase, so nothing hangs below. */
+@supports (text-box: trim-both cap alphabetic) {
+  .cursor__label { text-box: trim-both cap alphabetic; }
 }
 /* Labelled state — the ring becomes a pill carrying the word. */
 .cursor.has-label {
@@ -1712,7 +1897,11 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 @media (hover: hover) and (pointer: fine) {
   html, body { cursor: none; }
   *, *::before, *::after { cursor: none !important; }
+  /* Videos keep the system pointer: the dark dot vanishes over dark footage,
+     and in fullscreen the dot isn't drawn at all. main.js hides the dot here. */
+  video { cursor: auto !important; }
 }
+.cursor.is-off { opacity: 0; }
 
 /* ---------- View transitions (progressive) ---------- */
 @supports (view-transition-name: main) {
@@ -1734,10 +1923,11 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 }
 
 /* ---------- Focus ---------- */
+/* No border-radius here: the outline follows each element's own corners, so
+   a focused pill stays a pill instead of snapping to square. */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 3px;
 }
 
 /* ---------- Utilities ---------- */
@@ -2047,41 +2237,50 @@ body.has-toc [data-section] {
   display: block;
 }
 .persona__id { min-width: 0; }
+/* Same three tiers as .cs-insight: mono label > display heading > body.
+   The archetype is the label, the name is the one big line, and the accent
+   is spent once (on the label) so nothing else competes with it. */
 .persona__role {
-  font-family: var(--display);
-  font-size: clamp(0.95rem, 0.5rem + 0.62vw, 1.1rem);
+  font-family: var(--mono);
+  font-size: 11px;
   font-weight: 500;
-  letter-spacing: -0.01em;
-  line-height: 1.1;
+  letter-spacing: 0.09em;
+  line-height: 1.2;
   text-transform: uppercase;
   color: var(--persona-accent);
-  margin: 0;
+  margin: 0 0 var(--s-2);
 }
 .persona__who {
-  font-size: 15px;
-  color: var(--ink-2);
-  margin: 1px 0 0;
+  font-family: var(--display);
+  font-size: var(--fs-h4);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: var(--ink);
+  margin: 0;
 }
+/* Age, job and experience read as one quiet meta line, not a row of pills. */
 .persona__chips {
   display: flex;
   flex-wrap: wrap;
   align-content: start;
-  gap: 5px;
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: 11px;
-  /* "Experienced Adventurer" pushes Piper's chips onto a second line while the
-     other two fit on one. Reserving two rows for all three keeps every bio
-     starting at the same height instead of one card sitting 24px lower. */
-  min-height: calc(2 * (1.2em + 6px) + 5px);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ink-3);
+  /* Belongs to the name above, so it sits 8px under it (the head's row gap
+     is 16px), while the bio below keeps the full 16px. */
+  margin-top: calc(var(--s-2) - var(--s-4));
+  /* Piper's line wraps at some widths; holding two lines keeps every bio
+     starting at the same height across the three cards. */
+  min-height: calc(2 * 1.4em);
 }
-.persona__chips li {
-  padding: 2px 9px;
-  border: 1px solid var(--persona-accent);
-  border-radius: var(--r-pill);
-  color: var(--persona-accent);
-  white-space: nowrap;
+.persona__chips li { white-space: nowrap; }
+.persona__chips li + li::before {
+  content: "\00B7";
+  margin-inline: 6px;
 }
 .persona__bio {
   margin: 0;
@@ -2109,15 +2308,16 @@ body.has-toc [data-section] {
 }
 .persona__focus h4 {
   font-family: var(--display);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: -0.01em;
-  color: var(--persona-accent);
-  margin: 0 0 var(--s-3);
+  line-height: 1.3;
+  color: var(--ink);
+  margin: 0 0 var(--s-2);
 }
 .persona__focus p:last-child {
   margin: 0;
   font-size: 14px;
   line-height: 1.55;
-  color: var(--ink-2);
+  color: var(--ink-3);
 }

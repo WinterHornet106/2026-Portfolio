@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Jay Ho · Resume</title>
+<!--
+  Source for assets/resume.pdf. Edit here, then reprint:
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --no-pdf-header-footer \
+      --print-to-pdf=assets/resume.pdf resume-src/resume.html
+  Deliberately non-interactive: no links or arrows, it reads as a sheet of paper.
+  then regenerate the pop-up image (see CLAUDE.md, Known gotchas).
+  One typeface throughout: Inter (Google Fonts, OFL, safe to embed).
+-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap">
+<style>
+  @page { size: Letter; margin: 0; }
+  :root {
+    --ink:        oklch(17% 0.012 250);
+    --ink-2:      oklch(33% 0.012 250);
+    --ink-3:      oklch(46% 0.010 248);
+    --line:       oklch(88% 0.008 240);
+    --accent:     oklch(56% 0.095 235);
+    --accent-ink: oklch(40% 0.090 235);
+    --sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: oklch(100% 0 0); }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    font-optical-sizing: auto;
+  }
+  .page {
+    width: 8.5in;
+    height: 11in;
+    padding: 0.56in 0.58in 0.5in;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---------- Header ---------- */
+  .head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 0.3in;
+    padding-bottom: 16pt;
+    border-bottom: 1px solid var(--line);
+  }
+  .name {
+    font-size: 28pt;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+    margin: 0;
+  }
+  .role {
+    margin: 7pt 0 0;
+    font-size: 10.5pt;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--accent-ink);
+  }
+  .contact {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+    font-size: 8.2pt;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.75;
+    color: var(--ink-2);
+  }
+
+  .summary {
+    margin: 16pt 0 0;
+    text-wrap: pretty;
+    font-size: 9.3pt;
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 6.2in;
+  }
+
+  /* ---------- Sections: mono label rail + content, like the site's sec-head ---------- */
+  .sec {
+    display: grid;
+    grid-template-columns: 0.95in 1fr;
+    gap: 0 0.2in;
+    margin-top: 16pt;
+    padding-top: 13pt;
+    border-top: 1px solid var(--line);
+  }
+  .sec__label {
+    font-size: 7.2pt;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding-top: 2.5pt;
+    white-space: nowrap;
+  }
+  .sec__label b { color: var(--accent-ink); font-weight: 600; }
+
+  .entry + .entry { margin-top: 13pt; }
+  .entry__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12pt;
+  }
+  .entry__title {
+    margin: 0;
+    font-size: 10.6pt;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+  }
+  .entry__date {
+    font-size: 8.2pt;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-3);
+    white-space: nowrap;
+  }
+  .entry__org {
+    margin: 2pt 0 0;
+    font-size: 8.6pt;
+    color: var(--ink-3);
+  }
+  ul.points {
+    list-style: none;
+    margin: 6pt 0 0;
+    padding: 0;
+  }
+  ul.points li {
+    position: relative;
+    padding-left: 11pt;
+    font-size: 8.8pt;
+    line-height: 1.52;
+    color: var(--ink-2);
+    text-wrap: pretty;
+  }
+  ul.points li + li { margin-top: 2.5pt; }
+  ul.points li::before {
+    content: "";
+    position: absolute;
+    left: 1pt;
+    top: 0.62em;
+    width: 4pt;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .skills { display: grid; gap: 5pt; }
+  .skills__row {
+    display: grid;
+    grid-template-columns: 0.8in 1fr;
+    align-items: baseline;
+    gap: 0 10pt;
+  }
+  .skills__row h3 {
+    margin: 0;
+    font-size: 8.8pt;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  /* Each skill stays whole; the line breaks only between them. */
+  .nw { white-space: nowrap; }
+  .skills__row p {
+    margin: 0;
+    font-size: 8.8pt;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+</style>
+</head>
+<body>
+<main class="page">
+
+  <header class="head">
+    <div>
+      <h1 class="name">Jay Ho</h1>
+      <p class="role">Product &amp; interaction designer</p>
+    </div>
+    <ul class="contact">
+      <li>jayho.fyi</li>
+      <li>jayho5403@gmail.com</li>
+      <li>+1 778-751-5163</li>
+      <li>Vancouver, BC</li>
+    </ul>
+  </header>
+
+  <p class="summary">
+    Interaction design student at SFU designing mobile and service experiences from research
+    to tested prototype, shaped by years of frontline retail operations. Seeking a product or
+    UX design internship.
+  </p>
+
+  <section class="sec">
+    <div class="sec__label"><b>01</b> / Projects</div>
+    <div>
+      <article class="entry">
+        <div class="entry__top">
+          <h2 class="entry__title">Costco CarePath &middot; Healthcare app</h2>
+          <span class="entry__date">2026</span>
+        </div>
+        <p class="entry__org">Concept for Costco Pharmacy &middot; 6-person team, SFU</p>
+        <ul class="points">
+          <li>Designed a medication companion that keeps members on long-term prescriptions supported between visits, linking symptoms logged at home to their pharmacist.</li>
+          <li>Led the home dashboard and symptom-logging flow, and built the app&rsquo;s design system.</li>
+          <li>Tested with 5 long-term medication users, Gen Z to 55+, and redesigned three flows from the findings.</li>
+        </ul>
+      </article>
+
+      <article class="entry">
+        <div class="entry__top">
+          <h2 class="entry__title">MEC Connect &middot; Events app</h2>
+          <span class="entry__date">2025</span>
+        </div>
+        <p class="entry__org">Real client: Mountain Equipment Company &middot; 6-person team, SFU</p>
+        <ul class="points">
+          <li>Designed an events app with MEC to rebuild community after five years of foreign ownership.</li>
+          <li>Turned interviews with MEC&rsquo;s product team, 6 staff and 2 customers into personas and journey maps.</li>
+          <li>Helped run a co-design workshop with MEC staff that shaped the rewards and community features.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec__label"><b>02</b> / Experience</div>
+    <div>
+      <article class="entry">
+        <div class="entry__top">
+          <h2 class="entry__title">Assistant Supervisor</h2>
+          <span class="entry__date">Sept 2023 &ndash; July 2025</span>
+        </div>
+        <p class="entry__org">World Duty Free Group &middot; Vancouver International Airport (YVR)</p>
+        <ul class="points">
+          <li>Ran daily operations and scheduling for a team of 10+ serving thousands of international travellers.</li>
+          <li>Analyzed consumer trends to support merchandising decisions and inform product direction.</li>
+          <li>Trained and supervised associates; owned opening, closing, cash handling and compliance.</li>
+        </ul>
+      </article>
+
+      <article class="entry">
+        <div class="entry__top">
+          <h2 class="entry__title">Sales Associate</h2>
+          <span class="entry__date">Mar 2023 &ndash; Sept 2023</span>
+        </div>
+        <p class="entry__org">World Duty Free Group &middot; Vancouver International Airport (YVR)</p>
+        <ul class="points">
+          <li>Advised travellers on products and kept cash handling and audits accurate.</li>
+          <li>Documented incidents and maintenance issues, coordinating follow-up between staff and supervisors.</li>
+        </ul>
+      </article>
+
+      <article class="entry">
+        <div class="entry__top">
+          <h2 class="entry__title">Floor Supervisor</h2>
+          <span class="entry__date">Feb 2022 &ndash; Sept 2022</span>
+        </div>
+        <p class="entry__org">Extreme Air Park &middot; Richmond, BC</p>
+        <ul class="points">
+          <li>Managed 100+ reservations for smooth weekly operations; enforced safety and trained new staff.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec__label"><b>03</b> / Education</div>
+    <div>
+      <article class="entry">
+        <div class="entry__top">
+          <h2 class="entry__title">Bachelor of Arts, Interactive Arts &amp; Technology</h2>
+          <span class="entry__date">Sept 2021 &ndash; Present</span>
+        </div>
+        <p class="entry__org">Simon Fraser University &middot; Concentration in Design Interactions</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec__label"><b>04</b> / Skills</div>
+    <div class="skills">
+      <div class="skills__row">
+        <h3>Design</h3>
+        <p><span class="nw">Figma</span> &middot; <span class="nw">Prototyping</span> &middot; <span class="nw">UX research</span> &middot; <span class="nw">Usability testing</span> &middot; <span class="nw">Design systems</span> &middot; <span class="nw">Journey mapping</span> &middot; <span class="nw">Adobe Creative Suite</span> &middot; <span class="nw">HTML / CSS / JS</span></p>
+      </div>
+      <div class="skills__row">
+        <h3>Operations</h3>
+        <p><span class="nw">Team leadership</span> &middot; <span class="nw">Training</span> &middot; <span class="nw">Workflow optimization</span> &middot; <span class="nw">Customer insights</span> &middot; <span class="nw">Compliance</span></p>
+      </div>
+      <div class="skills__row">
+        <h3>Languages</h3>
+        <p><span class="nw">English</span> &middot; <span class="nw">Cantonese</span> &middot; <span class="nw">Mandarin</span></p>
+      </div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

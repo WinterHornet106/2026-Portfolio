@@ -43,8 +43,8 @@ four missing MEC images; decide on a MEC outcomes section.
 
 - **Live at** `jayho.fyi` via GitHub Pages. `CNAME` at repo root holds the domain — never delete or rename it. The old `winterhornet106.github.io/2026-Portfolio` URL redirects here.
 - **Stack:** hand-written HTML, CSS and vanilla JS. **No build step, no framework, no package.json.** Edit files directly; what's in the repo is what ships.
-- **Pages:** `index.html`, `about.html`, `resume.html`, `contact.html`, and three case studies in `projects/` — `mec.html`, `jackalope.html`, `halcyon.html`.
-- **Sources of truth:** MEC copy comes from the Figma file *IAT333 - MEC Client* (Final Slides + Handover Documentation pages). Jackalope copy comes from *IAT 334 A3* (Final Slide Deck + A3-5 testing deck). Check claims against these before editing.
+- **Pages:** `index.html`, `about.html`, `resume.html`, `contact.html`, and three case studies in `projects/` — `mec.html`, `carepath.html`, `dda.html`.
+- **Sources of truth:** MEC copy comes from the Figma file *IAT333 - MEC Client* (Final Slides + Handover Documentation pages). CarePath copy comes from *IAT 438 Final Project Design* (Week 5 FINAL Slides + speaker notes, Week 3 Final Slides for the user testing). Images in `assets/carepath/`. Dutch Design Awards copy comes from *Graphic Experimentation* (IAT 235; part4 and part5 decks, part5_website for screens); images in `assets/dda/`. Jay owned the poster explorations and microsite screens only. Check claims against these before editing.
 - **Shared assets:** `assets/styles.css` (one stylesheet, ~2100 lines), `assets/main.js`, `assets/mec/` (images).
 - **Fonts:** Satoshi (Fontshare `@import`) + JetBrains Mono (Google Fonts `@import`), both at the top of `styles.css`.
 - **Colour:** OKLCH throughout. No dark mode exists — don't assume one.
@@ -66,8 +66,8 @@ Jay is a product/interaction designer, not primarily an engineer. Explain techni
 **Structure**
 
 6. **Four nav items per case study.** Non-negotiable shape:
-   - jackalope: Problem / Research / Highlights / Outcomes (replaced the placeholder Arcline, 22 Oct 2026)
-   - halcyon: Problem / Approach / Highlights / Outcomes
+   - carepath: Problem / Research / Highlights / Outcomes (Costco CarePath; replaced Arcline, then Jackalope, 22 Oct 2026 — Jackalope page + images kept in `.verbose-backup/jackalope/`)
+   - dda: Problem / Approach / Highlights / Outcomes (Dutch Design Awards microsite; replaced Halcyon 23 Oct 2026, Halcyon kept in `.verbose-backup/halcyon/`)
    - mec: Problem / Research / Solution / Working with MEC
    - "Overview" deliberately is *not* in the TOC rail.
 7. **Granularity goes inside sections, not into new sections.** Use the numbered `.cs-insight` card pattern (Insight 01 / Finding 01 / Highlight 01) rather than adding a section.
@@ -92,7 +92,7 @@ Jay is a product/interaction designer, not primarily an engineer. Explain techni
 
 Sub-4px component padding on chips/pills/buttons (2, 5, 6, 7, 10, 14px) is intentional and fine.
 
-**Layout:** `--container: 1320px`, `--gutter: clamp(28px, 5.5vw, 80px)`, `--r-3: 14px` corner radius.
+**Layout:** `--container: 1320px`, `--gutter: clamp(28px, 5.5vw, 80px)`, `--r-3` corner radius (fluid: `clamp(16px, 0.75rem + 1.1vw, 32px)`, ~16px phone / ~21px iPad / ~28px laptop; every card and frame uses it; phone screenshots instead keep iPhone 17 proportion, 62/402 of their width).
 
 **Section rhythm** (already automatic, don't fight it):
 - `.section--roomy` = 240px top/bottom
@@ -148,9 +148,17 @@ against them. Treat these as the standing bar, not one-off requests.
 same MEC section uses 40px. Matching them exactly narrows each card enough that
 "Gear-Savvy Explorer" wraps. The persona breakpoint was already raised to 1200px to buy
 room. If you change persona card width, gap, portrait size or role font, **re-check that
-role line** — it's the binding constraint.
+role line** — it's the binding constraint. (Since 22 Oct the role is an 11px mono label and the name is the big line, so this has a lot more slack.)
 
 ---
+
+## Pills
+
+Every pill is centred by its own box, not the inherited 1.62 line height: `line-height: 1`
+plus either a fixed `min-height` with flex centring (buttons, copy button, status) or a
+cap-height `text-box` trim with even padding (tags, skill pills, cursor label). All `.btn`
+variants carry a 1px border (transparent on primary) so mixed rows match in height.
+`:focus-visible` deliberately sets no `border-radius`, so focused pills stay pills.
 
 ## Components added recently
 
@@ -159,10 +167,10 @@ role line** — it's the binding constraint.
 | `.cs-sublabel` | Sub-section eyebrow inside a case-study section. Owns the gap below it; the next block drops its own top margin via `.cs-sublabel + *`. |
 | `.cs-image--bleed` | Full-width figure for transparent PNGs. No frame, no fill, caption below. |
 | `.poster` / `.poster__veil` | Frosted-glass teaser band. Low-res preview under a `backdrop-filter` blur with a centred button that opens the lightbox. |
-| `.pdf-modal` + `.pdf-modal__scroll` | Shared lightbox. `bindModal()` in `main.js` drives both the resume PDF and the MEC poster. Heavy asset carries `data-src` and only loads on first open. Click image to zoom to natural width; Escape closes; nav tucks away via `.has-modal` on `<html>`. |
+| `.pdf-modal` + `.pdf-modal__scroll` | Shared lightbox. `bindModal()` in `main.js` drives both the resume PDF and the MEC poster. Heavy asset carries `data-src`: the resume preloads when the page is idle (`data-preload="idle"`), the poster on hover/focus of its opener. Closed modals stay laid out but invisible and `inert` (not `display:none`) so opening is a pure fade + rise; no backdrop blur (too expensive); system cursor returns while open. Click image to zoom to natural width; Escape closes; nav tucks away via `.has-modal` on `<html>`. |
 | `.personas` / `.persona` | Three MEC persona cards. CSS **subgrid** so bands align across cards. `--persona-accent` on `.persona` retints the whole component in one line. |
 
-**Reserved heights keep the persona cards aligned** — chips hold 2 rows, bios hold 5 lines, `.cs-insight h3` holds 2 lines. These exist *because* content lengths vary. If you change the copy or font size, re-check them; they're `em`-based so they track font changes.
+**Reserved heights keep the persona cards aligned** — the meta line (age · job · experience, styled from `.persona__chips`) holds 2 lines, bios hold 5 lines, `.cs-insight h3` holds 2 lines. These exist *because* content lengths vary. If you change the copy or font size, re-check them; they're `em`-based so they track font changes.
 
 ---
 
@@ -178,6 +186,9 @@ role line** — it's the binding constraint.
 
 ## Known gotchas
 
+- **The resume is designed in HTML.** Edit `resume-src/resume.html`, then reprint with headless Chrome (command in that file's header comment) to `assets/resume.pdf`, and regenerate the pop-up image below. Keep it to one page and check the PDF embeds Inter (the resume uses Inter only, not the site's Satoshi/JetBrains, for a cleaner print read; no links, it is a flat sheet). The old Word-made resume is in `.verbose-backup/resume-old/`.
+- **The resume viewer shows an image, not the PDF.** `assets/resume-page.png` is a render of `assets/resume.pdf` (made with `qlmanage -t -s 2550 -o <dir> assets/resume.pdf`). If the PDF changes, regenerate the PNG or the pop-up shows the old resume. The Download PDF button still serves the real PDF.
+
 - **`grep` case-sensitivity.** `satoshi` is lowercase in the `@import`. A case-sensitive grep for "Satoshi" misses it — this caused a wrong diagnosis once.
 - **Missing images fail silently.** Every `<img>` carries `onerror="this.style.display='none'"`, so a broken path just shows the SVG placeholder underneath. Always verify paths resolve on disk.
 - **`sips -Z` fits the *longest* side.** For a portrait image, use `sips --resampleWidth N` instead or you'll get the wrong dimension.
@@ -188,18 +199,27 @@ role line** — it's the binding constraint.
 
 ## Outstanding
 
-**Three MEC images are still missing.** Drop them into `assets/mec/` with exactly these names and they'll appear with no code change:
+**All MEC images are in.** `03-presenting-mec.jpg` came from Jay's `MEC_present.png`
+(24 Oct 2026, resized to 1600px wide, JPEG). It shows a teammate presenting, with Jay
+seated and marked "ME!" in the photo.
 
-```
-01-app-screens.png     07-storyboard-spike.png
-03-presenting-mec.jpg
-```
+The "Spike's first event" storyboard block was removed from the Solution section at Jay's
+request (24 Oct 2026); the walkthrough video now closes that section. Don't add it back.
 
-`02-team-mec-hq.jpg` was filled from the Figma group photo. Figma has no Spike storyboard (the W11 one stars "Mika") and no presenting photo.
+The old `01-app-screens.png` slot (Solution section) is now the app walkthrough video:
+`assets/mec/walkthrough.mp4` (Figma Motion export, 1920×1080, 77.8s incl. MEC × SFU end card, ~30 MB, moov at the
+front so it streams) with `walkthrough-poster.jpg` as its poster (a frame at 3.6s, pulled
+with AVAssetImageGenerator via a small Swift script; there is no ffmpeg). It loads only on
+play (`preload="none"`). The local `python3 -m http.server` preview can't seek in it
+(no Range support); GitHub Pages can.
 
-**MEC has no outcomes section.** Halcyon closes on hard metrics; Jackalope closes on usability-test findings; MEC closes on reflection, which reads softer next to them. Needs real numbers from the MEC engagement — don't invent any.
+`02-team-mec-hq.jpg` was filled from the Figma group photo. Figma has no presenting photo.
 
-**Spike** is now introduced as "our scenario user" in the Solution section, matching the Figma final deck.
+**MEC's outcome is the handover.** Per Jay (24 Oct 2026): the outcome is a handover document
+that answers MEC's business problem through design (full flow, brand guidelines, business case
+linking events to loyalty and spending), which MEC can implement if it chooses. That is stated in
+"Working with MEC". There are no launch or usage numbers, so don't invent any.
+
 
 **Avatar sources are 128px max.** The original persona photos were deleted from the repo without backup. If the portrait needs to be larger than 72px, Jay has to re-supply the files.
 

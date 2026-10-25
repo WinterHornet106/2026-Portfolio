@@ -98,6 +98,12 @@
         el.addEventListener("mouseenter", enter);
         el.addEventListener("mouseleave", leave);
       });
+
+    // Over a video the system pointer takes over (see styles.css).
+    document.querySelectorAll("video").forEach((el) => {
+      el.addEventListener("mouseenter", () => dot.classList.add("is-off"));
+      el.addEventListener("mouseleave", () => dot.classList.remove("is-off"));
+    });
   }
 
   /* ---------- Magnetic effect on primary CTAs ---------- */
@@ -167,9 +173,28 @@
 
   document.querySelectorAll("[data-copy]").forEach((btn) => {
     const original = btn.querySelector("[data-copy-label]")?.textContent ?? btn.textContent;
+    /* In-app browsers (LinkedIn, Instagram) can block the Clipboard API. Fall
+       back to the legacy copy command, and if that fails too, open a mail draft
+       so the click never does nothing. */
+    const legacyCopy = (text) => {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.cssText = "position:fixed;opacity:0;pointer-events:none";
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand("copy"); } catch { ok = false; }
+      ta.remove();
+      return ok;
+    };
     btn.addEventListener("click", async () => {
       try {
-        await navigator.clipboard.writeText(btn.dataset.copy);
+        try {
+          await navigator.clipboard.writeText(btn.dataset.copy);
+        } catch {
+          if (!legacyCopy(btn.dataset.copy)) throw new Error("copy blocked");
+        }
         btn.setAttribute("data-state", "copied");
         const label = btn.querySelector("[data-copy-label]");
         if (label) label.textContent = "Copied";
@@ -180,7 +205,7 @@
           tellCursor(btn, btn.dataset.cursorLabel);
         }, 1400);
       } catch {
-        /* fail silently — no alert */
+        window.location.href = `mailto:${btn.dataset.copy}`;
       }
     });
   });
@@ -263,48 +288,104 @@
     const media = modal.querySelector("[data-src]");
     const scroller = modal.querySelector(".pdf-modal__scroll");
     let lastFocused = null;
-    const open = () => {
+
+    /* The modal stays laid out but invisible and inert while closed (rather
+       than display:none), so the PDF viewer or poster can render ahead of time
+       and the open is a pure opacity/transform transition. `hidden` in the
+       markup is only the no-JS fallback. */
+    modal.hidden = false;
+    modal.inert = true;
+
+    /* Load the heavy asset before it's needed. Chrome's PDF viewer spinning up
+       at click time was the visible stall, so the resume loads once the page
+       is idle; anything marked otherwise warms up on hover or focus. */
+    const load = () => {
       if (media && !media.src) media.src = media.dataset.src;
+    };
+    if (modal.dataset.preload === "idle") {
+      (window.requestIdleCallback || ((fn) => setTimeout(fn, 1200)))(load, { timeout: 2500 });
+    } else {
+      opener.addEventListener("pointerenter", load, { once: true });
+      opener.addEventListener("focus", load, { once: true });
+    }
+
+    const open = () => {
+      load();
       lastFocused = document.activeElement;
-      modal.hidden = false;
+      modal.inert = false;
+      modal.classList.add("is-open");
       document.body.style.overflow = "hidden";
       document.documentElement.classList.add("has-modal");
-      modal.querySelector(closeSel)?.focus();
+      // The backdrop also carries closeSel but can't take focus; aim for the button.
+      modal.querySelector(`button${closeSel}`)?.focus({ preventScroll: true });
     };
     const close = () => {
-      modal.hidden = true;
+      modal.classList.remove("is-open");
+      modal.inert = true;
       document.body.style.overflow = "";
       document.documentElement.classList.remove("has-modal");
       media?.classList.remove("is-zoomed");
       if (scroller) scroller.scrollTo(0, 0);
-      lastFocused?.focus();
+      lastFocused?.focus({ preventScroll: true });
     };
 
-    /* Click-to-zoom. A dense poster fitted to a laptop viewport is unreadable,
-       and browser zoom scales the whole page instead. Toggling to the image's
-       native pixel width inside a scroller keeps the reading where it belongs.
-       Target dimensions are computed rather than measured, so the CSS width
-       transition doesn't get read mid-flight. */
+    /* Click-to-zoom and drag-to-pan. A dense poster or a resume fitted to a
+       laptop viewport is hard to read, and browser zoom scales the whole page
+       instead. Clicking toggles the image to its own pixel width inside the
+       scroller, keeping the clicked point under the pointer; dragging moves the
+       page around like a sheet on a desk. The zoom is an instant swap, not a
+       width transition: animating the width of a ~2000px image relayouts every
+       frame, which is what made it feel heavy. */
     if (scroller && media && media.tagName === "IMG") {
+      let drag = null;
+      let dragged = false;
+
+      scroller.addEventListener("pointerdown", (e) => {
+        if (e.pointerType !== "mouse" || e.button !== 0) return;
+        drag = { x: e.clientX, y: e.clientY, left: scroller.scrollLeft, top: scroller.scrollTop };
+        dragged = false;
+      });
+      scroller.addEventListener("pointermove", (e) => {
+        if (!drag) return;
+        const dx = e.clientX - drag.x;
+        const dy = e.clientY - drag.y;
+        if (!dragged && Math.hypot(dx, dy) < 4) return;
+        if (!dragged) {
+          dragged = true;
+          scroller.setPointerCapture(e.pointerId);
+          scroller.classList.add("is-dragging");
+        }
+        scroller.scrollLeft = drag.left - dx;
+        scroller.scrollTop = drag.top - dy;
+      });
+      const endDrag = () => {
+        drag = null;
+        scroller.classList.remove("is-dragging");
+      };
+      scroller.addEventListener("pointerup", endDrag);
+      scroller.addEventListener("pointercancel", endDrag);
+
       media.addEventListener("click", (e) => {
+        // The click that ends a drag is a pan, not a zoom.
+        if (dragged) { dragged = false; return; }
         const rect = media.getBoundingClientRect();
         const fx = (e.clientX - rect.left) / rect.width;
         const fy = (e.clientY - rect.top) / rect.height;
-        const zoomIn = !media.classList.contains("is-zoomed");
-        const w = zoomIn ? media.naturalWidth : scroller.clientWidth;
-        const h = w / (media.naturalWidth / media.naturalHeight || 1);
-        media.classList.toggle("is-zoomed", zoomIn);
-        requestAnimationFrame(() => {
-          scroller.scrollLeft = fx * w - scroller.clientWidth / 2;
-          scroller.scrollTop = fy * h - scroller.clientHeight / 2;
-        });
+        // Where the pointer sits within the scroller's visible area.
+        const box = scroller.getBoundingClientRect();
+        const px = e.clientX - box.left;
+        const py = e.clientY - box.top;
+        media.classList.toggle("is-zoomed");
+        // One layout read after the swap; no transition, so these are final.
+        scroller.scrollLeft = media.offsetLeft + fx * media.offsetWidth - px;
+        scroller.scrollTop = media.offsetTop + fy * media.offsetHeight - py;
       });
     }
 
     opener.addEventListener("click", open);
     modal.querySelectorAll(closeSel).forEach((el) => el.addEventListener("click", close));
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && !modal.hidden) close();
+      if (e.key === "Escape" && modal.classList.contains("is-open")) close();
     });
   };
   bindModal("pdf-modal", "[data-pdf-open]", "[data-pdf-close]");
