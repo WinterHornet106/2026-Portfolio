@@ -70,9 +70,23 @@
       dot.style.transform =
         `translate3d(${px}px, ${py}px, 0) translate(-50%, -50%)`;
     };
+    // The dot shows only once the pointer has moved on this page, and hides
+    // again when the pointer leaves the window, the tab is hidden, or Back
+    // restores the page from the back/forward cache. Otherwise a stale dot
+    // sits next to the system arrow the browser shows until the first move.
+    const hide = () => dot.classList.remove("is-active");
+    document.documentElement.addEventListener("mouseleave", hide);
+    document.addEventListener("visibilitychange", () => { if (document.hidden) hide(); });
+    window.addEventListener("pageshow", (e) => { if (e.persisted) hide(); });
+
     const apply = (e) => {
       px = e.clientX;
       py = e.clientY;
+      if (!dot.classList.contains("is-active")) {
+        // Jump to the pointer before fading in, so it doesn't fade in elsewhere.
+        dot.style.transform = `translate3d(${px}px, ${py}px, 0) translate(-50%, -50%)`;
+        dot.classList.add("is-active");
+      }
       if (queued) return;
       queued = true;
       requestAnimationFrame(paint);
@@ -140,27 +154,7 @@
     });
   }
 
-  /* ---------- View Transitions on internal links ---------- */
-  const supportsVT = typeof document.startViewTransition === "function";
-  if (supportsVT && !prefersReduced) {
-    document.addEventListener("click", (e) => {
-      const a = e.target.closest("a");
-      if (!a) return;
-      if (a.target === "_blank" || a.hasAttribute("download")) return;
-      const href = a.getAttribute("href");
-      if (!href) return;
-      // Same-origin, non-hash navigations only
-      const url = new URL(a.href, window.location.href);
-      if (url.origin !== window.location.origin) return;
-      if (url.pathname === window.location.pathname && url.hash) return;
-      if (a.dataset.noVt === "true") return;
-
-      e.preventDefault();
-      document.startViewTransition(() => {
-        window.location.href = a.href;
-      });
-    });
-  }
+  /* Page-to-page transitions are native now (`@view-transition` in styles.css). */
 
   /* ---------- Copy-to-clipboard buttons ---------- */
   /* Only meaningful while the pointer is still on the button — otherwise the

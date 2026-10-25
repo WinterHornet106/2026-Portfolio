@@ -1855,13 +1855,21 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
      what made moving the pointer stutter. */
   box-shadow: 0 0 0 1.5px color-mix(in oklch, var(--bg) 90%, transparent);
   transition: width 220ms var(--ease-out), height 220ms var(--ease-out),
-              background 220ms var(--ease-out), border-radius 220ms var(--ease-out);
+              background 220ms var(--ease-out), border-radius 220ms var(--ease-out),
+              opacity 150ms linear;
+  /* Hidden until the pointer actually moves on this page (main.js adds
+     .is-active), so a fresh or Back-restored page never shows a stale dot
+     beside the system arrow the browser keeps until the first move. */
+  opacity: 0;
   z-index: 80;
   will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   contain: layout style;
 }
+.cursor.is-active { opacity: 1; }
+/* The open modal hands the screen back to the system pointer (see above). */
+.has-modal .cursor.is-active { opacity: 0; }
 .cursor.is-link {
   width: 32px; height: 32px;
   background: transparent;
@@ -1913,6 +1921,13 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 .cursor.is-off { opacity: 0; }
 
 /* ---------- View transitions (progressive) ---------- */
+/* Native cross-document transitions. The old JS route (startViewTransition,
+   then navigating from inside it) could leave a half-finished transition on
+   the page the back/forward cache restores, and its overlay showed the system
+   pointer over the custom dot. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
 @supports (view-transition-name: main) {
   main { view-transition-name: main; }
   ::view-transition-old(main),
