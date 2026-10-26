@@ -51,6 +51,8 @@ four missing MEC images; decide on a MEC outcomes section.
 
 Jay is a product/interaction designer, not primarily an engineer. Explain technical things plainly and briefly when they come up (e.g. what `git pull` does and why), without condescension or lecturing.
 
+**Positioning (24 Oct 2026):** Jay is graduating from SFU with no internship and is job hunting. Copy must stay truthful to the resume: no "independent designer", "embed with founding teams", "shipping" or fields Jay hasn't worked in. The strengths to lean on are real-user research (MEC, CarePath) and team leadership (Assistant Supervisor, World Duty Free YVR, team of 10+).
+
 ---
 
 ## Hard preferences — follow these
@@ -76,29 +78,32 @@ Jay is a product/interaction designer, not primarily an engineer. Explain techni
 **Design**
 
 9. **Compact.** Jay consistently asks for smaller, tighter, shorter. When in doubt, reduce.
-10. **Weights:** 700 for the brand wordmark only (`.nav__brand`, `.foot .brand-line`); 600 for the big headlines (hero H1, section H2, project-card titles, `.cs-sublabel`), like Apple's semibold headlines; 500 elsewhere.
+10. **Weights:** 700 for the brand wordmark only (`.nav__brand`, `.foot .brand-line`); 600 for the big headlines (hero H1, section H2, project-card titles, `.cs-sublabel`), like Apple's semibold headlines, and for inline `<strong>` key-phrase highlights in case-study prose (added 25 Oct 2026 so hiring managers can scan: one or two per paragraph); 500 elsewhere.
 11. Small text is sized in **px**, display type in **rem/clamp**. Don't introduce rem-based small text.
 
 ---
 
 ## Design system facts
 
-**Spacing scale** — all multiples of 4. Use tokens, not raw px, for layout spacing.
+**Spacing scale** (Apple-style 8px system, adopted 25 Oct 2026 from a spec Jay pasted). Use tokens, not raw px.
 
 ```
---s-1:4  --s-2:8  --s-3:12  --s-4:16  --s-5:28  --s-6:40
---s-7:60 --s-8:88 --s-9:120 --s-10:168 --s-11:240
+--s-1:4  --s-2:8  --s-3:12  --s-4:16  --s-5:24  --s-6:32
+--s-7:48 --s-8:64 --s-9:96  --s-10:128 --s-11:128 (alias, top step)
+--section-y: clamp(64px, 3rem + 5vw, 128px)   section padding, fluid
 ```
 
-Sub-4px component padding on chips/pills/buttons (2, 5, 6, 7, 10, 14px) is intentional and fine.
+Approved values are only 4, 8, 12, 16, 24, 32, 48, 64, 96, 128. Sub-8px component padding on chips/pills (2, 5, 6, 7, 10, 14px) is intentional and fine. The old scale (28/40/60/88/120/168/240) is gone; the pre-change stylesheet is in `.verbose-backup/styles-before-apple-spacing.css`.
 
-**Layout:** `--container: 1320px`, `--gutter: clamp(28px, 5.5vw, 80px)`, `--r-3` corner radius (fluid: `clamp(16px, 0.75rem + 1.1vw, 32px)`, ~16px phone / ~21px iPad / ~28px laptop; every card and frame uses it; phone screenshots instead keep iPhone 17 proportion, 62/402 of their width).
+The spec's targets, as applied: heading to section content 32 (`.sec-head`), paragraph to paragraph 16, icon to label 8, images in a group 16 apart with captions 12 below, sub-sections 64 apart (`.cs-sublabel`), content groups 32 to 48, major sections 64 (phone) to 128 (desktop). Page margins `--gutter: clamp(20px, 5.5vw, 80px)`.
+
+**Layout:** `--container: 1320px`, `--gutter: clamp(20px, 5.5vw, 80px)`, `--r-3` corner radius (fluid: `clamp(16px, 0.75rem + 1.1vw, 32px)`, ~16px phone / ~21px iPad / ~28px laptop; every card and frame uses it; phone screenshots instead keep iPhone 17 proportion, 62/402 of their width).
 
 **Section rhythm** (already automatic, don't fight it):
-- `.section--roomy` = 240px top/bottom
-- Two adjacent roomy sections auto-tighten to 88px via `:has()`
-- Sections either side of a `.section-divider` auto-tighten to 40px
-- `.sec-head` gives every section 88px to its content
+- `section` and `.section--roomy` = `--section-y` top/bottom (64 to 128px)
+- Two adjacent roomy sections auto-tighten to 64px (48 on phones) via `:has()`
+- Sections either side of a `.section-divider` auto-tighten to 32px (24 on phones)
+- `.sec-head` gives every section 32px to its content
 
 **Labels:** sentence case, no tracking, no uppercase, no monospace. Don't put an eyebrow label above section headings (removed 24 Oct 2026). Small labels are 11–14px in the text face; in-section sub-headings (`.cs-sublabel`) are 17px semibold ink, not grey labels.
 
@@ -133,18 +138,17 @@ against them. Treat these as the standing bar, not one-off requests.
 
 - One shared grid, one max content width, consistent page margins. No one-off offsets
   without a clear visual reason.
-- Spacing scale on a 4px base (all 11 tokens now comply — `--s-4` was 18px and was
-  corrected to 16px).
+- Spacing scale on an 8px base (see Design system facts).
 - Distinguish three levels: component spacing < content-group spacing < section
   spacing. Related things sit closer than unrelated things. Never flat.
 - Cap body measures. Don't let paragraphs run wide.
-- Column gaps consistent across grids in the same section. (`.personas` at 28px vs
-  `.cs-insights` at 40px is a known, deliberate compromise — see below.)
+- Column gaps consistent across grids in the same section. (`.personas` at 24px vs
+  `.cs-insights` at 32px is a known, deliberate compromise — see below.)
 - Images align to the grid with consistent corner treatment and caption spacing;
   occasional full-bleed is allowed as deliberate emphasis.
 
-**Known deliberate deviation:** `.personas` uses a 28px gap where `.cs-insights` in the
-same MEC section uses 40px. Matching them exactly narrows each card enough that
+**Known deliberate deviation:** `.personas` uses a 24px gap where `.cs-insights` in the
+same MEC section uses 32px. Matching them exactly narrows each card enough that
 "Gear-Savvy Explorer" wraps. The persona breakpoint was already raised to 1200px to buy
 room. If you change persona card width, gap, portrait size or role font, **re-check that
 role line** — it's the binding constraint. (Since 22 Oct the role is an 11px mono label and the name is the big line, so this has a lot more slack.)
@@ -196,6 +200,8 @@ variants carry a 1px border (transparent on primary) so mixed rows match in heig
 
 ## Outstanding
 
+**Process-image placeholders (24 Oct 2026): all resolved 25 Oct 2026.** The `.todo-shot` system (draft-only, `html.is-draft`) is still in main.js/styles.css for future slots, but no page uses it now. MEC process visuals and DDA research board are designed in the Portfolio Figma file ("MEC process visuals" and "DDA process visuals" pages); re-export from there if copy changes.
+
 **All MEC images are in.** `03-presenting-mec.jpg` came from Jay's `MEC_present.png`
 (24 Oct 2026, resized to 1600px wide, JPEG). It shows a teammate presenting, with Jay
 seated and marked "ME!" in the photo.
@@ -211,7 +217,7 @@ play (`preload="none"`). The local `python3 -m http.server` preview can't seek i
 (no Range support); GitHub Pages can.
 
 DDA has the same kind of video in its Outcomes section: `assets/dda/walkthrough.mp4`
-(Figma Motion export from the "DDA walkthrough video" page, 1440×1024, 31.5s, ~16.6 MB) with
+(Figma Motion export from the "DDA walkthrough video" page, 1440×1024, 34.6s incl. closing screen, re-encoded to ~11.5 MB with moov up front) with
 `walkthrough-poster.jpg` (frame at 2.4s). Its frame uses `.cs-frame--site.cs-frame--desktop`
 (square corners, 1440/1024 aspect).
 

@@ -7,6 +7,13 @@
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const coarse = window.matchMedia("(pointer: coarse)").matches;
 
+  /* Draft mode shows .todo-shot placeholders: local previews (and file://),
+     or any URL with ?draft. On jayho.fyi they stay hidden. */
+  const local = ["localhost", "127.0.0.1", "::1", ""].includes(window.location.hostname);
+  if (local || /[?&]draft\b/.test(window.location.search)) {
+    document.documentElement.classList.add("is-draft");
+  }
+
   /* ---------- Reveal on scroll ---------- */
   const revealEls = document.querySelectorAll(".reveal");
   if (revealEls.length && "IntersectionObserver" in window && !prefersReduced) {
@@ -114,9 +121,19 @@
       });
 
     // Over a video the system pointer takes over (see styles.css).
-    document.querySelectorAll("video").forEach((el) => {
+    document.querySelectorAll("video[controls]").forEach((el) => {
       el.addEventListener("mouseenter", () => dot.classList.add("is-off"));
       el.addEventListener("mouseleave", () => dot.classList.remove("is-off"));
+    });
+  }
+
+  /* ---------- Looping hover clips ----------
+     Muted autoplay loops stand in for GIFs. With reduced motion they hold
+     on their poster (the still of the same screen) instead. */
+  if (prefersReduced) {
+    document.querySelectorAll("video[autoplay][loop]").forEach((v) => {
+      v.removeAttribute("autoplay");
+      v.pause();
     });
   }
 
@@ -435,6 +452,7 @@
         centerChip(items[idx].link);
       };
 
+      let jumpTo = -1, jumpTimer = 0;
       const update = () => {
         const y = window.scrollY;
         // The "reading line" sits about a third of the way down the viewport.
@@ -445,11 +463,13 @@
         }
         // Bottom of the document always resolves to the final section.
         if (y + window.innerHeight >= root.scrollHeight - 4) idx = items.length - 1;
-        setActive(idx);
+        setActive(jumpTo >= 0 ? jumpTo : idx);
 
-        // Fade the rail in only once the hero is behind us.
+        // The rail starts hidden (class set in the HTML, so it never flashes on
+        // load) and fades in once the first section reaches the reading line.
         if (wide.matches) {
-          toc.classList.toggle("is-hidden", y < window.innerHeight * 0.45);
+          const firstTop = items[0].target.getBoundingClientRect().top + y;
+          toc.classList.toggle("is-hidden", firstTop > line);
         } else {
           toc.classList.remove("is-hidden");
         }
@@ -466,8 +486,23 @@
       };
 
       // Clicking sets the state immediately; the scroll pass confirms it.
+      // The jump replaces the URL hash instead of adding a history entry, so
+      // Back leaves the case study rather than stepping through sections.
+      // While a clicked jump is scrolling, the highlight stays on the clicked
+      // section instead of ticking through every section it passes.
+      const release = () => { jumpTo = -1; update(); };
+      window.addEventListener("scrollend", release);
       items.forEach((it, i) => {
-        it.link.addEventListener("click", () => setActive(i));
+        it.link.addEventListener("click", (e) => {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+          e.preventDefault();
+          jumpTo = i;
+          clearTimeout(jumpTimer);
+          jumpTimer = setTimeout(release, 1500);
+          setActive(i);
+          it.target.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "start" });
+          history.replaceState(history.state, "", it.link.getAttribute("href"));
+        });
       });
 
       const refresh = () => {

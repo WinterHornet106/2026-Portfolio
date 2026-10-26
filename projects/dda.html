@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../assets/styles.css" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='6' fill='%234c7aa3'/%3E%3C/svg%3E" />
 </head>
-<body class="has-toc">
+<body class="has-toc cs--dda">
 
   <nav class="nav" aria-label="Primary">
     <a href="../index.html" class="nav__brand" aria-label="Jay Ho · Home">
@@ -26,7 +26,7 @@
 
   <main>
 
-    <aside class="cs-toc" aria-label="Sections in this case study">
+    <aside class="cs-toc is-hidden" aria-label="Sections in this case study">
       <ul class="cs-toc__list">
         <li class="cs-toc__item"><a class="cs-toc__link" href="#problem"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">Problem</span></a></li>
         <li class="cs-toc__item"><a class="cs-toc__link" href="#approach"><span class="cs-toc__dash" aria-hidden="true"></span><span class="cs-toc__label">Approach</span></a></li>
@@ -54,8 +54,7 @@
       <div class="hero__sub reveal" data-delay="2">
         <p class="hero__discipline">Dutch Design Awards</p>
         <p class="hero__tag">
-          A poster series and event microsite that spotlights the Young Designers
-          category at the Dutch Design Awards.
+          A <strong>poster series and event microsite</strong> that spotlights the Young Designers category at the Dutch Design Awards.
         </p>
       </div>
     </header>
@@ -103,15 +102,19 @@
 
       <div class="cs-prose reveal" data-delay="1">
         <p>
-          The Dutch Design Awards honour Dutch design across eight categories. Young
-          Designers works differently: nominees submit a whole portfolio instead of one
-          project, the category comes with a grant, and it&rsquo;s often overlooked.
+          The Dutch Design Awards span eight categories. Young Designers is different: nominees submit <strong>a whole portfolio</strong>, the category comes with a grant, and it&rsquo;s <strong>often overlooked</strong>.
         </p>
         <p>
-          We framed a microsite that runs during the nine-day event, giving visitors the
-          schedule and category details while giving young nominees a larger audience.
+          We designed a microsite for the nine-day event that <strong>pairs the schedule with the young nominees</strong>.
         </p>
       </div>
+
+      <figure class="cs-image reveal" data-delay="2">
+        <div class="cs-frame cs-frame--wide">
+          <img src="../assets/dda/06-research.jpg" width="1920" height="1080" loading="lazy" decoding="async"
+               alt="Research board in three tiles. The awards: 8 categories, 3 nominees each and one winner, judged on process, optimization and fairness plus a public vote. Young Designer: 15 nominees from 2019 to 2023, entered with a whole portfolio and backed by a grant, with three of their project images. The event: 9 days of Dutch Design Week in Eindhoven, so the schedule sits next to the nominees, shown as a nine-day calendar ending on awards night." onerror="this.style.display='none'">
+        </div>
+      </figure>
     </section>
 
     <div class="section-divider reveal" aria-hidden="true">
@@ -127,9 +130,7 @@
 
       <div class="cs-prose reveal" data-delay="1">
         <p>
-          We built the visual system on posters before touching the site, testing three
-          lines of investigation drawn from Ellen Lupton&rsquo;s design principles. Early
-          rounds were too literal; the final three balanced image, type and space.
+          We built the visual system <strong>on posters first</strong>, testing three directions from Ellen Lupton&rsquo;s design principles. Early rounds were too literal; the final three balanced image, type and space.
         </p>
       </div>
 
@@ -154,6 +155,7 @@
              width="1568" height="600" loading="lazy" decoding="async">
         <p class="cs-image__caption">Final posters &middot; one per line of investigation</p>
       </figure>
+
     </section>
 
     <div class="section-divider reveal" aria-hidden="true">
@@ -169,9 +171,7 @@
 
       <div class="cs-prose reveal" data-delay="1">
         <p>
-          We tested an expressive layout against a functional one. The functional grid
-          matched the posters and gave clearer direction, so the whole site runs on it,
-          carrying over the visible grid, duotone images and monospace body type.
+          We tested an expressive layout against a functional one. The <strong>functional grid</strong> matched the posters and read clearer, so the whole site runs on it.
         </p>
       </div>
 
@@ -200,17 +200,24 @@
       <div class="cs-showcase cs-showcase--two reveal" data-delay="2">
         <figure class="cs-figure">
           <div class="cs-frame cs-frame--site">
-            <img src="../assets/dda/04-all-nominees.jpg" alt="All nominees page: a list of nominees by year, name and location, with a duotone photo of the hovered designer on the left." width="1440" height="1024" loading="lazy" decoding="async">
+            <video src="../assets/dda/04-all-nominees.mp4" poster="../assets/dda/04-all-nominees.jpg" width="1440" height="1024" autoplay muted loop playsinline preload="metadata" aria-label="All nominees page: hovering a name in the list highlights the row and swaps the duotone photo on the left to that designer."></video>
           </div>
           <figcaption class="cs-image__caption">All nominees &middot; image on hover</figcaption>
         </figure>
         <figure class="cs-figure">
           <div class="cs-frame cs-frame--site">
-            <img src="../assets/dda/05-year-hover.jpg" alt="Nominees by year page with 2023 hovered: its column lifts and enlarges to show three nominee project images." width="1440" height="1024" loading="lazy" decoding="async">
+            <video src="../assets/dda/05-year-hover.mp4" poster="../assets/dda/05-year-hover.jpg" width="1440" height="1024" autoplay muted loop playsinline preload="metadata" aria-label="Nominees by year page: hovering each year lifts its column and enlarges it to show three nominee project images, ending on 2023."></video>
           </div>
-          <figcaption class="cs-image__caption">Nominees by year &middot; 2023 hovered</figcaption>
+          <figcaption class="cs-image__caption">Nominees by year &middot; hovering each year</figcaption>
         </figure>
       </div>
+
+      <figure class="cs-image reveal" data-delay="2">
+        <div class="cs-frame cs-frame--site cs-frame--desktop">
+          <video src="../assets/dda/09-homepage-evolution.mp4" poster="../assets/dda/09-homepage-evolution.jpg" width="1440" height="1024" autoplay muted loop playsinline preload="metadata" aria-label="The Young Designers homepage wiping from an early exploration, a dense photo grid titled Young Nominees, to the final design on the square grid with year tiles and an Info button."></video>
+        </div>
+        <p class="cs-image__caption">Homepage &middot; early exploration to the final square grid</p>
+      </figure>
     </section>
 
     <div class="section-divider reveal" aria-hidden="true">
@@ -226,8 +233,7 @@
 
       <div class="cs-prose reveal" data-delay="1">
         <p>
-          Every page carries the poster system: a homepage, nominees by year, every past
-          nominee, the nine-day schedule and the category&rsquo;s history.
+          Every page carries <strong>the poster system</strong>: a homepage, nominees by year, every past nominee, the nine-day schedule and the category&rsquo;s history.
         </p>
       </div>
 
@@ -236,7 +242,7 @@
         <div class="cs-frame cs-frame--site cs-frame--desktop">
           <video src="../assets/dda/walkthrough.mp4" poster="../assets/dda/walkthrough-poster.jpg"
                  width="1440" height="1024" controls muted playsinline preload="none"
-                 aria-label="Microsite walkthrough: the home page grid, hovering year and nominee tiles, a nominee page, the list of all nominees, and the information pages with the category history."></video>
+                 aria-label="Microsite walkthrough: the home page grid, hovering year and nominee tiles, a nominee page, the list of all nominees, and the information pages with the category history, ending on a closing screen."></video>
         </div>
         <p class="cs-image__caption">Microsite walkthrough</p>
       </figure>
@@ -277,7 +283,7 @@
   </main>
 
   <footer class="foot">
-    <div><div class="brand-line">Jay Ho</div><p class="blurb">Independent product &amp; interaction designer, operating out of Vancouver &amp; HK.</p></div>
+    <div><div class="brand-line">Jay Ho</div><p class="blurb">Product &amp; interaction designer, SFU Interactive Arts &amp; Technology. Vancouver &amp; HK.</p></div>
     <div><h5>Contact</h5><a href="mailto:jayho5403@gmail.com">jayho5403@gmail.com</a><a href="tel:+17787515163">+1 778‑751‑5163</a></div>
     <div class="fine"><span>&copy; <span data-year>2026</span> Jay Ho</span></div>
   </footer>

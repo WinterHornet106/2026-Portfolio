@@ -42,9 +42,13 @@
   --fs-display: clamp(3.8rem, 2.4rem + 7vw, 9rem);
 
   /* Spacing scale — deliberately generous */
+  /* Apple-style 8px scale: 4 8 12 16 24 32 48 64 96 128. Nothing larger;
+     --s-11 is an alias of the top step so older rules still resolve. */
   --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px;
-  --s-5: 28px; --s-6: 40px; --s-7: 60px; --s-8: 88px;
-  --s-9: 120px; --s-10: 168px; --s-11: 240px;
+  --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
+  --s-9: 96px; --s-10: 128px; --s-11: 128px;
+  /* Section padding shrinks with the window: 64 on phones, 96 to 128 on desktop. */
+  --section-y: clamp(64px, 3rem + 5vw, 128px);
 
   /* Radius. --r-3 is the one card/rectangle radius (covers, frames, poster,
      modal, persona cards). It scales with the viewport like iOS surfaces do:
@@ -65,7 +69,7 @@
   --t-slow: 380ms;
 
   --container: 1320px;
-  --gutter: clamp(28px, 5.5vw, 80px);
+  --gutter: clamp(20px, 5.5vw, 80px);
 }
 
 /* ---------- Reset ---------- */
@@ -85,6 +89,13 @@ body {
   font-feature-settings: "ss01", "ss02", "cv11";
 }
 img, video, svg { display: block; max-width: 100%; height: auto; }
+/* Pictures and videos are visuals, not text: stop Safari/Chrome Live Text from
+   letting visitors highlight and copy words out of screenshots. */
+img, video {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 input, textarea { font: inherit; color: inherit; }
 a { color: inherit; text-decoration: none; }
@@ -181,8 +192,8 @@ p.lede { max-width: 58ch; }
 .row { display: flex; gap: var(--s-4); align-items: center; }
 .wrap { flex-wrap: wrap; }
 .grow { flex: 1; }
-section { padding: var(--s-10) 0; }
-.section-lg { padding: var(--s-11) 0; }
+section { padding: var(--section-y) 0; }
+.section-lg { padding: var(--section-y) 0; }
 .section-sm { padding: var(--s-8) 0; }
 .divider { height: 1px; background: var(--line); width: 100%; }
 
@@ -257,14 +268,14 @@ section { padding: var(--s-10) 0; }
 
 /* ---------- Buttons & links ---------- */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
   /* Height comes from min-height, not the text's line box, so the label sits
      on the pill's true centre. Every variant carries a 1px border (transparent
      on primary) so a primary and a ghost side by side are the same height. */
   min-height: 52px;
   /* SF Pro Text centres itself in the pill (caps within 0.2px of true centre at
      15px), so unlike the old Satoshi setup no optical nudge is needed. */
-  padding: 0 22px;
+  padding: 0 var(--s-5);
   line-height: 1;
   border: 1px solid transparent;
   border-radius: var(--r-pill);
@@ -299,11 +310,15 @@ section { padding: var(--s-10) 0; }
 
 /* Big "back" arrow affordance */
 .back {
-  display: inline-flex; align-items: center; gap: 10px;
+  display: inline-flex; align-items: center; gap: var(--s-2);
   font-size: 14px; color: var(--ink-3);
   transition: color var(--t-fast) var(--ease-out), gap var(--t-base) var(--ease-out);
 }
-.back:hover { color: var(--ink); gap: 14px; }
+.back:hover { color: var(--ink); gap: var(--s-3); }
+/* Invisible padding around the link so it can be hit without aiming at the
+   text: about 16px above and below, 24px either side. Layout is unchanged. */
+.back { position: relative; }
+.back::after { content: ""; position: absolute; inset: -16px -24px; }
 /* On wide windows the back link hangs one gutter outside the content column.
    Below 1600px it stays tucked in: any further left and it crowds the fixed
    section rail, which sits at the same height. */
@@ -462,10 +477,7 @@ section { padding: var(--s-10) 0; }
 .section--first { padding-top: var(--s-7); }
 
 /* Extra breathing room — used on the Approach section */
-.section--roomy { padding-top: var(--s-11); padding-bottom: var(--s-11); }
-@media (max-width: 720px) {
-  .section--roomy { padding-top: var(--s-9); padding-bottom: var(--s-9); }
-}
+.section--roomy { padding-top: var(--section-y); padding-bottom: var(--section-y); }
 
 /* ---------- Section divider (static, between regular sections) ---------- */
 /* Two-part rhythm:
@@ -508,12 +520,12 @@ section:has(+ .section-divider) { padding-bottom: var(--s-6); }
 }
 /* Auto-tighten two .section--roomy that sit directly adjacent — i.e. when
    no divider sits between them. Without this, both keep their full
-   240px/240px padding and the gap feels cavernous. */
+   padding and the gap between them doubles. */
 section.section--roomy:has(+ section.section--roomy) { padding-bottom: var(--s-8); }
 section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 @media (max-width: 720px) {
-  section.section--roomy:has(+ section.section--roomy) { padding-bottom: var(--s-6); }
-  section.section--roomy + section.section--roomy { padding-top: var(--s-6); }
+  section.section--roomy:has(+ section.section--roomy) { padding-bottom: var(--s-7); }
+  section.section--roomy + section.section--roomy { padding-top: var(--s-7); }
 }
 .section-divider__line {
   flex: 1;
@@ -557,7 +569,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   display: flex;
   flex-direction: column;
   gap: var(--s-5);
-  margin-bottom: var(--s-8);
+  margin-bottom: var(--s-6);
 }
 .sec-head .num {
   font-family: var(--mono);
@@ -833,7 +845,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   font-size: 15px;
   color: var(--ink);
   position: relative;
-  padding-bottom: 14px;
+  padding-bottom: var(--s-4);
   transition: gap var(--t-base) var(--ease-out), color var(--t-base) var(--ease-out);
 }
 .approach-more::after {
@@ -988,7 +1000,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   border-bottom: 1px solid var(--line);
   margin-top: var(--s-7);
 }
-.cs-meta dl { margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.cs-meta dl { margin: 0; display: flex; flex-direction: column; gap: var(--s-2); }
 .cs-meta dt { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0; color: var(--ink-3); }
 .cs-meta dd { margin: 0; font-size: 15px; color: var(--ink); }
 @media (max-width: 720px) {
@@ -1032,7 +1044,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 .cs-body ul { padding-left: 1.2em; margin: 0 0 1.6em; }
 .cs-body li { margin-bottom: 0.7em; }
 .cs-body li::marker { color: var(--ink-4); }
-.cs-body strong { color: var(--ink); font-weight: 500; }
+.cs-body strong { color: var(--ink); font-weight: 600; }
 @media (max-width: 860px) {
   .cs-body { grid-template-columns: 1fr; }
   .cs-body .side { position: static; }
@@ -1072,11 +1084,17 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   font-size: var(--fs-body);
   line-height: 1.7;
   color: var(--ink-2);
-  margin: 0 0 var(--s-5);
+  margin: 0 0 var(--s-4);
   max-width: 62ch;
 }
 .cs-prose p:last-child { margin-bottom: 0; }
-.cs-prose strong { color: var(--ink); font-weight: 500; }
+/* Key phrases are bolded for scanning: a hiring manager should get the story
+   from the bold alone. One or two per paragraph, never whole sentences of filler.
+   Each case study tints them in its client's colour (set on <body>). */
+.cs--mec      { --hl: oklch(46% 0.10 150); }  /* MEC green */
+.cs--carepath { --hl: oklch(48% 0.15 252); }  /* Costco blue */
+.cs--dda      { --hl: oklch(42% 0.14 25); }   /* DDA red */
+.cs-prose strong, .hero__sub strong { color: var(--hl, var(--ink)); font-weight: 600; }
 .cs-prose ul {
   padding-left: 1.2em;
   margin: var(--s-3) 0 var(--s-5);
@@ -1104,7 +1122,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 /* Image showcase grids — 2-up, 3-up, full-width single */
 .cs-showcase {
   display: grid;
-  gap: var(--s-3);
+  gap: var(--s-4);
   margin: var(--s-7) 0 var(--s-6);
 }
 .cs-showcase--two   { grid-template-columns: 1fr 1fr; }
@@ -1116,7 +1134,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 @media (max-width: 860px) {
   .cs-showcase--two,
   .cs-showcase--three,
-  .cs-showcase--feature { grid-template-columns: 1fr; gap: var(--s-3); }
+  .cs-showcase--feature { grid-template-columns: 1fr; gap: var(--s-4); }
 }
 .cs-frame {
   position: relative;
@@ -1188,6 +1206,51 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 @media (max-width: 640px) {
   .cs-showcase--aligned { grid-template-columns: 1fr; }
 }
+/* Draft-only placeholders for images still to be made. Hidden everywhere
+   except local previews and ?draft URLs (main.js adds html.is-draft), so an
+   unfinished slot can never show on jayho.fyi even if it gets committed. */
+.todo-shot { display: none; margin: var(--s-6) 0 0; }
+html.is-draft .todo-shot { display: grid; gap: var(--s-3); }
+.todo-shot--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.todo-shot__box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--s-2);
+  aspect-ratio: 16 / 9;
+  padding: var(--s-5);
+  border: 2px dashed var(--accent);
+  border-radius: var(--r-3);
+  background: color-mix(in oklch, var(--accent) 6%, var(--bg));
+  color: var(--ink-2);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.todo-shot--pair .todo-shot__box { aspect-ratio: 4 / 3; }
+.todo-shot__tag { font-size: 12px; font-weight: 600; color: var(--accent-ink); }
+.todo-shot__box strong { font-family: var(--display); font-size: 19px; font-weight: 600; color: var(--ink); }
+.todo-shot__box p { margin: 0; max-width: 62ch; }
+@media (max-width: 640px) {
+  .todo-shot--pair { grid-template-columns: 1fr; }
+  .todo-shot__box,
+  .todo-shot--pair .todo-shot__box { aspect-ratio: auto; min-height: 220px; }
+}
+.todo-shot__box code { overflow-wrap: anywhere; }
+
+/* Before / after screens inside a .cs-insight card: two phones side by side
+   under the card's text, so each pair stays with its change when cards stack. */
+.cs-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-3);
+  max-width: 420px;
+  /* Pushed to the card's foot, so pairs line up across columns even when the
+     paragraphs above them differ in length. */
+  margin-top: auto;
+  padding-top: var(--s-5);
+}
+.cs-insight:has(.cs-pair) { display: flex; flex-direction: column; }
+.cs-pair .cs-image__caption { margin-top: var(--s-2); }
 .cs-frame__label {
   position: absolute;
   bottom: 14px;
@@ -1246,7 +1309,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 /* Sub-headings inside a section ("What I owned", "The pivot"): a small heading,
    not a grey label. */
 .cs-sublabel {
-  margin: var(--s-8) 0 var(--s-4);
+  margin: var(--s-8) 0 var(--s-5);
   font-family: var(--display);
   font-size: 17px;
   font-weight: 600;
@@ -1384,7 +1447,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   font-size: 12px;
   letter-spacing: 0;
   color: var(--ink-3);
-  padding-top: 18px;
+  padding-top: var(--s-4);
   border-top: 1px solid var(--line);
 }
 @media (max-width: 860px) { .cv-grid { grid-template-columns: 1fr; gap: var(--s-4); } }
@@ -1916,7 +1979,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   *, *::before, *::after { cursor: none !important; }
   /* Videos keep the system pointer: the dark dot vanishes over dark footage,
      and in fullscreen the dot isn't drawn at all. main.js hides the dot here. */
-  video { cursor: auto !important; }
+  video[controls] { cursor: auto !important; }
 }
 .cursor.is-off { opacity: 0; }
 
@@ -1985,7 +2048,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 .cs-toc__link {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--s-2);
   font-size: 11px;
   letter-spacing: 0;
   color: var(--ink-4);
@@ -2019,11 +2082,11 @@ body.has-toc [data-section] {
 @media (min-width: 1200px) {
   body.has-toc main { padding-left: var(--toc-space); }
   body.has-toc .foot { padding-left: calc(var(--toc-space) + var(--gutter)); }
-  body.has-toc [data-section] { scroll-margin-top: calc(var(--nav-h) + 28px); }
+  body.has-toc [data-section] { scroll-margin-top: calc(var(--nav-h) + var(--s-5)); }
 
   .cs-toc {
     position: fixed;
-    left: clamp(24px, 3vw, 60px);
+    left: clamp(24px, 3vw, 64px);
     /* Sits just below the primary nav rather than vertically centred, so
        the rail reads as page chrome alongside the section headings. */
     top: calc(var(--nav-h) + var(--s-7));
@@ -2040,7 +2103,7 @@ body.has-toc [data-section] {
   .cs-toc__list {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: var(--s-4);
   }
   .cs-toc__link {
     align-items: flex-start;
@@ -2068,7 +2131,7 @@ body.has-toc [data-section] {
     overscroll-behavior-x: contain;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: 13px var(--gutter);
+    padding: var(--s-3) var(--gutter);
     /* Fade the leading/trailing edge so the row reads as scrollable */
     mask-image: linear-gradient(to right, transparent 0, #000 16px,
                 #000 calc(100% - 22px), transparent 100%);
@@ -2185,6 +2248,69 @@ body.has-toc [data-section] {
 }
 @media (max-width: 780px) { .cs-features { grid-template-columns: 1fr; gap: var(--s-5); } }
 .cs-features li { margin: 0; }
+/* Workshop findings (MEC): problem → fix cards sitting straight on the page,
+   white like the persona cards. Three across, two on tablets, one on phones. */
+.cs-fixes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (max-width: 1000px) { .cs-fixes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px)  { .cs-fixes { grid-template-columns: 1fr; } }
+.cs-fix {
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+  margin: 0;
+  padding: var(--s-5);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-3);
+}
+@media (max-width: 640px) { .cs-fix { min-height: 0; } }
+/* Apple icon proportions: radius 22.37% of the width, gradient MEC green. */
+.cs-fix__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: auto;
+  border-radius: 22.37%;
+  background: linear-gradient(135deg, #5baa6e, #1e5631);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.22), 0 1px 3px rgb(30 86 49 / 0.12);
+}
+.cs-fix__icon svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cs-fix__quote {
+  margin: var(--s-6) 0 var(--s-2);
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+@media (max-width: 640px) { .cs-fix__quote { margin-top: var(--s-4); } }
+.cs-fix h4 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+/* Isolated component close-ups sit above each feature's heading. */
+.cs-features .cs-frame { margin-bottom: var(--s-4); border: 0; }
 .cs-features h4 {
   font-family: var(--display);
   font-size: 1.15rem;
@@ -2229,7 +2355,7 @@ body.has-toc [data-section] {
   grid-template-rows: subgrid;
   border: 1px solid var(--line);
   border-radius: var(--r-3);
-  background: var(--bg-elev);
+  background: #fff;
   overflow: hidden;
 }
 @supports not (grid-template-rows: subgrid) {
@@ -2309,16 +2435,18 @@ body.has-toc [data-section] {
   font-size: 14px;
   line-height: 1.55;
   color: var(--ink-2);
-  /* Bios run 34-36 words and land on 4 or 5 lines depending on the breakpoint.
-     Holding five keeps the divider below them in the same place on every card. */
-  min-height: calc(5 * 1.55em);
+  /* Bios run 16-19 words and land on 2 to 4 lines depending on the breakpoint.
+     Holding four keeps the divider below them in the same place on every card. */
+  min-height: calc(4 * 1.55em);
 }
 .persona__focus {
-  /* margin-top only bites in the @supports flex fallback; under subgrid the
-     row placement already pins this band to the bottom. */
-  margin-top: auto;
   border-top: 1px solid var(--line);
   padding: var(--s-4) var(--s-5) var(--s-5);
+}
+/* Under subgrid the shared row already lines the dividers up. An auto top
+   margin would push a shorter band down, so it belongs to the flex fallback only. */
+@supports not (grid-template-rows: subgrid) {
+  .persona__focus { margin-top: auto; }
 }
 .persona__focus > p:first-child {
   font-family: var(--mono);
