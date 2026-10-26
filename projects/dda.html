@@ -79,13 +79,11 @@
         </div>
       </dl>
 
-      <!-- IMAGE NOTE (hero): the Young Designers homepage works. Best upgrade: a 6-8s
-           muted MP4 of the prototype (homepage > year hover > all nominees hover), or
-           this screen in a browser frame on the cream #FBF7E2 used in the decks. -->
+      <!-- Load-in animation, cut from the Figma Motion walkthrough (0.75-2.6s, end frame held). -->
       <figure class="cs-image cs-image--shot cs-image--site reveal">
-        <img src="../assets/dda/01-homepage.jpg"
-             alt="Microsite homepage in deep red with aqua type: a visible grid, an Entry Year 2023 headline broken across cells, photo tiles for 2020 to 2023, an all nominees tile and an Info button."
-             width="1440" height="1024" decoding="async">
+        <video src="../assets/dda/00-load-in.mp4" poster="../assets/dda/00-load-in.jpg"
+               width="1440" height="1024" autoplay muted loop playsinline preload="auto"
+               aria-label="The Young Designers homepage loading in: grid lines draw, the YOUNG DESIGNERS title slides in, and the year images, all nominees tile and Info button rise into place on deep red."></video>
       </figure>
     </section>
 
@@ -109,11 +107,9 @@
         </p>
       </div>
 
-      <figure class="cs-image reveal" data-delay="2">
-        <div class="cs-frame cs-frame--wide">
-          <img src="../assets/dda/06-research.jpg" width="1920" height="1080" loading="lazy" decoding="async"
-               alt="Research board in three tiles. The awards: 8 categories, 3 nominees each and one winner, judged on process, optimization and fairness plus a public vote. Young Designer: 15 nominees from 2019 to 2023, entered with a whole portfolio and backed by a grant, with three of their project images. The event: 9 days of Dutch Design Week in Eindhoven, so the schedule sits next to the nominees, shown as a nine-day calendar ending on awards night." onerror="this.style.display='none'">
-        </div>
+      <figure class="cs-image cs-image--bleed reveal" data-delay="2">
+        <img src="../assets/dda/06-research.png" width="1760" height="920" loading="lazy" decoding="async"
+             alt="Research board in three tiles. The awards: 8 categories, 3 nominees each and one winner, judged on process, optimization and fairness plus a public vote. Young Designer: 15 nominees from 2019 to 2023, entered with a whole portfolio and backed by a grant, with three of their project images. The event: 9 days of Dutch Design Week in Eindhoven, so the schedule sits next to the nominees, shown as a nine-day calendar ending on awards night." onerror="this.style.display='none'">
       </figure>
     </section>
 
@@ -134,28 +130,39 @@
         </p>
       </div>
 
-      <div class="cs-insights reveal" data-delay="2">
-        <div class="cs-insight">
-          <h3>Image as figure-ground</h3>
-          <p>One photo cropped and repeated at different sizes forms a new shape on the page.</p>
-        </div>
-        <div class="cs-insight">
-          <h3>Visible grids</h3>
-          <p>Grid lines divide the page into sections and stitch clusters back together.</p>
-        </div>
-        <div class="cs-insight">
-          <h3>A pattern, broken</h3>
-          <p>Fragments form a pattern, and the headline sits exactly where it breaks.</p>
-        </div>
+      <div class="cs-posters reveal" data-delay="2">
+        <figure class="cs-poster">
+          <img src="../assets/dda/02-poster-1.jpg" width="800" height="1236" loading="lazy" decoding="async"
+               alt="Figure-ground poster: magenta and lime, one photo cropped into tiles of different sizes, with the categories and dates in monospace.">
+          <figcaption>
+            <h3>Image as figure-ground</h3>
+            <p>One photo cropped and repeated at different sizes forms a new shape on the page.</p>
+          </figcaption>
+        </figure>
+        <figure class="cs-poster">
+          <img src="../assets/dda/02-poster-2.jpg" width="800" height="1236" loading="lazy" decoding="async"
+               alt="Visible-grid poster: blue and orange, Eindhoven buildings split across grid cells, with Dutch Design Awards set inside boxed type.">
+          <figcaption>
+            <h3>Visible grids</h3>
+            <p>Grid lines divide the page into sections and stitch clusters back together.</p>
+          </figcaption>
+        </figure>
+        <figure class="cs-poster">
+          <img src="../assets/dda/02-poster-3.jpg" width="800" height="1236" loading="lazy" decoding="async"
+               alt="Broken-pattern poster: aqua, rows of image fragments with the title in dark red where the pattern breaks, and the 2023 winners listed below.">
+          <figcaption>
+            <h3>A pattern, broken</h3>
+            <p>Fragments form a pattern, and the headline sits exactly where it breaks.</p>
+          </figcaption>
+        </figure>
       </div>
 
-      <figure class="cs-image cs-image--shot reveal" data-delay="2">
-        <img src="../assets/dda/02-posters.jpg"
-             alt="The three final posters: a magenta and lime figure-ground collage, a blue and orange poster on a visible grid, and an aqua poster of broken image patterns with the title in dark red."
-             width="1568" height="600" loading="lazy" decoding="async">
-        <p class="cs-image__caption">Final posters &middot; one per line of investigation</p>
+      <figure class="cs-image reveal" data-delay="2">
+        <div class="cs-frame cs-frame--site cs-frame--desktop">
+          <video src="../assets/dda/09-homepage-evolution.mp4" poster="../assets/dda/09-homepage-evolution.jpg" width="1440" height="1024" autoplay muted loop playsinline preload="metadata" aria-label="The Young Designers homepage wiping from an early exploration, a dense photo grid titled Young Nominees, to the final design on the square grid with year tiles and an Info button."></video>
+        </div>
+        <p class="cs-image__caption">Homepage &middot; early exploration to the final square grid</p>
       </figure>
-
     </section>
 
     <div class="section-divider reveal" aria-hidden="true">
@@ -175,49 +182,42 @@
         </p>
       </div>
 
-      <figure class="cs-image cs-image--shot reveal" data-delay="2">
-        <img src="../assets/dda/03-direction.jpg"
-             alt="Slide comparing two homepage directions on a scale from functional to expressive: a red grid layout chosen as functional, and an aqua tiled layout marked expressive."
-             width="1568" height="882" loading="lazy" decoding="async">
-        <p class="cs-image__caption">Functional vs expressive &middot; we chose functional</p>
-      </figure>
-
-      <div class="cs-insights reveal" data-delay="2">
-        <div class="cs-insight">
-          <h3>Image on hover</h3>
-          <p>On the all-nominees list, hovering a row previews that designer&rsquo;s work beside it.</p>
-        </div>
-        <div class="cs-insight">
-          <h3>Years that preview</h3>
-          <p>Hovering a year enlarges it and plays a clip from each nominee before you commit.</p>
-        </div>
-        <div class="cs-insight">
-          <h3>Spotlight or event info</h3>
-          <p>A single click moves visitors between the designers and practical event details.</p>
-        </div>
+      <div class="cs-compare reveal" data-delay="2">
+        <figure class="cs-figure">
+          <img src="../assets/dda/03-functional.jpg" width="1440" height="1024" loading="lazy" decoding="async"
+               alt="Functional direction: the Young Designers homepage in red on a visible square grid, with year tiles, an all nominees tile and an Info button.">
+          <figcaption class="cs-image__caption">Functional &middot; chosen</figcaption>
+        </figure>
+        <figure class="cs-figure">
+          <img src="../assets/dda/03-expressive.jpg" width="1440" height="1024" loading="lazy" decoding="async"
+               alt="Expressive direction: aqua homepage tiled with repeated nominee photos, Dutch Design Awards and Young Designers broken across the tiles in coral type.">
+          <figcaption class="cs-image__caption">Expressive</figcaption>
+        </figure>
       </div>
 
-      <div class="cs-showcase cs-showcase--two reveal" data-delay="2">
-        <figure class="cs-figure">
-          <div class="cs-frame cs-frame--site">
+      <p class="eyebrow cs-sublabel reveal">Key interactions</p>
+
+      <div class="cs-interactions reveal" data-delay="2">
+        <figure class="cs-poster">
+          <div class="cs-frame cs-frame--site cs-frame--desktop">
             <video src="../assets/dda/04-all-nominees.mp4" poster="../assets/dda/04-all-nominees.jpg" width="1440" height="1024" autoplay muted loop playsinline preload="metadata" aria-label="All nominees page: hovering a name in the list highlights the row and swaps the duotone photo on the left to that designer."></video>
           </div>
-          <figcaption class="cs-image__caption">All nominees &middot; image on hover</figcaption>
+          <figcaption>
+            <h3>Image on hover</h3>
+            <p>On the all-nominees list, hovering a row previews that designer&rsquo;s work beside it.</p>
+          </figcaption>
         </figure>
-        <figure class="cs-figure">
-          <div class="cs-frame cs-frame--site">
+        <figure class="cs-poster">
+          <div class="cs-frame cs-frame--site cs-frame--desktop">
             <video src="../assets/dda/05-year-hover.mp4" poster="../assets/dda/05-year-hover.jpg" width="1440" height="1024" autoplay muted loop playsinline preload="metadata" aria-label="Nominees by year page: hovering each year lifts its column and enlarges it to show three nominee project images, ending on 2023."></video>
           </div>
-          <figcaption class="cs-image__caption">Nominees by year &middot; hovering each year</figcaption>
+          <figcaption>
+            <h3>Years that preview</h3>
+            <p>Hovering a year enlarges it and plays a clip from each nominee before you commit.</p>
+          </figcaption>
         </figure>
       </div>
 
-      <figure class="cs-image reveal" data-delay="2">
-        <div class="cs-frame cs-frame--site cs-frame--desktop">
-          <video src="../assets/dda/09-homepage-evolution.mp4" poster="../assets/dda/09-homepage-evolution.jpg" width="1440" height="1024" autoplay muted loop playsinline preload="metadata" aria-label="The Young Designers homepage wiping from an early exploration, a dense photo grid titled Young Nominees, to the final design on the square grid with year tiles and an Info button."></video>
-        </div>
-        <p class="cs-image__caption">Homepage &middot; early exploration to the final square grid</p>
-      </figure>
     </section>
 
     <div class="section-divider reveal" aria-hidden="true">
@@ -251,20 +251,20 @@
 
       <div class="contributions reveal" data-delay="1">
         <div class="contributions__cluster">
-          <h4 class="contributions__lbl">Research</h4>
+          <h3 class="contributions__lbl">Research</h3>
           <ul>
             <li>Client research on the Dutch Design Awards and its categories</li>
             <li>Exhibition research into the nine-day Dutch Design Week event</li>
           </ul>
         </div>
         <div class="contributions__cluster">
-          <h4 class="contributions__lbl">Posters</h4>
+          <h3 class="contributions__lbl">Posters</h3>
           <ul>
             <li>Poster explorations across the lines of investigation</li>
           </ul>
         </div>
         <div class="contributions__cluster">
-          <h4 class="contributions__lbl">Microsite</h4>
+          <h3 class="contributions__lbl">Microsite</h3>
           <ul>
             <li>Microsite screens in the functional grid system</li>
           </ul>
@@ -284,7 +284,7 @@
 
   <footer class="foot">
     <div><div class="brand-line">Jay Ho</div><p class="blurb">Product &amp; interaction designer, SFU Interactive Arts &amp; Technology. Vancouver &amp; HK.</p></div>
-    <div><h5>Contact</h5><a href="mailto:jayho5403@gmail.com">jayho5403@gmail.com</a><a href="tel:+17787515163">+1 778‑751‑5163</a></div>
+    <div><h2 class="foot__h">Contact</h2><a href="mailto:jayho5403@gmail.com">jayho5403@gmail.com</a><a href="tel:+17787515163">+1 778‑751‑5163</a></div>
     <div class="fine"><span>&copy; <span data-year>2026</span> Jay Ho</span></div>
   </footer>
 

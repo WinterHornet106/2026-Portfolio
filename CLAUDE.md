@@ -104,8 +104,11 @@ The spec's targets, as applied: heading to section content 32 (`.sec-head`), par
 - Two adjacent roomy sections auto-tighten to 64px (48 on phones) via `:has()`
 - Sections either side of a `.section-divider` auto-tighten to 32px (24 on phones)
 - `.sec-head` gives every section 32px to its content
+- Sections are separated by **space alone** (white-space rules Jay pasted, 25 Oct 2026). `.section-divider` and `.hero-bridge` still exist for their padding, but draw no line. Lines that remain are functional: `.cs-meta` row, resume/about tables, `.cs-insight` top rules. Don't add decorative rules back.
 
 **Labels:** sentence case, no tracking, no uppercase, no monospace. Don't put an eyebrow label above section headings (removed 24 Oct 2026). Small labels are 11–14px in the text face; in-section sub-headings (`.cs-sublabel`) are 17px semibold ink, not grey labels.
+
+**Heading levels are semantic and never skip** (IA rules Jay pasted, 25 Oct 2026): one H1 per page (contact's is the "Write to" email line), section H2s, then H3/H4 inside. Footer "Contact" is an `h2.foot__h`. Style headings by class, never by changing the level to get a look.
 
 **Avoid the AI-template tells** an audit flagged: display-size full-sentence H1s (hero now caps at 56px), a coloured accent word inside the H1, eyebrows above every heading, 1·2·3 numbering, scroll fade-ups on everything (`.reveal` is now a style-less hook), and one identical hover across 4+ cards (the 3 project cards share an Apple-style lift + 4% image zoom; vary it if a 4th card is added).
 

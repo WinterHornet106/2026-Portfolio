@@ -123,7 +123,7 @@ p, li, dd, figcaption, blockquote, .t-body, .lede, .aside,
 .cs-image__caption, .persona__bio {
   text-wrap: pretty;
 }
-.persona__role, .persona__focus h4, .cs-insight h3, .cs-features h4,
+.persona__role, .persona__focus h4, .cs-insight h3, .cs-features h3,
 .project-card__desc {
   text-wrap: balance;
 }
@@ -358,12 +358,10 @@ section { padding: var(--section-y) 0; }
 }
 .hero__rail--top {
   padding-bottom: var(--s-4);
-  border-bottom: 1px solid var(--line);
 }
 .hero__rail--bottom {
   margin-top: auto;
   padding-top: var(--s-4);
-  border-top: 1px solid var(--line);
 }
 .hero__rail .clock { color: var(--ink); font-variant-numeric: tabular-nums; }
 .hero__rail a { color: var(--ink); }
@@ -461,13 +459,6 @@ section { padding: var(--section-y) 0; }
 .hero-bridge__line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--line) 12%,
-    var(--line) 88%,
-    transparent
-  );
 }
 @media (max-width: 720px) {
   .hero-bridge { padding: var(--s-6) var(--gutter); }
@@ -512,11 +503,11 @@ section { padding: var(--section-y) 0; }
 /* Auto-tighten any section that sits immediately above or below a divider.
    Specificity beats .section--roomy (0,1,0) because :has() carries the
    weight of its most specific argument. */
-section:has(+ .section-divider) { padding-bottom: var(--s-6); }
-.section-divider + section { padding-top: var(--s-6); }
+section:has(+ .section-divider) { padding-bottom: var(--s-8); }
+.section-divider + section { padding-top: var(--s-8); }
 @media (max-width: 720px) {
-  section:has(+ .section-divider) { padding-bottom: var(--s-5); }
-  .section-divider + section { padding-top: var(--s-5); }
+  section:has(+ .section-divider) { padding-bottom: var(--s-6); }
+  .section-divider + section { padding-top: var(--s-6); }
 }
 /* Auto-tighten two .section--roomy that sit directly adjacent — i.e. when
    no divider sits between them. Without this, both keep their full
@@ -527,16 +518,11 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   section.section--roomy:has(+ section.section--roomy) { padding-bottom: var(--s-7); }
   section.section--roomy + section.section--roomy { padding-top: var(--s-7); }
 }
+/* Sections are separated by space alone (white-space rules, 25 Oct 2026):
+   the divider element keeps its padding so the gap stays, but no line is drawn. */
 .section-divider__line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--line) 14%,
-    var(--line) 86%,
-    transparent
-  );
 }
 
 /* Tiny live status pill */
@@ -938,11 +924,9 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 0;
-  color: var(--accent-ink);
+  color: var(--hl, var(--accent-ink));
   font-weight: 500;
   margin: 0;
-  padding-bottom: var(--s-2);
-  border-bottom: 1px solid var(--line);
 }
 .contributions ul {
   list-style: none;
@@ -998,10 +982,12 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   padding: var(--s-6) 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  margin-top: var(--s-7);
+  /* The hero's bottom padding plus the section's top padding already separate
+     the intro from these details; a margin on top of that left them stranded. */
+  margin-top: 0;
 }
 .cs-meta dl { margin: 0; display: flex; flex-direction: column; gap: var(--s-2); }
-.cs-meta dt { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0; color: var(--ink-3); }
+.cs-meta dt { font-family: var(--mono); font-size: 11px; letter-spacing: 0; color: var(--ink-3); }
 .cs-meta dd { margin: 0; font-size: 15px; color: var(--ink); }
 @media (max-width: 720px) {
   .cs-meta { grid-template-columns: repeat(2, 1fr); gap: var(--s-4); }
@@ -1071,7 +1057,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   color: var(--ink);
   line-height: 1;
 }
-.cs-outcomes .o .lbl { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0; color: var(--ink-3); }
+.cs-outcomes .o .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: 0; color: var(--ink-3); }
 .cs-outcomes .o p { font-size: 14px; line-height: 1.55; margin: 0; color: var(--ink-2); max-width: 34ch; }
 @media (max-width: 720px) { .cs-outcomes { grid-template-columns: 1fr; gap: var(--s-5); } }
 
@@ -1088,6 +1074,8 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   max-width: 62ch;
 }
 .cs-prose p:last-child { margin-bottom: 0; }
+/* A framing question (How might we…) is its own beat, not another paragraph. */
+.cs-prose p.cs-hmw { margin-top: var(--s-6); font-size: var(--fs-lede); line-height: 1.45; color: var(--ink); }
 /* Key phrases are bolded for scanning: a hiring manager should get the story
    from the bold alone. One or two per paragraph, never whole sentences of filler.
    Each case study tints them in its client's colour (set on <body>). */
@@ -1332,7 +1320,8 @@ html.is-draft .todo-shot { display: grid; gap: var(--s-3); }
   height: auto;
 }
 /* Flat screenshot with its own background: framed edge, natural height. */
-.cs-image--shot > img {
+.cs-image--shot > img,
+.cs-image--shot > video {
   display: block;
   width: 100%;
   height: auto;
@@ -1342,6 +1331,7 @@ html.is-draft .todo-shot { display: grid; gap: var(--s-3); }
 /* Website screenshots: square corners. Rounding reads as an app screen; a
    desktop site doesn't have rounded corners, so it shouldn't here either. */
 .cs-image--site > img,
+.cs-image--site > video,
 .cs-frame--site { border-radius: 0; }
 /* Captions span the image's full width so "centred" means centred under the
    picture. Without this, the global p { max-width: 66ch } shrank caption
@@ -1372,7 +1362,7 @@ html.is-draft .todo-shot { display: grid; gap: var(--s-3); }
 section:has(> .cs-outcomes:last-child) { padding-bottom: var(--s-6); }
 section:has(> .cs-next) { padding-top: var(--s-5); }
 .cs-next:hover { padding-left: 12px; }
-.cs-next .lbl { font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0; }
+.cs-next .lbl { font-family: var(--mono); font-size: 12px; color: var(--ink-3); letter-spacing: 0; }
 .cs-next .title {
   font-family: var(--display);
   font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.6rem);
@@ -1431,7 +1421,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   font-size: 16px;
   line-height: 1.55;
 }
-.kv-table .k { color: var(--ink-3); font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0; padding-top: calc(var(--s-5) + 6px); }
+.kv-table .k { color: var(--ink-3); font-family: var(--mono); font-size: 12px; letter-spacing: 0; padding-top: calc(var(--s-5) + 6px); }
 .kv-table .v { color: var(--ink); }
 .kv-table .v a.ulink:hover { color: var(--accent-ink); }
 
@@ -1598,7 +1588,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   padding-top: var(--s-7);
   border-top: 1px solid var(--line);
 }
-.contact-cols h4 {
+.contact-cols h2 {
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 0;
@@ -1693,7 +1683,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   font-size: 14px;
   color: var(--ink-2);
 }
-.foot h5 { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0; color: var(--ink-3); font-weight: 500; margin: 0 0 var(--s-3); }
+.foot h5, .foot .foot__h { font-family: var(--mono); font-size: 11px; letter-spacing: 0; color: var(--ink-3); font-weight: 500; margin: 0 0 var(--s-3); }
 .foot .brand-line { font-family: var(--display); font-weight: 700; font-size: 1.5rem; color: var(--ink); letter-spacing: -0.018em; }
 .foot .blurb { margin-top: var(--s-3); color: var(--ink-3); max-width: 32ch; font-size: 14px; line-height: 1.55; }
 .foot a { color: var(--ink-2); display: block; padding: 4px 0; }
@@ -2069,7 +2059,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 .cs-toc__link:hover .cs-toc__dash { width: 20px; opacity: 0.8; }
 .cs-toc__link.is-active .cs-toc__dash {
   width: 28px;
-  background: var(--accent);
+  background: var(--hl, var(--accent));
   opacity: 1;
 }
 
@@ -2151,7 +2141,7 @@ body.has-toc [data-section] {
     position: absolute;
     left: 0; right: 0; bottom: 0;
     height: 1px;
-    background: var(--accent);
+    background: var(--hl, var(--accent));
     clip-path: inset(0 100% 0 0);
     transition: clip-path 320ms var(--ease-out);
   }
@@ -2215,7 +2205,7 @@ body.has-toc [data-section] {
 .cs-quote {
   margin: var(--s-7) 0 0;
   padding-left: var(--s-5);
-  border-left: 2px solid var(--accent);
+  border-left: 2px solid var(--hl, var(--accent));
   max-width: min(46ch, 620px);
 }
 .cs-quote p {
@@ -2248,6 +2238,45 @@ body.has-toc [data-section] {
 }
 @media (max-width: 780px) { .cs-features { grid-template-columns: 1fr; gap: var(--s-5); } }
 .cs-features li { margin: 0; }
+/* DDA: each visual carries its own heading and line underneath, so the
+   explanation and the thing it explains are never in separate rows.
+   Posters sit three across; interaction clips two across. */
+.cs-posters,
+.cs-interactions {
+  display: grid;
+  gap: var(--s-7) var(--s-6);
+  margin: var(--s-7) 0 0;
+}
+.cs-posters      { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cs-interactions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cs-poster { margin: 0; display: flex; flex-direction: column; gap: var(--s-5); }
+.cs-poster > img { display: block; width: 100%; height: auto; }
+.cs-poster h3 {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 0 0 var(--s-2);
+  text-wrap: balance;
+}
+.cs-poster p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink-2); max-width: 38ch; }
+@media (max-width: 860px) { .cs-interactions { grid-template-columns: 1fr; } }
+@media (max-width: 640px) {
+  .cs-posters { grid-template-columns: 1fr; }
+  .cs-posters .cs-poster > img { max-width: 320px; }
+}
+/* DDA direction: two site screens side by side, square corners like a desktop
+   site, each labelled underneath. Stacks on phones. */
+.cs-compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-6);
+  margin: var(--s-7) 0 var(--s-6);
+}
+.cs-compare img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
+@media (max-width: 640px) { .cs-compare { grid-template-columns: 1fr; gap: var(--s-5); } }
 /* Workshop findings (MEC): problem → fix cards sitting straight on the page,
    white like the persona cards. Three across, two on tablets, one on phones. */
 .cs-fixes {
@@ -2311,7 +2340,7 @@ body.has-toc [data-section] {
 }
 /* Isolated component close-ups sit above each feature's heading. */
 .cs-features .cs-frame { margin-bottom: var(--s-4); border: 0; }
-.cs-features h4 {
+.cs-features h3 {
   font-family: var(--display);
   font-size: 1.15rem;
   font-weight: 500;
@@ -2347,7 +2376,7 @@ body.has-toc [data-section] {
 }
 .persona {
   /* One line to retheme: swap for an MEC green such as oklch(32% 0.07 160). */
-  --persona-accent: var(--accent-ink);
+  --persona-accent: var(--hl, var(--accent-ink));
   /* Subgrid maps each card's three bands onto shared rows, so the dividers
      line up across all three cards however long the copy runs. */
   display: grid;
