@@ -1,6 +1,12 @@
+/* Inter stands in for SF Pro on Windows, Android and Linux, which don't have
+   Apple's fonts (and SF Pro can't be hosted). Apple devices match SF Pro first
+   in the stack below, so they never download Inter. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap");
+
 /* ============================================================
    Portfolio 2026 — shared styles
-   Fonts: Apple's pairing via the system stack: SF Pro Display (headings) + SF Pro Text
+   Fonts: Apple's pairing via the system stack: SF Pro Display (headings) + SF Pro Text,
+   with Inter as the cross-platform stand-in
    Color: OKLCH, cool tinted neutrals with muted steel accent
    ============================================================ */
 
@@ -26,8 +32,8 @@
   --ok:            oklch(62% 0.10 180);
 
   /* Type — sans throughout; hierarchy is weight + tracking */
-  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   /* Small labels (tags, meta, rail) share the text face: no monospace, no caps. */
   --mono: var(--sans);
 
@@ -78,6 +84,9 @@ html, body { margin: 0; padding: 0; }
 /* scrollbar-gutter keeps the scrollbar's width reserved, so locking scroll
    for a modal doesn't shift the whole page sideways as it opens. */
 html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; scrollbar-gutter: stable; }
+/* Windows draws thick grey scrollbars by default; keep them thin and quiet so
+   the page looks the same as on a Mac. */
+html { scrollbar-width: thin; scrollbar-color: oklch(82% 0.008 240) transparent; }
 body {
   font-family: var(--sans);
   font-size: var(--fs-body);
@@ -884,7 +893,9 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 .hero__sub--actions .hero__cluster {
   display: flex;
   flex-direction: column;
-  gap: var(--s-4);
+  /* The intro and the buttons are two steps (read, then act): give the
+     buttons their own beat instead of sitting on the paragraph. */
+  gap: var(--s-6);
 }
 .hero__sub--actions .hero__cluster .row { gap: var(--s-3); }
 
