@@ -4,38 +4,24 @@ Context and working agreements for anyone (human or agent) continuing this site.
 
 ---
 
-## Where things stand — last worked 22 Oct 2026
+## Where things stand — last worked 27 Oct 2026
 
-**All the design work below is uncommitted.** Last commit is `fe1a429 oct 22`, which
-only removed the tracked `.DS_Store`. The working tree holds ~588 added / ~286 removed
-lines across five files plus three untracked paths. Nothing is broken; it just hasn't
-been committed. Jay has not asked for a commit, so don't make one unprompted.
+**Everything is committed and live.** `main` matches GitHub and jayho.fyi. Recent commits:
+`f5ff11d` Inter on non-Apple devices, thin scrollbars · `926c36c` DDA rework, space-based
+sections, semantic headings · `7c9ddb6` process visuals, hover clips, Apple spacing, tighter copy.
+Commit or push only when Jay asks. Never commit the loose source files in the repo root
+(thumbnails, `Costco health care header.png`, `MEC_present.png`, `SFU_logo.svg`, `Vector.png`,
+the two `· Walkthrough.mp4` exports); they are untracked on purpose.
 
-```
- M assets/main.js          generalised modal handler (bindModal)
- M assets/styles.css       poster, personas, widow control, spacing + type fixes
- M projects/arcline.html   restructured to 4 nav beats, copy cut
- M projects/halcyon.html   restructured to 4 nav beats, copy cut
- M projects/mec.html       heaviest rework — see below
-?? .gitignore              new
-?? CLAUDE.md               this file
-?? assets/mec/             6 images (concept, ethnography x2, 3 persona photos)
-```
+**What the 24–25 Oct stretch covered:** Apple-style type (SF Pro) and de-templated design;
+Figma Motion walkthrough videos for MEC and DDA; CarePath before/after pairs; Apple-style
+process visuals for MEC and a research board for DDA; component close-ups for MEC's features;
+looping hover/evolution/load-in clips on DDA; copy cut ~20% with coloured key-phrase highlights;
+three spacing/white-space/IA passes against specs Jay pasted; resume reframed for UX/PM roles.
 
-**What the last stretch of work covered, in order:**
-
-1. Cut all three case studies down against two reference portfolios, then
-   restructured each to exactly four nav beats.
-2. MEC specifically: merged a nine-section page down to five, replaced the
-   final-concept holder with a full-bleed transparent PNG, replaced the process-deck
-   holder with a frosted poster teaser + zoomable lightbox, and built three persona
-   cards (several iterations — they started tall with goals/frustrations/motivations,
-   that was scrapped, now they're compact header + bio + design-focus).
-3. A site-wide **spacing audit**, then a **typography audit**, then two more passes
-   against layout specs Jay pasted in (summarised under "Layout standards" below).
-
-**Likely next steps** (none agreed, just what's open): commit the work; supply the
-four missing MEC images; decide on a MEC outcomes section.
+**Open (none agreed):** a source for CarePath's "1 in 3 patients" statistic; one decision Jay
+personally drove per project (needs Jay); unused old DDA images (`01-homepage.jpg`,
+`02-posters.jpg`, `03-direction.jpg`) could be deleted if Jay agrees.
 
 ---
 
@@ -45,8 +31,9 @@ four missing MEC images; decide on a MEC outcomes section.
 - **Stack:** hand-written HTML, CSS and vanilla JS. **No build step, no framework, no package.json.** Edit files directly; what's in the repo is what ships.
 - **Pages:** `index.html`, `about.html`, `resume.html`, `contact.html`, and three case studies in `projects/` — `mec.html`, `carepath.html`, `dda.html`.
 - **Sources of truth:** MEC copy comes from the Figma file *IAT333 - MEC Client* (Final Slides + Handover Documentation pages). CarePath copy comes from *IAT 438 Final Project Design* (Week 5 FINAL Slides + speaker notes, Week 3 Final Slides for the user testing). Images in `assets/carepath/`. Dutch Design Awards copy comes from *Graphic Experimentation* (IAT 235; part4 and part5 decks, part5_website for screens); images in `assets/dda/`. Jay owned client research (the awards and their categories), exhibition research (the nine-day Dutch Design Week event), the poster explorations and the microsite screens; added per Jay on 24 Oct 2026. Check claims against these before editing.
-- **Shared assets:** `assets/styles.css` (one stylesheet, ~2100 lines), `assets/main.js`, `assets/mec/` (images).
-- **Fonts:** Apple's pairing via the system stack, no web-font downloads: SF Pro Display for headings (`--display`), SF Pro Text for everything else (`--sans`). `--mono` now points at `--sans` on purpose: small labels share the text face. Real SF shows on Apple devices; everywhere else gets **Inter** (Google Fonts `@import` at the top of `styles.css`, 25 Oct 2026), the closest legal stand-in, because Windows was falling back to Arial and looked off. Apple devices match SF first, so they never download Inter. Scrollbars are thin and tinted (`scrollbar-width/color` on `html`) so Windows matches Mac. Switched 24 Oct 2026 away from Satoshi + JetBrains Mono, which an audit flagged as AI-default type (old stylesheet in `.verbose-backup/styles-before-apple-type.css`).
+- **Shared assets:** `assets/styles.css` (one stylesheet, ~2500 lines), `assets/main.js`, images in `assets/mec/`, `assets/carepath/`, `assets/dda/`.
+- **Project colour:** each case study's `<body>` carries `cs--mec` / `cs--carepath` / `cs--dda`, which sets `--hl` (MEC green, Costco blue, DDA red). Bold highlights, the quote rule, persona labels, "What I owned" group labels and the section-rail marker all use it. Other pages keep the site blue `--accent`.
+- **Fonts:** Apple's pairing via the system stack: SF Pro Display for headings (`--display`), SF Pro Text for everything else (`--sans`). `--mono` now points at `--sans` on purpose: small labels share the text face. Real SF shows on Apple devices; everywhere else gets **Inter** (Google Fonts `@import` at the top of `styles.css`, 25 Oct 2026), the closest legal stand-in, because Windows was falling back to Arial and looked off. Apple devices match SF first, so they never download Inter. Scrollbars are thin and tinted (`scrollbar-width/color` on `html`) so Windows matches Mac. Switched 24 Oct 2026 away from Satoshi + JetBrains Mono, which an audit flagged as AI-default type (old stylesheet in `.verbose-backup/styles-before-apple-type.css`).
 - **Colour:** OKLCH throughout. No dark mode exists — don't assume one.
 
 Jay is a product/interaction designer, not primarily an engineer. Explain technical things plainly and briefly when they come up (e.g. what `git pull` does and why), without condescension or lecturing.
@@ -102,7 +89,7 @@ The spec's targets, as applied: heading to section content 32 (`.sec-head`), par
 **Section rhythm** (already automatic, don't fight it):
 - `section` and `.section--roomy` = `--section-y` top/bottom (64 to 128px)
 - Two adjacent roomy sections auto-tighten to 64px (48 on phones) via `:has()`
-- Sections either side of a `.section-divider` auto-tighten to 32px (24 on phones)
+- Sections either side of a `.section-divider` get 64px each (32 on phones), so about 190px from one section's last line to the next heading on desktop
 - `.sec-head` gives every section 32px to its content
 - Sections are separated by **space alone** (white-space rules Jay pasted, 25 Oct 2026). `.section-divider` and `.hero-bridge` still exist for their padding, but draw no line. Lines that remain are functional: `.cs-meta` row, resume/about tables, `.cs-insight` top rules. Don't add decorative rules back.
 
@@ -154,7 +141,7 @@ against them. Treat these as the standing bar, not one-off requests.
 same MEC section uses 32px. Matching them exactly narrows each card enough that
 "Gear-Savvy Explorer" wraps. The persona breakpoint was already raised to 1200px to buy
 room. If you change persona card width, gap, portrait size or role font, **re-check that
-role line** — it's the binding constraint. (Since 22 Oct the role is an 11px mono label and the name is the big line, so this has a lot more slack.)
+role line** — it's the binding constraint. (The role is an 11px label and the name is the big line, so this has a lot of slack.)
 
 ---
 
@@ -174,9 +161,16 @@ variants carry a 1px border (transparent on primary) so mixed rows match in heig
 | `.cs-image--bleed` | Full-width figure for transparent PNGs. No frame, no fill, caption below. |
 | `.poster` / `.poster__veil` | Frosted-glass teaser band. Low-res preview under a `backdrop-filter` blur with a centred button that opens the lightbox. |
 | `.pdf-modal` + `.pdf-modal__scroll` | Shared lightbox. `bindModal()` in `main.js` drives both the resume PDF and the MEC poster. Heavy asset carries `data-src`: the resume preloads when the page is idle (`data-preload="idle"`), the poster on hover/focus of its opener. Closed modals stay laid out but invisible and `inert` (not `display:none`) so opening is a pure fade + rise; no backdrop blur (too expensive); system cursor returns while open. Click image to zoom to natural width; Escape closes; nav tucks away via `.has-modal` on `<html>`. |
-| `.personas` / `.persona` | Three MEC persona cards. CSS **subgrid** so bands align across cards. `--persona-accent` on `.persona` retints the whole component in one line. |
+| `.personas` / `.persona` | Three MEC persona cards. CSS **subgrid** so bands align across cards. `--persona-accent` (set from `--hl`) retints the component. The focus band's `margin-top: auto` lives only in the non-subgrid fallback; under subgrid it pushed shorter bands down. |
+| `.cs-fixes` / `.cs-fix` | MEC workshop findings: six white problem → fix cards in HTML (gradient icon chip, grey quote, bold fix). 3 / 2 / 1 columns. |
+| `.cs-posters` / `.cs-interactions` / `.cs-poster` | DDA: each visual (poster or hover clip) carries its own h3 + line underneath. Posters 3 across (stack at 640px), clips 2 across (stack at 860px). |
+| `.cs-compare` | DDA functional vs expressive: two site screens side by side, square corners, labelled below. |
+| `.cs-pair` | CarePath before/after phone pair inside each Outcomes card. |
+| `.todo-shot` | Draft-only image placeholder (shows on localhost or `?draft`). Unused now; keep for future slots. |
 
-**Reserved heights keep the persona cards aligned** — the meta line (age · job · experience, styled from `.persona__chips`) holds 2 lines, bios hold 5 lines, `.cs-insight h3` holds 2 lines. These exist *because* content lengths vary. If you change the copy or font size, re-check them; they're `em`-based so they track font changes.
+**Behaviour worth knowing (main.js):** the section rail starts hidden in the HTML (`cs-toc is-hidden`) and fades in once the first section reaches the reading line, so it never flashes on load. Rail links scroll smoothly and use `history.replaceState`, so Back leaves the case study instead of stepping through sections. Looping `video[autoplay][loop]` clips hold on their poster under reduced motion. The custom cursor hands over to the system pointer only on `video[controls]`. `img, video` have `user-select: none` so Live Text can't copy words out of screenshots. The back link has an invisible `::after` hit area (16px / 24px).
+
+**Reserved heights keep the persona cards aligned** — the meta line (age · job · experience, styled from `.persona__chips`) holds 2 lines, bios hold 4 lines (bios were cut to ~17 words on 25 Oct), `.cs-insight h3` holds 2 lines. These exist *because* content lengths vary. If you change the copy or font size, re-check them; they're `em`-based so they track font changes.
 
 ---
 
@@ -192,11 +186,13 @@ variants carry a 1px border (transparent on primary) so mixed rows match in heig
 
 ## Known gotchas
 
-- **The resume is designed in HTML.** Edit `resume-src/resume.html`, then reprint with headless Chrome (command in that file's header comment) to `assets/resume.pdf`, and regenerate the pop-up image below. Keep it to one page and check the PDF embeds Inter (the resume uses Inter only, not the site's Satoshi/JetBrains, for a cleaner print read; no links, it is a flat sheet). The old Word-made resume is in `.verbose-backup/resume-old/`.
+- **The resume is designed in HTML.** Edit `resume-src/resume.html`, then reprint with headless Chrome (command in that file's header comment) to `assets/resume.pdf`, and regenerate the pop-up image below. Keep it to one page and check the PDF embeds Inter (the resume uses Inter only, not the site's SF stack, for a consistent print read; no links, it is a flat sheet). Experience bullets were reframed for UX/PM on 25 Oct without adding claims; previous version in `.verbose-backup/resume-before-ux/`. The old Word-made resume is in `.verbose-backup/resume-old/`.
 - **The resume viewer shows an image, not the PDF.** `assets/resume-page.png` is a render of `assets/resume.pdf` (made with `qlmanage -t -s 2550 -o <dir> assets/resume.pdf`). If the PDF changes, regenerate the PNG or the pop-up shows the old resume. The Download PDF button still serves the real PDF.
 
 - **Missing images fail silently.** Every `<img>` carries `onerror="this.style.display='none'"`, so a broken path just shows the SVG placeholder underneath. Always verify paths resolve on disk.
 - **`sips -Z` fits the *longest* side.** For a portrait image, use `sips --resampleWidth N` instead or you'll get the wrong dimension.
+- **Video tooling is Swift, not ffmpeg.** Small Swift scripts (AVFoundation) cut clips, re-encode at ~3 Mbps with `shouldOptimizeForNetworkUse`, hold end frames and pull poster frames. AVAssetWriter leaves `*.sb-*` temp files next to its output; delete them before committing.
+- **Figma Motion MP4 export can't run from the plugin for big frames.** Jay exports walkthroughs by hand (1440×1024 or 1920×1080, 30/60 fps) into the repo root; they get re-encoded into `assets/`.
 - **No image tooling installed** — no PIL, pngquant, oxipng or ImageMagick. Only `sips`, which doesn't optimise PNG output. For photographic content check whether alpha is actually needed (`hasAlpha` can be true while every pixel is opaque) and use JPEG; it's dramatically smaller.
 
 ---
@@ -234,15 +230,9 @@ linking events to loyalty and spending), which MEC can implement if it chooses. 
 
 **Avatar sources are 128px max.** The original persona photos were deleted from the repo without backup. If the portrait needs to be larger than 72px, Jay has to re-supply the files.
 
-**Nothing is committed.** See "Where things stand" at the top for the full list.
-`.DS_Store` is now untracked and gitignored.
+`.DS_Store` is untracked and gitignored.
 
-**Figma MCP is configured but not authorized.** `plugin:design:figma` appears in this
-project's MCP servers, but no Figma tools are exposed until someone authorizes it via
-`/mcp` or `claude mcp` in an interactive session. Same for Linear, Atlassian, Intercom,
-Asana and several product-management connectors. Note that even once connected, those
-tools read file structure and styles — they don't export rendered images, so case-study
-visuals still come out of Figma by hand.
+**Figma access goes through the Desktop Bridge plugin** (figma-console MCP), not the `plugin:design:figma` connector, which is still unauthorized. Jay opens the Desktop Bridge plugin in a file to connect it. Connected files: Portfolio (Jay's own; editable), IAT 438 Final Project Design and Graphic Experimentation (shared team files: read and export only, never edit), IAT 333 MEC app ideas (FigJam). The DDA walkthrough frame on the "DDA walkthrough video" page has a linked twin that mirrors every edit, so it is **not** a backup; use Figma version history to roll back.
 
 ---
 
