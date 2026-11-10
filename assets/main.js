@@ -416,6 +416,23 @@
     const onScroll = () => nav.classList.toggle("is-scrolled", window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
+
+    /* Case studies below 1200px stack the nav and the section tabs (113px on
+       a phone). Scrolling down tucks the nav away and the tabs slide up to
+       the top; any scroll up brings it back (polish, 10 Nov 2026). */
+    if (document.body.classList.contains("has-toc")) {
+      const narrow = window.matchMedia("(max-width: 1199px)");
+      const root = document.documentElement;
+      let lastY = window.scrollY;
+      window.addEventListener("scroll", () => {
+        const y = window.scrollY, dy = y - lastY;
+        if (Math.abs(dy) < 6) return;                     // ignore jitter
+        lastY = y;
+        const tuck = narrow.matches && dy > 0 && y > 160 && !nav.classList.contains("is-open");
+        root.classList.toggle("nav-tucked", tuck);
+      }, { passive: true });
+      narrow.addEventListener("change", (e) => { if (!e.matches) root.classList.remove("nav-tucked"); });
+    }
   }
 
   /* ---------- Logo animation ----------

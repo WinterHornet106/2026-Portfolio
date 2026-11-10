@@ -306,7 +306,16 @@ section { padding: var(--section-y) 0; }
   .has-modal .nav { transition: none; }
 }
 /* The case-study rail steps aside for the same reason. */
-.cs-toc { transition: opacity var(--t-base) var(--ease-out); }
+.cs-toc { transition: opacity var(--t-base) var(--ease-out), top var(--t-base) var(--ease-out); }
+/* Case studies below 1200px: scrolling down tucks the nav away and the
+   section tabs take the top (main.js sets .nav-tucked). */
+@media (max-width: 1199px) {
+  .nav-tucked .has-toc .nav { transform: translateY(-100%); }
+  .nav-tucked .has-toc .cs-toc { top: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-toc { transition: none; }
+}
 .has-modal .cs-toc { opacity: 0; pointer-events: none; }
 .nav__brand {
   font-family: var(--sans);
@@ -1019,7 +1028,9 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   .panel__link:hover .panel__cta > span:first-child { text-decoration: underline; text-underline-offset: 3px; }
   .panel__link:hover .panel__cta .arr { transform: translateX(6px); }
 }
-@media (max-width: 860px) {
+/* Stacked only on phones; tablets keep the side-by-side panels (polish,
+   10 Nov 2026; was 860px). */
+@media (max-width: 720px) {
   .panels { flex-direction: column; height: auto; }
   .panel { flex: none; height: 104px; transition: height 700ms cubic-bezier(.2, .8, .2, 1); }
   .panel.is-on { height: clamp(380px, 110vw, 480px); }
@@ -2652,8 +2663,9 @@ body.has-toc [data-section] {
   grid-template-rows: repeat(2, auto);
   gap: var(--s-5);
 }
-/* Three columns only once the longest role fits beside the portrait. */
-@media (max-width: 1200px) {
+/* Three columns down to 900px (the role is a short label above the name,
+   so it no longer needs 1200px; polish, 10 Nov 2026). */
+@media (max-width: 900px) {
   .personas {
     grid-template-columns: 1fr;
     grid-template-rows: none;
@@ -2742,7 +2754,9 @@ body.has-toc [data-section] {
   min-height: calc(2 * 1.4em);
 }
 .persona__chips li { white-space: nowrap; }
-.persona__chips li + li::before {
+/* The dot trails each item, so a wrapped line never starts with "·"
+   (polish, 10 Nov 2026). */
+.persona__chips li:not(:last-child)::after {
   content: "\00B7";
   margin-inline: 6px;
 }
@@ -2898,7 +2912,7 @@ img[data-zoom] { cursor: zoom-in; }
    Personas reserve 2-line meta and 4-line bios so three cards align side by
    side; stacked in one column that only left gaps. The six workshop fixes
    put the icon beside the text instead of above it. */
-@media (max-width: 1200px) {
+@media (max-width: 900px) {
   .persona__chips, .persona__bio { min-height: 0; }
 }
 @media (max-width: 640px) {
@@ -2913,3 +2927,10 @@ img[data-zoom] { cursor: zoom-in; }
   .cs-fix__icon { grid-row: 1 / span 2; margin: 0; }
   .cs-fix__quote { margin: 0 0 var(--s-1); }
 }
+
+/* Keeps a hyphenated word such as "co-op" on one line in headings. */
+.nobr { white-space: nowrap; }
+
+/* About body copy: about 67 characters a line (was about 81; polish,
+   10 Nov 2026). em, not ch: ch measures the "0", wider than average text. */
+.copy-block > p:not(.lede) { max-width: 32em; }
