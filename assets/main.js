@@ -1692,7 +1692,7 @@
     const load = () => {
       if (media && !media.src) media.src = media.dataset.src;
     };
-    if (modal.dataset.preload === "idle") {
+    if (modal.dataset.preload === "idle" && !(modalId === "pdf-modal" && window.matchMedia("(max-width: 720px)").matches)) {
       (window.requestIdleCallback || ((fn) => setTimeout(fn, 1200)))(load, { timeout: 2500 });
     } else {
       opener.addEventListener("pointerenter", load, { once: true });
@@ -1778,8 +1778,84 @@
       if (e.key === "Escape" && modal.classList.contains("is-open")) close();
     });
   };
+  /* Phones open the résumé PDF itself instead of the image viewer: the
+     viewer shrank the page to the screen width (about 4px text), while the
+     phone's own PDF viewer pinch-zooms (mobile audit, 10 Nov 2026). This
+     listener runs first (capture) and stops the viewer from opening. */
+  const phonePdf = window.matchMedia("(max-width: 720px)");
+  document.addEventListener("click", (e) => {
+    const opener = e.target.closest && e.target.closest("[data-pdf-open]");
+    if (!opener || !phonePdf.matches) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    window.location.href = opener.dataset.pdfHref || "assets/resume.pdf";
+  }, true);
   bindModal("pdf-modal", "[data-pdf-open]", "[data-pdf-close]");
   bindModal("poster-modal", "[data-poster-open]", "[data-poster-close]");
+
+  /* ---------- Enlarge an image (mobile audit, 10 Nov 2026) ----------
+     Research visuals and before/after screens shrank to a fifth of their size
+     on phones. Any img[data-zoom] gets a small enlarge button in its corner;
+     the button or the image opens it full screen. On wide screens it fits the
+     window; on narrow ones it shows at a readable width you can pan, and
+     pinch-zoom still works. Escape, the close button or the backdrop close it. */
+  const zoomImgs = [...document.querySelectorAll("img[data-zoom]")];
+  if (zoomImgs.length) {
+    const box = document.createElement("div");
+    box.className = "zoom";
+    box.setAttribute("role", "dialog");
+    box.setAttribute("aria-modal", "true");
+    box.setAttribute("aria-label", "Enlarged image");
+    box.inert = true;
+    box.innerHTML = '<button type="button" class="zoom__close" aria-label="Close">&times;</button><div class="zoom__scroll"><img class="zoom__img" alt=""></div>';
+    document.body.appendChild(box);
+    const big = box.querySelector(".zoom__img"), scroller = box.querySelector(".zoom__scroll");
+    const closeBtn = box.querySelector(".zoom__close");
+    let back = null;
+    const size = () => {
+      const nat = big.naturalWidth || 1200;
+      const vw = window.innerWidth;
+      // Retina exports (3000px and up) are shown at half their pixels.
+      const css = nat > 2400 ? nat / 2 : nat;
+      big.style.width = `${vw >= 1000 ? Math.min(css, vw - 96) : Math.max(vw - 32, Math.min(css, 1400))}px`;
+    };
+    const open = (img) => {
+      back = document.activeElement;
+      big.src = img.currentSrc || img.src;
+      big.alt = img.alt;
+      if (big.complete) size(); else big.onload = size;
+      box.inert = false;
+      box.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+      document.documentElement.classList.add("has-modal");
+      scroller.scrollTo(0, 0);
+      closeBtn.focus({ preventScroll: true });
+    };
+    const close = () => {
+      if (!box.classList.contains("is-open")) return;
+      box.classList.remove("is-open");
+      box.inert = true;
+      document.body.style.overflow = "";
+      document.documentElement.classList.remove("has-modal");
+      back?.focus({ preventScroll: true });
+    };
+    zoomImgs.forEach((img) => {
+      const host = img.closest(".cs-frame, .cs-swipe, figure") || img.parentElement;
+      host.classList.add("has-zoom");
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "zoom-btn";
+      btn.setAttribute("aria-label", `Enlarge image${img.alt ? `: ${img.alt.split(/[.:]/)[0]}` : ""}`);
+      btn.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9.5 2.5h4v4M13.5 2.5 9 7M6.5 13.5h-4v-4M2.5 13.5 7 9"/></svg>';
+      btn.addEventListener("click", () => open(img));
+      host.appendChild(btn);
+      img.addEventListener("click", () => open(img));
+    });
+    closeBtn.addEventListener("click", close);
+    box.addEventListener("click", (e) => { if (e.target === box || e.target === scroller) close(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+    window.addEventListener("resize", () => { if (box.classList.contains("is-open")) size(); });
+  }
 
   /* ---------- Case-study section rail (sub-navigation) ----------
      Wide screens: fixed vertical rail. Narrow: sticky chip bar.

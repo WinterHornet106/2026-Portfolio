@@ -645,6 +645,13 @@ html.has-intro, html.intro-wait { overflow: hidden; overscroll-behavior: none; }
 @media (prefers-reduced-motion: reduce) {
   .role-swap__caret { display: none; }
 }
+/* Phones: the reserved width of the longest title left a gap mid-line
+   ("UX Research    trying") and line breaks shifted as titles typed. Here
+   the title gets its own line, so nothing around it moves (mobile audit,
+   10 Nov 2026). */
+@media (max-width: 640px) {
+  .role-swap { display: block; }
+}
 
 /* Sub-row: discipline eyebrow + parenthetical tag, aligned to a 2-col rhythm */
 .hero__sub {
@@ -2122,7 +2129,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 @media (hover: hover) and (pointer: fine) {
   .has-modal, .has-modal * { cursor: auto !important; }
   .has-modal .pdf-modal__backdrop,
-  .has-modal .pdf-modal__close { cursor: pointer !important; }
+  .has-modal .pdf-modal__close, .has-modal .zoom__close { cursor: pointer !important; }
   .has-modal .pdf-modal__img { cursor: zoom-in !important; }
   .has-modal .pdf-modal__img.is-zoomed { cursor: zoom-out !important; }
   .has-modal .pdf-modal__scroll.is-dragging,
@@ -2154,6 +2161,10 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 .pdf-modal__close:hover { border-color: var(--line-strong); }
 @media (max-width: 720px) {
   .pdf-modal { padding: var(--s-3); }
+}
+/* 44px close button for touch (mobile audit, 10 Nov 2026) */
+@media (pointer: coarse) {
+  .pdf-modal__close { width: 44px; height: 44px; }
 }
 
 /* ---------- Cursor indicator ---------- */
@@ -2387,7 +2398,7 @@ body.has-toc [data-section] {
     overscroll-behavior-x: contain;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: var(--s-1) var(--gutter);
+    padding: 0 var(--gutter);
     /* Fade the leading/trailing edge so the row reads as scrollable */
     mask-image: linear-gradient(to right, transparent 0, #000 16px,
                 #000 calc(100% - 22px), transparent 100%);
@@ -2400,15 +2411,17 @@ body.has-toc [data-section] {
   .cs-toc__link {
     position: relative;
     white-space: nowrap;
-    /* at least 24px tall to tap (WCAG 2.2 target size); the list's padding
-       is trimmed to match, so the bar stays the same height */
-    min-height: 32px;
-    padding: var(--s-2) 0;
+    /* 44px tall to tap (Apple / Google guidance); the list has no vertical
+       padding, so the bar stays 44px (mobile audit, 10 Nov 2026) */
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0;
   }
   .cs-toc__link::after {
     content: "";
     position: absolute;
-    left: 0; right: 0; bottom: 5px;
+    left: 0; right: 0; bottom: 9px;
     height: 1px;
     background: var(--hl, var(--accent));
     clip-path: inset(0 100% 0 0);
@@ -2772,4 +2785,131 @@ body.has-toc [data-section] {
   font-size: 14px;
   line-height: 1.55;
   color: var(--ink-3);
+}
+
+/* ---------- Touch targets (mobile audit, 10 Nov 2026) ----------
+   Apple and Google ask for about 44px; these were 31 to 40px tall.
+   Coarse pointers only, so the desktop layout doesn't move. */
+@media (pointer: coarse) {
+  .foot a { display: flex; align-items: center; min-height: 44px; padding: 0; }
+  .copy-btn { min-height: 44px; }
+  .approach-more { min-height: 44px; }
+  /* The email headline and the logo keep their look; an invisible layer
+     around each makes the tappable area 44px or more. */
+  .copy-email::before { content: ""; position: absolute; inset: -8px -4px; }
+  .nav__brand::before { content: ""; position: absolute; inset: -6px -8px; }
+}
+
+/* ---------- Enlarge an image (mobile audit, 10 Nov 2026) ----------
+   main.js adds .zoom-btn to the frame or figure of any img[data-zoom] and
+   builds one .zoom viewer. */
+.has-zoom { position: relative; }
+img[data-zoom] { cursor: zoom-in; }
+.zoom-btn {
+  position: absolute;
+  top: var(--s-2);
+  right: var(--s-2);
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: color-mix(in oklch, var(--bg) 88%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--ink);
+  box-shadow: var(--shadow-rest);
+  cursor: pointer;
+}
+.zoom-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+/* Desktop: the button only appears on hover or focus; touch keeps it shown. */
+@media (hover: hover) and (pointer: fine) {
+  .zoom-btn { opacity: 0; transition: opacity var(--t-fast) var(--ease-out); }
+  .has-zoom:hover .zoom-btn, .zoom-btn:focus-visible { opacity: 1; }
+}
+.zoom {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgb(10 14 22 / .88);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 220ms var(--ease-out), visibility 0s linear 220ms;
+}
+.zoom.is-open { opacity: 1; visibility: visible; transition: opacity 220ms var(--ease-out); }
+.zoom__scroll {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  justify-content: safe center;
+  align-items: safe center;
+  padding: 64px var(--s-4) var(--s-4);
+}
+.zoom__img {
+  display: block;
+  flex: none;
+  height: auto;
+  max-width: none;
+  border-radius: 8px;
+  background: #fff;
+  cursor: default;
+}
+.zoom__close {
+  position: fixed;
+  top: var(--s-3);
+  right: var(--s-3);
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 0;
+  background: #fff;
+  color: var(--ink);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.has-modal .zoom, .has-modal .zoom * { cursor: auto; }
+.has-modal .zoom__close { cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { .zoom, .zoom.is-open { transition: none; } }
+
+/* MEC's six-screen strip: on phones it scrolls sideways at a readable height
+   instead of shrinking to 100px tall. */
+.cs-swipe__track img { display: block; width: 100%; height: auto; }
+.cs-swipe__hint { display: none; }
+@media (max-width: 640px) {
+  .cs-swipe__track {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+  }
+  .cs-swipe__track::-webkit-scrollbar { display: none; }
+  .cs-swipe__track img { width: auto; height: 300px; max-width: none; }
+  .cs-swipe__hint { display: block; }
+}
+
+/* ---------- Shorter MEC research on phones (mobile audit, 10 Nov 2026) ----------
+   Personas reserve 2-line meta and 4-line bios so three cards align side by
+   side; stacked in one column that only left gaps. The six workshop fixes
+   put the icon beside the text instead of above it. */
+@media (max-width: 1200px) {
+  .persona__chips, .persona__bio { min-height: 0; }
+}
+@media (max-width: 640px) {
+  .cs-fixes { gap: var(--s-3); }
+  .cs-fix {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    column-gap: var(--s-4);
+    align-items: start;
+    padding: var(--s-4);
+  }
+  .cs-fix__icon { grid-row: 1 / span 2; margin: 0; }
+  .cs-fix__quote { margin: 0 0 var(--s-1); }
 }
