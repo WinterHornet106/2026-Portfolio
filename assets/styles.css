@@ -1970,8 +1970,22 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 .foot h5, .foot .foot__h { font-family: var(--mono); font-size: var(--fs-label); letter-spacing: 0; color: var(--ink-3); font-weight: 500; margin: 0 0 var(--s-3); }
 .foot .brand-line { font-family: var(--display); font-weight: 700; font-size: 1.5rem; color: var(--ink); letter-spacing: -0.018em; }
 .foot .blurb { margin-top: var(--s-3); color: var(--ink-3); max-width: 32ch; font-size: 14px; line-height: 1.55; }
-.foot a { color: var(--ink-2); display: block; padding: 4px 0; }
-.foot a:hover { color: var(--ink); }
+.foot a { color: var(--ink-2); display: block; padding: 4px 0; position: relative; width: fit-content; transition: color var(--t-fast) var(--ease-out); }
+.foot a:hover, .foot a:focus-visible { color: var(--ink); }
+/* The same sliding underline as .ulink, so footer links show they're links
+   on hover (Jay, 10 Nov 2026; before only the colour shifted slightly). */
+.foot a::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: 3px;
+  height: 1px; background: currentColor;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 380ms var(--ease-out);
+}
+@media (hover: hover) {
+  .foot a:hover::after { clip-path: inset(0 0 0 0); }
+}
+.foot a:focus-visible::after { clip-path: inset(0 0 0 0); }
+@media (prefers-reduced-motion: reduce) { .foot a::after { transition: none; } }
 .foot .fine { grid-column: 1 / -1; display: flex; justify-content: space-between; padding-top: var(--s-6); color: var(--ink-3); font-size: 12px; font-family: var(--mono); border-top: 1px solid var(--line); margin-top: var(--s-6); }
 @media (max-width: 720px) {
   .foot { grid-template-columns: 1fr 1fr; gap: var(--s-5); }
