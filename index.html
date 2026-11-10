@@ -3,9 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- First page of a visit (or any page with ?intro): hide the page for the
-       logo intro, which main.js plays. Failsafe: the page shows after 4s. -->
-  <script>try{if(/[?&]intro\b/.test(location.search)||(!sessionStorage.getItem("introSeen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)){var r=document.documentElement;r.classList.add("has-intro");setTimeout(function(){r.classList.remove("has-intro")},4000)}}catch(e){}</script>
+  <!-- Arriving from outside the site (a typed link, a bookmark, a link in an
+       email or on LinkedIn), or any visit with ?intro: hide the page for the
+       logo intro, which main.js plays. Moving around inside the site (the Work
+       link from a case study) and Back/Forward skip it. Failsafe: the page
+       shows after 4s. (Jay, 10 Nov 2026; was once per browser session.) -->
+  <script>try{var ref=document.referrer,ext=!ref||new URL(ref).host!==location.host,nv=(performance.getEntriesByType&&performance.getEntriesByType("navigation")[0]||{}).type;if(/[?&]intro\b/.test(location.search)||(ext&&nv!=="back_forward"&&!matchMedia("(prefers-reduced-motion: reduce)").matches)){var r=document.documentElement;r.classList.add("has-intro");setTimeout(function(){r.classList.remove("has-intro")},4000)}}catch(e){}</script>
   <title>Jay Ho · Product & Interaction Design</title>
   <meta name="description" content="Jay Ho is a product and interaction designer from SFU Interactive Arts &amp; Technology, with a real-client app for MEC, a tested healthcare concept and an awards microsite." />
   <meta property="og:type" content="website" />
@@ -18,7 +21,7 @@
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Jay Ho, product and interaction designer: MEC Connect, Costco CarePath, Dutch Design Awards." />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="stylesheet" href="assets/styles.css?v=20261110m" />
+  <link rel="stylesheet" href="assets/styles.css?v=20261110n" />
   <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
 </head>
 <body>
@@ -160,6 +163,6 @@
     </div>
   </footer>
 
-  <script src="assets/main.js?v=20261110m"></script>
+  <script src="assets/main.js?v=20261110n"></script>
 </body>
 </html>

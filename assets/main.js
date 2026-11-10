@@ -921,7 +921,7 @@
     }
   }
 
-  // Intro: the first page of a visit, or any page opened with ?intro. The
+  // Intro: the home page when arriving from outside the site, or ?intro. The
   // <head> of each page adds .has-intro (which hides the page) only when the
   // intro should play, so this follows that decision, reduced motion included.
   // A big figure in the middle of a blank screen waits, blinking now and
@@ -936,7 +936,6 @@
   // fade-in: nav first, then the blocks on screen in reading order. No props.
   const root = document.documentElement;
   if (root.classList.contains("has-intro")) {
-    try { sessionStorage.setItem("introSeen", "1"); } catch (e) {}
     const intro = document.createElement("div");
     intro.className = "intro";
     const fig = makeFigure("li", "intro__logo logo-live");
