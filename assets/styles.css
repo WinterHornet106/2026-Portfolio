@@ -2934,3 +2934,20 @@ img[data-zoom] { cursor: zoom-in; }
 /* About body copy: about 67 characters a line (was about 81; polish,
    10 Nov 2026). em, not ch: ch measures the "0", wider than average text. */
 .copy-block > p:not(.lede) { max-width: 32em; }
+
+/* Home panels on touch screens: a closed panel says it can be opened (the
+   first tap reveals it, the second goes to the case study). The label is
+   aria-hidden, so this cue is visual only (Jay, 10 Nov 2026). */
+@media (pointer: coarse) {
+  .panel__label::after {
+    content: "Tap to reveal";
+    display: block;
+    margin-top: var(--s-1);
+    font-family: var(--sans);
+    font-size: var(--fs-label);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: 0;
+    color: rgb(255 255 255 / .82);
+  }
+}
