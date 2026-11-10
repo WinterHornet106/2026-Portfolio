@@ -2,6 +2,9 @@
    Apple's fonts (and SF Pro can't be hosted). Apple devices match SF Pro first
    in the stack below, so they never download Inter. */
 @import url("https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap");
+/* Handwriting for the intro's scribbled "click me" note only. text= keeps
+   the download to just the letters it uses (a few kB). */
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@600&text=Hojicha&display=swap");
 
 /* ============================================================
    Portfolio 2026 — shared styles
@@ -13,9 +16,9 @@
 
 /* ---------- Tokens ---------- */
 :root {
-  /* Surface & ink — cool tinted neutrals (light is default) */
-  --bg:            oklch(97.4% 0.004 240);
-  --bg-elev:       oklch(94.5% 0.006 240);
+  /* Surface & ink — neutrals with a faint aqua cast, from the sky palette below */
+  --bg:            #ffffff;
+  --bg-elev:       oklch(94.8% 0.010 215);
   --ink:           oklch(17% 0.012 250);
   --ink-2:         oklch(33% 0.012 250);
   --ink-3:         oklch(46% 0.010 248);
@@ -23,9 +26,15 @@
   --line:          oklch(88% 0.008 240);
   --line-strong:   oklch(78% 0.010 240);
 
-  /* Accent — a single, rare muted steel */
-  --accent:        oklch(56% 0.095 235);
-  --accent-ink:    oklch(40% 0.090 235);
+  /* Sky palette (Jay's colour scheme, CREATIVE SPACE Figma, 30 Oct 2026):
+     #CBF9FF pale aqua to #00BBFF sky blue. --accent is the bright end for fills,
+     focus rings and marks; --accent-ink is a deeper sky that reads as text
+     (about 4.8:1 on --bg). --sky-grad is the gradient itself. */
+  --sky-1:         #cbf9ff;
+  --sky-2:         #00bbff;
+  --sky-grad:      linear-gradient(135deg, var(--sky-1), var(--sky-2));
+  --accent:        oklch(73% 0.155 232);
+  --accent-ink:    oklch(50% 0.130 236);
 
   /* Semantic (kept lean) */
   --err:           oklch(55% 0.18 22);
@@ -41,10 +50,22 @@
   --fs-caption: clamp(0.75rem, 0.72rem + 0.15vw, 0.82rem);
   --fs-body:    clamp(1rem, 0.95rem + 0.2vw, 1.08rem);
   --fs-lede:    clamp(1.22rem, 1.1rem + 0.6vw, 1.5rem);
-  --fs-h4:      clamp(1.35rem, 1.2rem + 0.8vw, 1.75rem);
-  --fs-h3:      clamp(1.75rem, 1.5rem + 1.2vw, 2.4rem);
-  --fs-h2:      clamp(2.3rem, 1.9rem + 2vw, 3.6rem);
-  --fs-h1:      clamp(3rem, 2.2rem + 4.4vw, 6.4rem);
+  /* Type system (design audit, 8 Nov 2026), on apple.com's steps:
+     H1 48>32, H2 40>28, tile 28>22, H3 24>21, H4 19>17, body 17, card
+     copy 15, meta 14, label 12. Headings track ~0 (SF Display tightens
+     itself); line height loosens as size drops. */
+  --fs-h4:      clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --fs-h3:      clamp(1.3125rem, 1.15rem + 0.5vw, 1.5rem);
+  --fs-tile:    clamp(1.375rem, 1.25rem + 0.5vw, 1.75rem);
+  --fs-small:   15px;
+  --fs-meta:    14px;
+  --fs-label:   12px;
+  --lh-h3:      1.17;
+  --lh-h4:      1.2;
+  /* h1/h2 on apple.com's scale (8 Nov 2026): headline 48 / section 40 on
+     desktop, stepping down to 32 / 28 on phones */
+  --fs-h2:      clamp(1.75rem, 1.45rem + 1vw, 2.5rem);
+  --fs-h1:      clamp(2rem, 1.6rem + 1.4vw, 3rem);
   --fs-display: clamp(3.8rem, 2.4rem + 7vw, 9rem);
 
   /* Spacing scale — deliberately generous */
@@ -74,6 +95,11 @@
   --t-base: 220ms;
   --t-slow: 380ms;
 
+  /* Shadows: three depths, used everywhere (design audit, 8 Nov 2026) */
+  --shadow-rest:    2px 4px 12px rgb(0 0 0 / 0.08);                                 /* cards, panels */
+  --shadow-raised:  2px 4px 16px rgb(0 0 0 / 0.16);                                 /* hovered card, floating button */
+  --shadow-overlay: 0 24px 64px color-mix(in oklch, var(--ink) 28%, transparent);   /* modals */
+
   --container: 1320px;
   --gutter: clamp(20px, 5.5vw, 80px);
 }
@@ -87,14 +113,21 @@ html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 /* Windows draws thick grey scrollbars by default; keep them thin and quiet so
    the page looks the same as on a Mac. */
 html { scrollbar-width: thin; scrollbar-color: oklch(82% 0.008 240) transparent; }
+/* Clip anything wider than the window (the homepage glow runs past the right
+   edge). body's overflow-x: hidden alone didn't stop a sideways scroll; clip on
+   html does, without making a scroll container that would break sticky bits. */
+html { overflow-x: clip; }
 body {
   font-family: var(--sans);
   font-size: var(--fs-body);
   font-weight: 400;
   line-height: 1.62;
   color: var(--ink);
-  background: var(--bg);
-  overflow-x: hidden;
+  background-color: var(--bg);
+  /* The moving sky layer (.sky, added by main.js) is positioned against body;
+     clip, not hidden, so body doesn't become a scroll container. */
+  position: relative;
+  overflow-x: clip;
   font-feature-settings: "ss01", "ss02", "cv11";
 }
 img, video, svg { display: block; max-width: 100%; height: auto; }
@@ -108,19 +141,53 @@ img, video {
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 input, textarea { font: inherit; color: inherit; }
 a { color: inherit; text-decoration: none; }
-::selection { background: var(--accent); color: var(--bg); }
+::selection { background: var(--sky-1); color: var(--ink); }
+
+/* ---------- Sky backdrop ----------
+   Jay's palette as a flowing fluid at the top of every page. main.js adds the
+   .sky layer with a WebGL canvas that paints one continuous field of colour
+   (no shapes), and the cursor cuts through it. The layer fades out down the
+   page and scrolls away with it. .sky--static is the no-WebGL fallback. */
+.sky {
+  position: absolute;
+  z-index: -1;
+  top: 0; left: 0; right: 0;
+  height: 90vh;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(#000 0, #000 45%, transparent 95%);
+          mask-image: linear-gradient(#000 0, #000 45%, transparent 95%);
+}
+/* Lightly blurred to smooth the low-res render; it overhangs the layer so the blur
+   doesn't pull a pale edge in from the sides. */
+.sky__canvas {
+  position: absolute;
+  inset: -48px;
+  width: calc(100% + 96px);
+  height: calc(100% + 96px);
+  display: block;
+  filter: blur(6px);
+  opacity: 0;                     /* fades in gently once the first frame is drawn */
+  transition: opacity .8s cubic-bezier(.4, 0, .2, 1);
+}
+.sky.is-on .sky__canvas { opacity: 1; }
+.sky--static {
+  background:
+    radial-gradient(60% 60% at 20% 20%, color-mix(in oklch, #def5fc 80%, transparent), transparent 70%),
+    radial-gradient(50% 50% at 80% 25%, color-mix(in oklch, #63c4e7 20%, transparent), transparent 70%);
+}
 
 /* ---------- Type ---------- */
 h1, h2, h3, h4 {
   font-weight: 500;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   line-height: 1.02;
   margin: 0;
 }
-h1 { font-size: var(--fs-h1); letter-spacing: -0.018em; line-height: 0.96; }
-h2 { font-size: var(--fs-h2); letter-spacing: -0.028em; }
-h3 { font-size: var(--fs-h3); line-height: 1.06; }
-h4 { font-size: var(--fs-h4); line-height: 1.15; }
+h1 { font-size: var(--fs-h1); letter-spacing: -0.003em; line-height: 1.08; }
+h2 { font-size: var(--fs-h2); letter-spacing: 0; line-height: 1.1; }
+h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); }
+h4 { font-size: var(--fs-h4); line-height: var(--lh-h4); }
 
 /* ---------- Widow control ----------
    `pretty` tells the browser to spend extra passes on the last few lines so a
@@ -132,8 +199,7 @@ p, li, dd, figcaption, blockquote, .t-body, .lede, .aside,
 .cs-image__caption, .persona__bio {
   text-wrap: pretty;
 }
-.persona__role, .persona__focus h4, .cs-insight h3, .cs-features h3,
-.project-card__desc {
+.persona__role, .persona__focus h4, .cs-insight h3, .cs-features h3 {
   text-wrap: balance;
 }
 .display {
@@ -152,7 +218,8 @@ p, li, dd, figcaption, blockquote, .t-body, .lede, .aside,
 }
 .eyebrow {
   font-family: var(--sans);
-  font-size: 14px;
+  font-size: var(--fs-meta);
+  line-height: 1.3;
   letter-spacing: 0;
   color: var(--ink-3);
   font-weight: 500;
@@ -162,7 +229,7 @@ p, li, dd, figcaption, blockquote, .t-body, .lede, .aside,
   font-family: var(--display);
   font-weight: 500;
   font-size: var(--fs-h3);
-  letter-spacing: -0.018em;
+  letter-spacing: 0;
   line-height: 1.1;
   margin: 0;
   max-width: 18ch;
@@ -172,8 +239,8 @@ em { font-style: normal; }
 .mono { font-family: var(--mono); font-size: 0.85em; letter-spacing: -0.01em; }
 
 /* Display-sized text on non-heading elements */
-.headline-lg { font-family: var(--display); font-weight: 500; font-size: var(--fs-h3); letter-spacing: -0.018em; line-height: 1.08; margin: 0; }
-.headline-md { font-family: var(--display); font-weight: 500; font-size: var(--fs-h4); letter-spacing: -0.012em; line-height: 1.2;  margin: 0; }
+.headline-lg { font-family: var(--display); font-weight: 500; font-size: var(--fs-h3); letter-spacing: 0; line-height: 1.08; margin: 0; }
+.headline-md { font-family: var(--display); font-weight: 500; font-size: var(--fs-h4); letter-spacing: 0; line-height: 1.2;  margin: 0; }
 .mute { color: var(--ink-3); }
 p { margin: 0 0 1.35em; max-width: 66ch; }
 p.lede { max-width: 58ch; }
@@ -181,7 +248,7 @@ p.lede { max-width: 58ch; }
 /* Exactly three body sizes — no inline overrides beyond these. */
 .t-body  { font-size: var(--fs-body); line-height: 1.62; color: var(--ink-2); }
 .t-small { font-size: 15px; line-height: 1.58; color: var(--ink-2); }
-.t-meta  { font-size: 13px; line-height: 1.5;  color: var(--ink-3); }
+.t-meta  { font-size: var(--fs-meta); line-height: 1.5;  color: var(--ink-3); }
 .t-small.mute, .t-body.mute { color: var(--ink-3); }
 .max-ch-28 { max-width: 28ch; }
 .max-ch-36 { max-width: 36ch; }
@@ -209,17 +276,25 @@ section { padding: var(--section-y) 0; }
 /* ---------- Navigation ---------- */
 .nav {
   position: sticky; top: 0; z-index: 40;
-  padding: var(--s-4) var(--gutter);
+  padding: var(--s-5) var(--gutter) var(--s-3);   /* 24px clear of the top of the screen, 12 below: about 85px tall on desktop, 69 on phones */
   display: flex; justify-content: space-between; align-items: center;
-  background: color-mix(in oklch, var(--bg) 82%, transparent);
-  backdrop-filter: saturate(160%) blur(10px);
-  -webkit-backdrop-filter: saturate(160%) blur(10px);
+  /* Clear at the top so the sky wash runs behind it unbroken; frosted once
+     the page scrolls (is-scrolled is set by main.js past 8px). */
+  background: transparent;
   border-bottom: 1px solid transparent;
-  transition: border-color var(--t-base) var(--ease-out),
+  transition: background-color var(--t-base) var(--ease-out),
+              border-color var(--t-base) var(--ease-out),
               transform var(--t-base) var(--ease-out),
               opacity var(--t-base) var(--ease-out);
 }
-.nav.is-scrolled { border-bottom-color: var(--line); }
+.nav.is-scrolled {
+  /* a light veil, not a white slab: mostly see-through with a soft blur,
+     so the page reads through it (Jay found 82% white + 10px too frosted) */
+  background: color-mix(in oklch, var(--bg) 55%, transparent);
+  backdrop-filter: saturate(140%) blur(6px);
+  -webkit-backdrop-filter: saturate(140%) blur(6px);
+  border-bottom-color: color-mix(in oklch, var(--line) 60%, transparent);
+}
 /* A modal owns the screen — the sticky nav tucks out of the way rather than
    sitting dimmed behind the backdrop, competing with the thing being read. */
 .has-modal .nav {
@@ -250,12 +325,104 @@ section { padding: var(--section-y) 0; }
 }
 .nav__logo {
   display: block;
-  height: 42px;
+  height: 48px;
   width: auto;
   color: var(--ink);
   transition: transform var(--t-base) var(--ease-out);
 }
 .nav__brand:hover .nav__logo { transform: translateY(-1px); }
+@media (max-width: 640px) { .nav { padding-block: var(--s-4) var(--s-2); } .nav__logo { height: 36px; } }
+/* His name, handwritten beside him on hover or keyboard focus: same pen as
+   the intro note (Caveat, ink-2, a slight tilt), sliding out from the logo. */
+.nav__brand { position: relative; }
+.nav__name {
+  position: absolute; left: 100%; top: 50%;
+  margin-left: var(--s-2);
+  font: 600 22px/1 "Caveat", "Bradley Hand", "Segoe Print", cursive;
+  letter-spacing: 0;
+  color: var(--ink-2);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-6px, -50%) rotate(-6deg);
+  transition: opacity .2s var(--ease-out), transform .3s var(--ease-out);
+}
+.nav__brand:hover .nav__name,
+.nav__brand:focus-visible .nav__name { opacity: 1; transform: translate(0, -50%) rotate(-6deg); }
+@media (max-width: 640px) { .nav__name { font-size: 19px; } }
+/* The live logo (main.js): drawn inline so its parts can move. It may lean
+   or hop a little past its box, and its eyes blend only with each other. */
+.logo-live {
+  overflow: visible;
+  isolation: isolate;
+}
+/* Logo intro: the first page of a visit. The page stays hidden (set in each
+   page's <head>) while a big figure blasts off into the nav logo's corner,
+   then this white cover fades away to show the site around it. */
+.has-intro body > :not(.intro, .cursor, .sky),
+.intro-wait body > :not(.intro, .cursor, .sky) { visibility: hidden; opacity: 0; }
+/* No scrolling while the loading screen is up: the page underneath can't
+   move until you're in (the classes come off as the page fades in). */
+html.has-intro, html.intro-wait { overflow: hidden; overscroll-behavior: none; }
+.intro { touch-action: none; }
+/* The hojicha fluid (.sky) stays on, so the figure waits over the same wash
+   as the site; on touchdown the page itself fades up over it. */
+.intro-fade body > :not(.intro, .cursor, .sky) { transition: opacity var(--intro-fade, 1.5s) cubic-bezier(.45, 0, .55, 1); }
+.has-intro .cursor, .intro-wait .cursor { z-index: 102; }   /* the pointer stays over the intro */
+.intro {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: var(--s-6);
+}
+.intro.is-going { pointer-events: none; }
+/* The figure is the button. Hovering it draws on a hand-drawn "click me"
+   note with an arrow pointing at it (drawn in by itself on touch). */
+.intro__hit {
+  position: relative;
+  display: block; padding: 0; border: 0; background: none;
+  cursor: pointer;
+  border-radius: var(--r-3);
+}
+.intro.is-going .intro__hit { outline: none; }
+/* The glass's shadows on the invisible floor while it flies (main.js places them). */
+.intro__floor { position: fixed; border-radius: 50%; background: #1B3A5C; pointer-events: none; }
+/* Apple-style press feedback (spring set in main.js): lifts a touch under
+   the pointer, shrinks when pressed, and sits still once it's drinking so
+   the flight measures it at its true size. */
+@media (hover: hover) { .intro__hit:hover { transform: scale(1.03); } }
+.intro__hit:active { transform: scale(.94); }
+.intro.is-sipping .intro__hit, .intro.is-going .intro__hit { transform: none; }
+/* The hint: a hand pointer at the cup's lower right, pointing up at it.
+   main.js animates it like a cartoon: it pops in, winds up and jabs at the
+   cup twice, pops away, and comes back after a pause until the cup is
+   pressed. It's rotated about its fingertip; moves run along the finger. */
+.intro__hand {
+  position: absolute;
+  left: 92%; top: 80%;   /* a little way off the cup, low on its right */
+  width: 40.8%; aspect-ratio: 1;
+  z-index: 2;   /* over the cup (.intro__logo is z-index 1) */
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .4s ease-out;   /* main.js adds .is-shown after a moment */
+}
+.intro__hand.is-shown { opacity: 1; }
+.intro__hand svg {
+  display: block; width: 100%; height: 100%; overflow: visible;
+  transform-origin: 46% 8%;   /* the fingertip */
+  transform: rotate(-35deg) scale(0);   /* hidden until main.js pops it in */
+}
+.intro__ripple {
+  position: absolute; left: 46%; top: 8%;
+  width: 60%; aspect-ratio: 1; margin: -30% 0 0 -30%;
+  border-radius: 50%;
+  background: rgb(214 174 131 / .45);   /* a flat latte splash, no line */
+  opacity: 0;
+}
+@media (hover: hover) { .intro__hit:hover .intro__hand.is-shown { opacity: 0; transition-duration: .2s; } }
+.intro.is-going .intro__hand.is-shown, .intro.is-sipping .intro__hand.is-shown { opacity: 0; transition-duration: .15s; }
+.intro__logo {
+  position: relative;
+  z-index: 1; width: auto; height: clamp(120px, 22vh, 180px); will-change: transform; }
 .nav__links { display: flex; gap: var(--s-5); align-items: center; }
 .nav__link {
   position: relative;
@@ -273,7 +440,59 @@ section { padding: var(--section-y) 0; }
 }
 .nav__link:hover, .nav__link.is-active { color: var(--ink); }
 .nav__link:hover::after, .nav__link.is-active::after { clip-path: inset(0 0 0 0); }
-@media (max-width: 680px) { .nav__links { gap: var(--s-4); } .nav__link { font-size: 14px; } }
+
+/* Menu button: only on narrow screens (main.js adds it). Three lines that
+   turn into an X while the menu is open. */
+.nav__toggle { display: none; }
+@media (max-width: 720px) {
+  .nav__toggle {
+    display: grid; place-content: center; gap: 5px;
+    width: 44px; height: 44px;              /* comfortable tap target */
+    margin-right: calc(-1 * var(--s-3));    /* lines align with the gutter */
+    border-radius: 50%;
+    color: var(--ink);
+  }
+  .nav__toggle span {
+    display: block; width: 20px; height: 1.5px; border-radius: 1px;
+    background: currentColor;
+    transition: transform var(--t-base) var(--ease-out), opacity var(--t-fast) var(--ease-out);
+  }
+  .nav.is-open .nav__toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav.is-open .nav__toggle span:nth-child(2) { opacity: 0; }
+  .nav.is-open .nav__toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* The links become a panel that drops down under the nav. */
+  .nav.is-open { background: var(--bg); border-bottom-color: transparent; }
+  .nav__links {
+    position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    padding: var(--s-2) var(--gutter) var(--s-5);
+    background: var(--bg);                 /* solid, so the page doesn't show through */
+    border-bottom: 1px solid var(--line);
+    box-shadow: var(--shadow-rest);
+    opacity: 0; visibility: hidden;
+    transform: translateY(calc(-1 * var(--s-2)));
+    transition: opacity var(--t-base) var(--ease-out),
+                transform var(--t-base) var(--ease-out),
+                visibility 0s linear var(--t-base);
+  }
+  .nav.is-open .nav__links {
+    opacity: 1; visibility: visible; transform: none;
+    transition: opacity var(--t-base) var(--ease-out),
+                transform var(--t-base) var(--ease-out);
+  }
+  .nav__link {
+    font-family: var(--display);
+    font-size: 24px; font-weight: 600; letter-spacing: -0.01em;
+    padding: var(--s-3) 0;
+    color: var(--ink);
+  }
+  .nav__link::after { display: none; }
+  .nav__link.is-active { color: var(--accent-ink); }
+}
+@media (max-width: 720px) and (prefers-reduced-motion: reduce) {
+  .nav__links, .nav.is-open .nav__links, .nav__toggle span { transition: none; }
+}
 
 /* ---------- Buttons & links ---------- */
 .btn {
@@ -295,8 +514,13 @@ section { padding: var(--section-y) 0; }
               color var(--t-fast) var(--ease-out);
 }
 .btn:active { transform: scale(0.97); }
-.btn--primary { background: var(--ink); color: var(--bg); }
-.btn--primary:hover { background: var(--accent-ink); }
+/* Primary buttons wear the sky gradient with ink text (white on #00BBFF is too
+   faint to read). Hover deepens it a little. */
+/* The gradient spans the border box too: by default it would start inside the
+   transparent 1px border and repeat into it, leaving a choppy sliver from the
+   gradient's far end round the edge. */
+.btn--primary { background: var(--sky-grad) border-box; color: var(--ink); }
+.btn--primary:hover { background: var(--sky-grad) border-box; filter: saturate(1.15) brightness(0.96); }
 .btn--ghost { border: 1px solid var(--line-strong); color: var(--ink); }
 .btn--ghost:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .btn .arr { display: inline-block; transition: transform var(--t-base) var(--ease-out); }
@@ -389,10 +613,10 @@ section { padding: var(--section-y) 0; }
   font-weight: 600;
   /* The home page's rotating role can't wrap (~6.5em wide), so on the
      narrowest phones the size also caps to the column over 6.8em. */
-  font-size: min(clamp(2.2rem, 1.6rem + 2.2vw, 3.5rem),
+  font-size: min(clamp(2rem, 1.6rem + 1.4vw, 3rem),          /* Apple headline: 48 desktop, 32 phone */
                  calc((100vw - 2 * var(--gutter)) / 6.8));
-  letter-spacing: -0.02em;
-  line-height: 1.04;
+  letter-spacing: -0.003em;
+  line-height: 1.08;
   color: var(--ink);
   max-width: 24ch;
   margin: var(--s-9) 0 0;
@@ -452,7 +676,7 @@ section { padding: var(--section-y) 0; }
   .hero { padding-top: var(--s-7); padding-bottom: var(--s-5); }
   .hero__lead { margin-top: var(--s-7); }
   .hero__sub { grid-template-columns: 1fr; gap: var(--s-3); margin-top: var(--s-6); margin-bottom: var(--s-4); }
-  .hero__rail { font-size: 11px; }
+  .hero__rail { font-size: var(--fs-label); }
 }
 
 /* ---------- Hero → Work bridge ---------- */
@@ -475,6 +699,11 @@ section { padding: var(--section-y) 0; }
 
 /* Tighten the section directly after the hero bridge */
 .section--first { padding-top: var(--s-7); }
+/* The nav's Work link lands here: the heading sits 32px under the sticky
+   nav (bar height minus the section's 48px top padding, plus 32); main.js
+   glides there on the home page. */
+#work { scroll-margin-top: calc(85px - 16px); }
+@media (max-width: 640px) { #work { scroll-margin-top: calc(69px - 16px); } }
 
 /* Extra breathing room — used on the Approach section */
 .section--roomy { padding-top: var(--section-y); padding-bottom: var(--section-y); }
@@ -580,9 +809,9 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 .sec-head h2 {
   font-family: var(--display);
   font-weight: 600;
-  font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.75rem);
-  letter-spacing: -0.02em;
-  line-height: 1.04;
+  font-size: clamp(1.75rem, 1.45rem + 1vw, 2.5rem);   /* Apple section headline: 40 desktop, 28 phone */
+  letter-spacing: 0;
+  line-height: 1.1;
   margin: 0;
   max-width: 22ch;
 }
@@ -624,7 +853,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 .work__item:hover .work__cover img,
 .work__item:hover .work__cover .cover-fill,
 .work__meta { display: flex; flex-direction: column; gap: var(--s-4); }
-.work__meta .row { justify-content: space-between; font-size: 13px; color: var(--ink-3); padding-bottom: var(--s-2); border-bottom: 1px solid var(--line); }
+.work__meta .row { justify-content: space-between; font-size: var(--fs-meta); color: var(--ink-3); padding-bottom: var(--s-2); border-bottom: 1px solid var(--line); }
 .work__title {
   font-family: var(--display);
   font-size: clamp(1.9rem, 1.5rem + 1.8vw, 3rem);
@@ -640,7 +869,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   display: inline-block;
   line-height: 1;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-label);
   padding: 9px 14px;
   border: 1px solid var(--line);
   border-radius: var(--r-pill);
@@ -661,129 +890,137 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   .work__cover, .work__item:nth-child(2) .work__cover { aspect-ratio: 4/3; }
 }
 
-/* ---------- Project cards (home page) ---------- */
-.projects {
+
+/* ---------- Expanding panels (home page Selected work, 9 Nov 2026) ----------
+   Three tall panels; hovering, focusing or tapping one opens it wide to show
+   its story while the others narrow to a slice. main.js moves .is-on. Phones
+   stack them, the open one tall and the rest as short bands. */
+.panels {
+  container-type: inline-size;   /* label widths below are measured from the row, not the moving panel */
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: column;
-  gap: var(--s-9);
+  gap: var(--s-3);
+  height: clamp(440px, 64vh, 600px);
 }
-.projects > li { margin: 0; }
-.project-card {
-  display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 4fr);
-  gap: var(--s-7);
-  align-items: center;
-  color: var(--ink);
-}
-.project-card__cover {
+.panel {
   position: relative;
-  aspect-ratio: 4/3;
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
   border-radius: var(--r-3);
   overflow: hidden;
-  background: var(--bg-elev);
-  border: 1px solid var(--line);
-  /* Apple Store card hover: a soft resting shadow that deepens while the card
-     grows 1%, on Apple's ease-out over 300ms. */
-  box-shadow: 2px 4px 12px rgb(0 0 0 / 0.08);
-  transition: transform 300ms cubic-bezier(0, 0, 0.5, 1), box-shadow 300ms cubic-bezier(0, 0, 0.5, 1);
+  background: oklch(0.3 0.02 240);
+  box-shadow: var(--shadow-rest);
+  transition: flex-grow 700ms cubic-bezier(.2, .8, .2, 1), box-shadow 300ms cubic-bezier(0, 0, .5, 1);
 }
-.project-card__cover > * {
+.panel.is-on { flex-grow: 3.4; box-shadow: var(--shadow-raised); }
+.panel__link { position: absolute; inset: 0; display: block; color: #fff; text-decoration: none; }
+.panel__link:focus-visible { outline-offset: -4px; }
+.panel img {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  transition: transform 900ms var(--ease-out);
+  filter: saturate(.85) brightness(.82);
+  transition: transform 1s var(--ease-out), filter 600ms var(--ease-out);
 }
-@media (hover: hover) and (pointer: fine) {
-  .project-card:hover .project-card__cover {
-    transform: scale3d(1.01, 1.01, 1.01);
-    box-shadow: 2px 4px 16px rgb(0 0 0 / 0.16);
-  }
-  /* The photo also eases in 4% inside its frame. */
-  .project-card:hover .project-card__cover > * { transform: scale(1.04); }
-  .project-card:hover .project-card__cta > span:first-child {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
+.panel.is-on img { filter: none; transform: scale(1.03); }
+/* MEC's thumbnail is black in the middle with its logo on the left; anchor it
+   right and zoomed from the top so panels show the phones, not the logo
+   that would sit behind the text. */
+.panel--mec img { object-position: 100% 0; transform-origin: 100% 0; transform: scale(1.75); }
+.panel--mec.is-on img { transform: scale(1.8); }
+.panel__link::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(transparent 28%, rgb(0 0 0 / .5) 55%, rgb(0 0 0 / .86));
+  pointer-events: none;
 }
-@media (prefers-reduced-motion: reduce) {
-  .project-card:hover .project-card__cover,
-  .project-card:hover .project-card__cover > * { transform: none; }
+/* Two text layers so nothing reflows or slides while the panels resize:
+   a short title label for the narrow state, and the full story block, whose
+   width is set from the viewport (not the panel) so its lines never rewrap
+   mid-animation. They cross-fade: the label goes at once, the story fades in
+   once the panel is mostly open, and the reverse on closing. */
+.panel__label,
+.panel__txt {
+  position: absolute;
+  left: clamp(16px, 2.5vw, 32px);
+  bottom: clamp(16px, 2.5vw, 32px);
+  z-index: 1;
+  color: #fff;
+  text-shadow: 0 1px 12px rgb(0 0 0 / .35);
 }
-.project-card__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-3);
-  min-width: 0;
-}
-.project-card__num {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0;
-  color: var(--ink-3);
-}
-.project-card__title {
+.panel__label {
+  /* the closed panel's final width (1 of 1 + 1 + 3.4 shares, less the gaps and
+     padding), fixed so the title's line breaks never change as panels resize */
+  width: calc((100cqw - 2 * var(--s-3)) / 5.4 - 2 * clamp(16px, 2.5vw, 32px));
   font-family: var(--display);
   font-weight: 600;
-  font-size: clamp(1.8rem, 1.3rem + 1.6vw, 2.6rem);
-  letter-spacing: -0.018em;
-  line-height: 1.06;
-  margin: 0;
-  color: var(--ink);
-  transition: color var(--t-base) var(--ease-out);
+  font-size: var(--fs-h4);
+  line-height: var(--lh-h4);
+  opacity: 0;
+  transition: opacity 250ms var(--ease-out) 120ms;
 }
-.project-card:hover .project-card__title { color: var(--accent-ink); }
-.project-card__desc {
-  font-size: 16px;
-  color: var(--ink-2);
-  line-height: 1.55;
-  margin: var(--s-2) 0 0;
-  max-width: 48ch;
-}
-.project-card__meta {
+.panel__txt {
+  width: clamp(280px, 38vw, 480px);
   display: flex;
-  align-items: center;
-  gap: var(--s-4);
-  flex-wrap: wrap;
-  margin-top: var(--s-3);
+  flex-direction: column;
+  gap: var(--s-2);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 150ms var(--ease-out), transform 150ms var(--ease-out);
 }
-.project-card__year {
-  font-family: var(--mono);
-  font-size: 12px;
+.panel:not(.is-on) .panel__label { opacity: 1; }
+.panel.is-on .panel__label { opacity: 0; transition: opacity 120ms var(--ease-out); }
+.panel.is-on .panel__txt {
+  opacity: 1;
+  transform: none;
+  transition: opacity 450ms var(--ease-out) 300ms, transform 600ms var(--ease-out) 300ms;
+}
+.panel__kind { font-size: var(--fs-label); color: rgb(255 255 255 / .82); }
+.panel__title {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--fs-tile);
+  line-height: 1.12;
   letter-spacing: 0;
-  color: var(--ink-3);
-  white-space: nowrap;
+  margin: 0;
+  color: #fff;
 }
-.project-card__tags { display: flex; gap: var(--s-2); flex-wrap: wrap; }
-.project-card__tags span {
+.panel__desc {
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: rgb(255 255 255 / .9);
+  margin: var(--s-1) 0 0;
+  max-width: 46ch;
+}
+.panel__tags { display: flex; gap: var(--s-2); flex-wrap: wrap; margin-top: var(--s-4); }
+.panel__tags span {
   display: inline-block;
   line-height: 1;
-  font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-label);
   padding: 8px 12px;
-  border: 1px solid var(--line);
+  border: 1px solid rgb(255 255 255 / .35);
   border-radius: var(--r-pill);
-  color: var(--ink-3);
-  letter-spacing: 0;
+  color: #fff;
   white-space: nowrap;
 }
-.project-card__cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: var(--s-4);
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0;
-  color: var(--ink);
+.panel__cta { display: inline-flex; align-items: center; gap: 8px; margin-top: var(--s-4); font-size: 12px; color: #fff; }
+.panel__cta .arr { transition: transform var(--t-base) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .panel__link:hover .panel__cta > span:first-child { text-decoration: underline; text-underline-offset: 3px; }
+  .panel__link:hover .panel__cta .arr { transform: translateX(6px); }
 }
-.project-card__cta .arr { transition: transform var(--t-base) var(--ease-out); }
-.project-card:hover .project-card__cta .arr { transform: translateX(6px); }
-
 @media (max-width: 860px) {
-  .project-card { grid-template-columns: 1fr; gap: var(--s-5); }
+  .panels { flex-direction: column; height: auto; }
+  .panel { flex: none; height: 104px; transition: height 700ms cubic-bezier(.2, .8, .2, 1); }
+  .panel.is-on { height: clamp(380px, 110vw, 480px); }
+  .panel__txt, .panel__label { width: calc(100cqw - 2 * clamp(16px, 2.5vw, 32px)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .panel, .panel img, .panel__label, .panel__txt { transition: none !important; }
+  .panel.is-on img { transform: none; }
 }
 
 /* ---------- Approach — numbered editorial principles ---------- */
@@ -793,7 +1030,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   padding: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--s-8);
+  gap: var(--s-8) var(--s-7);   /* 48px columns, like the project cards above, so the text columns line up */
 }
 .principles > li { margin: 0; }
 .principle {
@@ -812,10 +1049,10 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 }
 .principle__title {
   font-family: var(--display);
-  font-weight: 500;
-  font-size: clamp(1.4rem, 1.1rem + 0.9vw, 1.85rem);
-  letter-spacing: -0.012em;
-  line-height: 1.18;
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  letter-spacing: 0;
+  line-height: var(--lh-h3);
   color: var(--ink);
   margin: 0;
 }
@@ -933,7 +1170,8 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 }
 .contributions__lbl {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: var(--fs-label);
+  line-height: 1.3;
   letter-spacing: 0;
   color: var(--hl, var(--accent-ink));
   font-weight: 500;
@@ -998,7 +1236,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   margin-top: 0;
 }
 .cs-meta dl { margin: 0; display: flex; flex-direction: column; gap: var(--s-2); }
-.cs-meta dt { font-family: var(--mono); font-size: 11px; letter-spacing: 0; color: var(--ink-3); }
+.cs-meta dt { font-family: var(--mono); font-size: var(--fs-label); letter-spacing: 0; color: var(--ink-3); }
 .cs-meta dd { margin: 0; font-size: 15px; color: var(--ink); }
 @media (max-width: 720px) {
   .cs-meta { grid-template-columns: repeat(2, 1fr); gap: var(--s-4); }
@@ -1021,7 +1259,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   font-family: var(--display);
   font-size: var(--fs-h3);
   font-weight: 500;
-  letter-spacing: -0.018em;
+  letter-spacing: 0;
   margin-bottom: var(--s-4);
   line-height: 1.08;
 }
@@ -1064,11 +1302,11 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   font-family: var(--display);
   font-size: clamp(2rem, 1.5rem + 1.8vw, 3rem);
   font-weight: 500;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.003em;
   color: var(--ink);
   line-height: 1;
 }
-.cs-outcomes .o .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: 0; color: var(--ink-3); }
+.cs-outcomes .o .lbl { font-family: var(--mono); font-size: var(--fs-label); letter-spacing: 0; color: var(--ink-3); }
 .cs-outcomes .o p { font-size: 14px; line-height: 1.55; margin: 0; color: var(--ink-2); max-width: 34ch; }
 @media (max-width: 720px) { .cs-outcomes { grid-template-columns: 1fr; gap: var(--s-5); } }
 
@@ -1110,7 +1348,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   font-family: var(--display);
   font-size: var(--fs-h4);
   font-weight: 500;
-  letter-spacing: -0.012em;
+  letter-spacing: 0;
   line-height: 1.18;
   margin: var(--s-6) 0 var(--s-3);
   color: var(--ink);
@@ -1208,6 +1446,22 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 /* Draft-only placeholders for images still to be made. Hidden everywhere
    except local previews and ?draft URLs (main.js adds html.is-draft), so an
    unfinished slot can never show on jayho.fyi even if it gets committed. */
+/* Draft-only review notes in case studies (P1 audit, 10 Nov 2026): reflection
+   and decision copy waiting for Jay. Hidden on the live site; shows only on
+   local previews and ?draft, like .todo-shot. */
+.cs-draft { display: none; }
+html.is-draft .cs-draft {
+  display: block;
+  margin-top: var(--s-7);
+  padding: var(--s-5);
+  border: 1.5px dashed var(--accent-ink);
+  border-radius: var(--r-3);
+  max-width: 68ch;
+}
+.cs-draft__tag { font-size: var(--fs-label); font-weight: 600; color: var(--accent-ink); margin: 0 0 var(--s-4); }
+.cs-draft__h { font-size: var(--fs-h4); line-height: var(--lh-h4); font-weight: 600; margin: var(--s-4) 0 var(--s-2); }
+.cs-draft__h:first-of-type { margin-top: 0; }
+.cs-draft p:not(.cs-draft__tag) { margin: 0; font-size: var(--fs-small); color: var(--ink-2); }
 .todo-shot { display: none; margin: var(--s-6) 0 0; }
 html.is-draft .todo-shot { display: grid; gap: var(--s-3); }
 .todo-shot--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1256,7 +1510,7 @@ html.is-draft .todo-shot { display: grid; gap: var(--s-3); }
   left: 14px;
   z-index: 2;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-label);
   letter-spacing: 0;
   color: var(--ink-2);
   display: inline-flex;
@@ -1276,9 +1530,9 @@ html.is-draft .todo-shot { display: grid; gap: var(--s-3); }
    grows 2px to keep the same overall height as the untrimmed fallback. */
 @supports (text-box: trim-both cap alphabetic) {
   .work__tags span,
-  .project-card__tags span { text-box: trim-both cap alphabetic; }
+  .panel__tags span { text-box: trim-both cap alphabetic; }
   .work__tags span { padding-block: 11px; }
-  .project-card__tags span { padding-block: 10px; }
+  .panel__tags span { padding-block: 10px; }
 }
 /* All-caps labels have no descenders, so centre on the capitals themselves:
    trim the box to cap height and baseline, then pad evenly around it. */
@@ -1310,8 +1564,9 @@ html.is-draft .todo-shot { display: grid; gap: var(--s-3); }
 .cs-sublabel {
   margin: var(--s-8) 0 var(--s-5);
   font-family: var(--display);
-  font-size: 17px;
+  font-size: var(--fs-h4);
   font-weight: 600;
+  line-height: var(--lh-h4);
   color: var(--ink);
 }
 .cs-sublabel + * { margin-top: 0; }
@@ -1376,9 +1631,9 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 .cs-next .lbl { font-family: var(--mono); font-size: 12px; color: var(--ink-3); letter-spacing: 0; }
 .cs-next .title {
   font-family: var(--display);
-  font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.6rem);
-  font-weight: 500;
-  letter-spacing: -0.018em;
+  font-size: var(--fs-tile);   /* same as the home page's project titles */
+  font-weight: 600;
+  letter-spacing: 0;
 }
 .cs-next .arr { font-size: 1.4rem; transition: transform var(--t-slow) var(--ease-out); }
 .cs-next:hover .arr { transform: translateX(8px); }
@@ -1429,7 +1684,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 .kv-table .k, .kv-table .v {
   padding: var(--s-5) 0;
   border-bottom: 1px solid var(--line);
-  font-size: 16px;
+  font-size: var(--fs-small);
   line-height: 1.55;
 }
 .kv-table .k { color: var(--ink-3); font-family: var(--mono); font-size: 12px; letter-spacing: 0; padding-top: calc(var(--s-5) + 6px); }
@@ -1463,17 +1718,17 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 }
 .cv-row:first-child { border-top: 1px solid var(--line); }
 .cv-row--no-rule { border-bottom: 0; }
-.cv-row .when { font-family: var(--mono); font-size: 13px; color: var(--ink-3); letter-spacing: 0; }
+.cv-row .when { font-family: var(--mono); font-size: var(--fs-meta); color: var(--ink-3); letter-spacing: 0; }
 .cv-row .what .role {
-  font-size: 20px;
+  font-size: var(--fs-h4);
   font-weight: 500;
   color: var(--ink);
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   line-height: 1.3;
 }
 .cv-row .what .org { color: var(--ink-3); font-size: 14px; margin-top: 4px; }
 .cv-row .what p { font-size: 15px; line-height: 1.58; color: var(--ink-2); margin: var(--s-3) 0 0; max-width: 56ch; }
-.cv-row .where { text-align: right; font-family: var(--mono); font-size: 13px; color: var(--ink-3); letter-spacing: 0; }
+.cv-row .where { text-align: right; font-family: var(--mono); font-size: var(--fs-meta); color: var(--ink-3); letter-spacing: 0; }
 @media (max-width: 720px) {
   .cv-row { grid-template-columns: 1fr; gap: 6px; }
   .cv-row .where { text-align: left; }
@@ -1512,13 +1767,13 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 }
 .contact-big {
   font-family: var(--display);
-  font-weight: 500;
+  font-weight: 600;
   /* The email can't wrap and runs ~10.6em wide, so the size is also capped to
      the column (viewport or container, minus gutters) over 11em. */
-  font-size: min(clamp(2.8rem, 1.6rem + 6.4vw, 7rem),
+  font-size: min(clamp(2rem, 1.6rem + 1.4vw, 3rem),          /* Apple headline: 48 desktop */
                  calc((min(100vw, var(--container)) - 2 * var(--gutter)) / 11));
-  line-height: 0.98;
-  letter-spacing: -0.022em;
+  line-height: 1.08;
+  letter-spacing: -0.003em;
   color: var(--ink);
 }
 .contact-big a {
@@ -1616,7 +1871,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 .contact-cols ol { padding-left: 1.1em; }
 .contact-cols ol li { margin-bottom: 0.35em; }
 .contact-cols a { display: block; padding: 6px 0; }
-.contact-cols .list a { font-size: 16px; color: var(--ink); }
+.contact-cols .list a { font-size: var(--fs-small); color: var(--ink); }
 @media (max-width: 720px) {
   .contact-cols { grid-template-columns: 1fr; gap: var(--s-5); }
 }
@@ -1694,7 +1949,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   font-size: 14px;
   color: var(--ink-2);
 }
-.foot h5, .foot .foot__h { font-family: var(--mono); font-size: 11px; letter-spacing: 0; color: var(--ink-3); font-weight: 500; margin: 0 0 var(--s-3); }
+.foot h5, .foot .foot__h { font-family: var(--mono); font-size: var(--fs-label); letter-spacing: 0; color: var(--ink-3); font-weight: 500; margin: 0 0 var(--s-3); }
 .foot .brand-line { font-family: var(--display); font-weight: 700; font-size: 1.5rem; color: var(--ink); letter-spacing: -0.018em; }
 .foot .blurb { margin-top: var(--s-3); color: var(--ink-3); max-width: 32ch; font-size: 14px; line-height: 1.55; }
 .foot a { color: var(--ink-2); display: block; padding: 4px 0; }
@@ -1748,7 +2003,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   transform: translate(-50%, -50%);
   z-index: 2;
   white-space: nowrap;
-  box-shadow: 0 6px 24px color-mix(in oklch, var(--ink) 26%, transparent);
+  box-shadow: var(--shadow-raised);
 }
 .poster__open:active { transform: translate(-50%, -50%) scale(0.97); }
 
@@ -1846,7 +2101,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   max-height: 1400px;
   background: var(--bg);
   border-radius: var(--r-3);
-  box-shadow: 0 24px 64px color-mix(in oklch, var(--ink) 28%, transparent);
+  box-shadow: var(--shadow-overlay);
   overflow: hidden;
   transform: translateY(16px) scale(0.985);
   transition: transform 260ms var(--ease-out);
@@ -1905,7 +2160,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 .cursor {
   position: fixed;
   pointer-events: none;
-  width: 8px; height: 8px;
+  width: 6px; height: 6px;   /* smaller (8 Nov 2026, was 8) */
   border-radius: 50%;
   background: var(--ink);
   top: 0; left: 0;
@@ -1935,7 +2190,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 /* The open modal hands the screen back to the system pointer (see above). */
 .has-modal .cursor.is-active { opacity: 0; }
 .cursor.is-link {
-  width: 32px; height: 32px;
+  width: 24px; height: 24px;   /* was 32 */
   background: transparent;
   border: 1px solid var(--ink);
   /* Light hairline on both sides of the ring, so it reads on any backdrop. */
@@ -2050,9 +2305,9 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   display: flex;
   align-items: center;
   gap: var(--s-2);
-  font-size: 11px;
+  font-size: var(--fs-label);
   letter-spacing: 0;
-  color: var(--ink-4);
+  color: var(--ink-3);   /* ink-4 was 3.6:1, under the 4.5:1 text minimum */
   transition: color var(--t-fast) var(--ease-out);
 }
 .cs-toc__link:hover { color: var(--ink-2); }
@@ -2132,7 +2387,7 @@ body.has-toc [data-section] {
     overscroll-behavior-x: contain;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: var(--s-3) var(--gutter);
+    padding: var(--s-1) var(--gutter);
     /* Fade the leading/trailing edge so the row reads as scrollable */
     mask-image: linear-gradient(to right, transparent 0, #000 16px,
                 #000 calc(100% - 22px), transparent 100%);
@@ -2145,12 +2400,15 @@ body.has-toc [data-section] {
   .cs-toc__link {
     position: relative;
     white-space: nowrap;
-    padding-bottom: 3px;
+    /* at least 24px tall to tap (WCAG 2.2 target size); the list's padding
+       is trimmed to match, so the bar stays the same height */
+    min-height: 32px;
+    padding: var(--s-2) 0;
   }
   .cs-toc__link::after {
     content: "";
     position: absolute;
-    left: 0; right: 0; bottom: 0;
+    left: 0; right: 0; bottom: 5px;
     height: 1px;
     background: var(--hl, var(--accent));
     clip-path: inset(0 100% 0 0);
@@ -2173,13 +2431,17 @@ body.has-toc [data-section] {
 /* Stack rather than compress: below this the three columns fall under ~270px,
    which puts the 15px body copy at roughly 32 characters a line. */
 @media (max-width: 1000px) { .cs-insights { grid-template-columns: 1fr; gap: var(--s-5); } }
+/* Two-card variant (CarePath "Looking back": a decision and a next step). */
+.cs-insights--two { grid-template-columns: repeat(2, 1fr); }
+.cs-insights--two .cs-insight p { max-width: 52ch; }
+@media (max-width: 1000px) { .cs-insights--two { grid-template-columns: 1fr; } }
 .cs-insight {
   border-top: 1px solid var(--line-strong);
   padding-top: var(--s-4);
 }
 .cs-insight__num {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-label);
   letter-spacing: 0;
   color: var(--accent-ink);
   display: block;
@@ -2189,10 +2451,10 @@ body.has-toc [data-section] {
 }
 .cs-insight h3 {
   font-family: var(--display);
-  font-weight: 500;
-  font-size: var(--fs-h4);
-  letter-spacing: -0.012em;
-  line-height: 1.15;
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  letter-spacing: 0;
+  line-height: var(--lh-h3);
   margin: 0 0 var(--s-3);
   color: var(--ink);
   max-width: 20ch;
@@ -2201,7 +2463,7 @@ body.has-toc [data-section] {
      in each column starts at a different height. Headings still wrap
      naturally, they're just not allowed to shift what follows. Stacked (one
      column, below 1001px) there's nothing to line up with, so no reserve. */
-  min-height: calc(2 * 1.15em);
+  min-height: calc(2 * 1.17em);
 }
 @media (max-width: 1000px) { .cs-insight h3 { min-height: 0; } }
 .cs-insight p {
@@ -2222,9 +2484,9 @@ body.has-toc [data-section] {
 .cs-quote p {
   font-family: var(--display);
   font-weight: 500;
-  font-size: var(--fs-h4);
+  font-size: var(--fs-h3);   /* a pull quote reads at H3 size, in the lighter weight */
   line-height: 1.25;
-  letter-spacing: -0.012em;
+  letter-spacing: 0;
   color: var(--ink);
   margin: 0;
 }
@@ -2232,7 +2494,7 @@ body.has-toc [data-section] {
   display: block;
   margin-top: var(--s-3);
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-label);
   font-style: normal;
   letter-spacing: 0;
   color: var(--ink-3);
@@ -2264,10 +2526,10 @@ body.has-toc [data-section] {
 .cs-poster > img { display: block; width: 100%; height: auto; }
 .cs-poster h3 {
   font-family: var(--display);
-  font-size: 1.15rem;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
+  font-size: var(--fs-h4);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: var(--lh-h4);
   color: var(--ink);
   margin: 0 0 var(--s-2);
   text-wrap: balance;
@@ -2342,10 +2604,10 @@ body.has-toc [data-section] {
 .cs-fix h4 {
   margin: 0;
   font-family: var(--display);
-  font-size: 1.25rem;
+  font-size: var(--fs-h4);
   font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  line-height: var(--lh-h4);
+  letter-spacing: 0;
   color: var(--ink);
   text-wrap: balance;
 }
@@ -2353,9 +2615,10 @@ body.has-toc [data-section] {
 .cs-features .cs-frame { margin-bottom: var(--s-4); border: 0; }
 .cs-features h3 {
   font-family: var(--display);
-  font-size: 1.15rem;
-  font-weight: 500;
-  letter-spacing: -0.02em;
+  font-size: var(--fs-h4);
+  font-weight: 600;
+  line-height: var(--lh-h4);
+  letter-spacing: 0;
   margin: 0 0 6px;
   color: var(--ink);
 }
@@ -2431,7 +2694,7 @@ body.has-toc [data-section] {
    is spent once (on the label) so nothing else competes with it. */
 .persona__role {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-label);
   font-weight: 500;
   letter-spacing: 0;
   line-height: 1.2;
@@ -2440,10 +2703,10 @@ body.has-toc [data-section] {
 }
 .persona__who {
   font-family: var(--display);
-  font-size: var(--fs-h4);
-  font-weight: 500;
-  letter-spacing: -0.012em;
-  line-height: 1.15;
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: var(--lh-h3);
   color: var(--ink);
   margin: 0;
 }
@@ -2455,7 +2718,7 @@ body.has-toc [data-section] {
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: 13px;
+  font-size: var(--fs-meta);
   line-height: 1.4;
   color: var(--ink-3);
   /* Belongs to the name above, so it sits 8px under it (the head's row gap
@@ -2490,16 +2753,16 @@ body.has-toc [data-section] {
 }
 .persona__focus > p:first-child {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-label);
   letter-spacing: 0;
   color: var(--ink-3);
   margin: 0 0 var(--s-2);
 }
 .persona__focus h4 {
   font-family: var(--display);
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: 0;
   line-height: 1.3;
   color: var(--ink);
   margin: 0 0 var(--s-2);
