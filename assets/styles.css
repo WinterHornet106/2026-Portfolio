@@ -1421,6 +1421,14 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 .cs-frame > img,
 .cs-frame > video { z-index: 1; }
 .cs-frame > video { background: oklch(16% 0.02 160); }
+/* Videos are never cropped (Jay, 10 Nov 2026). Each frame already matches
+   its video's shape, so "contain" looks identical on the page; it matters in
+   full screen, where this stylesheet beat the browser's own "contain" and the
+   "cover" above zoomed in and cut off the sides (16:9 on a 16:10 screen) or
+   top and bottom (DDA's 1440x1024). Full screen also gets black bars. */
+.cs-frame > video { object-fit: contain; }
+video:fullscreen { object-fit: contain !important; background: #000 !important; }
+video:-webkit-full-screen { object-fit: contain !important; background: #000 !important; }
 .cs-frame--contain > img { object-fit: contain; padding: 14px; background: var(--bg); }
 /* Real phone screens at device ratio. Capped at 300px so three screens sit
    side by side without towering; stacks to one centred screen on mobile. */
