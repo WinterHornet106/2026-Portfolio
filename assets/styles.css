@@ -165,8 +165,7 @@ a { color: inherit; text-decoration: none; }
   inset: -48px;
   width: calc(100% + 96px);
   height: calc(100% + 96px);
-  display: block;
-  filter: blur(6px);
+  display: block;                 /* blurred in its own shader (main.js), not a CSS filter */
   opacity: 0;                     /* fades in gently once the first frame is drawn */
   transition: opacity .8s cubic-bezier(.4, 0, .2, 1);
 }
@@ -934,18 +933,31 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 .panel.is-on { flex-grow: 3.4; box-shadow: var(--shadow-raised); }
 .panel__link { position: absolute; inset: 0; display: block; color: #fff; text-decoration: none; }
 .panel__link:focus-visible { outline-offset: -4px; }
+/* The photo is always the open panel's size and centred; the panel only
+   clips it, so nothing is resized or re-filtered while panels animate
+   (that was laggy on PC, 12 Nov 2026). Closed panels are dimmed by a dark
+   layer that fades out, which the graphics chip does for free. */
 .panel img {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
+  --pw: calc((100cqw - 2 * var(--s-3)) * 3.4 / 5.4);   /* the open panel's width */
+  --ph: 100%;
+  position: absolute; left: 50%; top: calc(50% - var(--ph) / 2);
+  width: var(--pw); max-width: none; height: var(--ph);
+  margin-left: calc(var(--pw) / -2);
   object-fit: cover;
-  filter: saturate(.85) brightness(.82);
-  transition: transform 1s var(--ease-out), filter 600ms var(--ease-out);
+  transition: transform 1s var(--ease-out);
 }
-.panel.is-on img { filter: none; transform: scale(1.03); }
+.panel.is-on img { transform: scale(1.03); }
+.panel__link::before {
+  content: ""; position: absolute; inset: 0; z-index: 0;
+  background: rgb(0 0 0 / .2);
+  pointer-events: none;
+  transition: opacity 600ms var(--ease-out);
+}
+.panel.is-on .panel__link::before { opacity: 0; }
 /* MEC's thumbnail is black in the middle with its logo on the left; anchor it
    right and zoomed from the top so panels show the phones, not the logo
    that would sit behind the text. */
-.panel--mec img { object-position: 100% 0; transform-origin: 100% 0; transform: scale(1.75); }
+.panel--mec img { left: auto; right: 0; margin-left: 0; object-position: 100% 0; transform-origin: 100% 0; transform: scale(1.75); }
 .panel--mec.is-on img { transform: scale(1.8); }
 .panel__link::after {
   content: "";
@@ -1034,6 +1046,8 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   .panels { flex-direction: column; height: auto; }
   .panel { flex: none; height: 104px; transition: height 700ms cubic-bezier(.2, .8, .2, 1); }
   .panel.is-on { height: clamp(380px, 110vw, 480px); }
+  .panel img { --pw: 100cqw; --ph: clamp(380px, 110vw, 480px); }
+  .panel--mec img { top: 0; }
   .panel__txt, .panel__label { width: calc(100cqw - 2 * clamp(16px, 2.5vw, 32px)); }
 }
 @media (prefers-reduced-motion: reduce) {

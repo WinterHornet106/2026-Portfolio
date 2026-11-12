@@ -36,7 +36,10 @@
     canvas.className = "sky__canvas";
     layer.appendChild(canvas);
     const fallback = () => { layer.classList.add("sky--static"); canvas.remove(); };
-    const gl = canvas.getContext("webgl", { antialias: false, premultipliedAlpha: true, preserveDrawingBuffer: false });
+    // failIfMajorPerformanceCaveat: no fluid when the browser is drawing
+    // WebGL on the processor (graphics acceleration off, old drivers); the
+    // still fallback shows instead (PC lag, 12 Nov 2026).
+    const gl = canvas.getContext("webgl", { antialias: false, premultipliedAlpha: true, preserveDrawingBuffer: false, failIfMajorPerformanceCaveat: true });
     if (!gl) return fallback();
     const half = gl.getExtension("OES_texture_half_float");
     gl.getExtension("EXT_color_buffer_half_float");
@@ -194,8 +197,17 @@
     // hardly visible on Ramune). At 0 the milk isn't simulated at all.
     const MILK = 0;
     const MAX_DARK = "0.2";   // 0.2 with the browns, 0.35 for navy; Ramune is light, so a touch over the browns keeps it bright
-    const showFrag = head + `uniform sampler2D uC, uM; void main(){
-      vec4 c = clamp(texture2D(uC, uv), 0.0, 1.0);
+    // The soft blur happens here, on the small render (9 taps about 4 CSS px
+    // apart), instead of a CSS filter re-blurring the full-size canvas every
+    // frame, which was heavy on PC graphics (12 Nov 2026).
+    const showFrag = head + `uniform sampler2D uC, uM; uniform vec2 uOff; void main(){
+      vec2 o = uOff;
+      vec4 c = texture2D(uC, uv) * 0.25
+        + (texture2D(uC, uv + vec2(o.x, 0.0)) + texture2D(uC, uv - vec2(o.x, 0.0))
+         + texture2D(uC, uv + vec2(0.0, o.y)) + texture2D(uC, uv - vec2(0.0, o.y))) * 0.125
+        + (texture2D(uC, uv + o) + texture2D(uC, uv - o)
+         + texture2D(uC, uv + vec2(o.x, -o.y)) + texture2D(uC, uv - vec2(o.x, -o.y))) * 0.0625;
+      c = clamp(c, 0.0, 1.0);
       float a = smoothstep(0.15, 0.85, texture2D(uM, uv).x) * ${MILK.toFixed(2)};    // cream, mixed in, not white
       c = vec4(vec3(0.95, 0.97, 1.0) * a + c.rgb * (1.0 - a), a + c.a * (1.0 - a));   // cool milk on navy (warm cream with the browns)
       float dark = dot(vec3(c.a) - c.rgb, vec3(0.2126, 0.7152, 0.0722));
@@ -327,9 +339,14 @@
       slowSum = 0; slowN = 0;
       if (avg > 22) { level++; SCALE = LEVELS[level].scale; }
     };
+    // At most about 60 frames a second: on a 120Hz screen every other
+    // frame is skipped, halving the graphics work for no visible change.
+    let drawn = 0;
     const frame = (now) => {
       raf = 0;
       if (!visible || document.hidden) { lastT = 0; return; }
+      if (now - drawn < 14) { raf = requestAnimationFrame(frame); return; }
+      drawn = now;
       adapt(now);
       if (!resize()) return fallback();
       const aspect = canvas.width / canvas.height;
@@ -391,7 +408,7 @@
       px = cx; py = cy;
       col.reverse();
       fresh = false;
-      pass(showP, null, (u) => { tex(0, col[0], u.uC); tex(1, milk[0], u.uM); });
+      pass(showP, null, (u) => { tex(0, col[0], u.uC); tex(1, milk[0], u.uM); gl.uniform2f(u.uOff, 4 / canvas.clientWidth, 4 / canvas.clientHeight); });
       if (!shown) { shown = true; requestAnimationFrame(() => layer.classList.add("is-on")); }   // fade in once there's a picture
       raf = requestAnimationFrame(frame);
     };
