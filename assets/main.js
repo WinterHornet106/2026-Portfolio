@@ -245,7 +245,16 @@
     };
     const free = (t) => { if (t) { gl.deleteTexture(t.tex); gl.deleteFramebuffer(t.fb); } };
 
-    const SCALE = 1 / 2;   // half resolution: sharp enough to see the water move
+    // Half resolution: sharp enough to see the water move. Slower machines
+    // step down automatically (see "Adaptive quality" in frame()), so a PC
+    // with modest graphics doesn't lag (Jay, 11 Nov 2026).
+    const LEVELS = [
+      { scale: 1 / 2, jacobi: 24 },   // as designed
+      { scale: 1 / 2, jacobi: 8 },    // fewer pressure passes (warm-started, so still smooth)
+      { scale: 1 / 3, jacobi: 8 },    // a third of the pixels; the CSS blur hides the difference
+      { scale: 1 / 4, jacobi: 6 },
+    ];
+    let level = 0, SCALE = LEVELS[0].scale;
     let vel = [], col = [], prs = [], milk = [], div = null, fresh = true, milkFresh = true;
     const resize = () => {
       const w = Math.max(2, Math.round(canvas.clientWidth * SCALE));
@@ -303,9 +312,25 @@
     let visible = true, raf = 0, lastPush = -1e9, shown = false;
     const start = performance.now();
     let prevNow = null;
+    // Adaptive quality: average the time between frames over about a second;
+    // if it stays above 22ms (under ~45fps) the graphics chip is struggling,
+    // so step down one level. Skips the first 2.5s (page load) and resets
+    // after the tab was hidden or the sky was off screen.
+    let lastT = 0, slowSum = 0, slowN = 0;
+    const adapt = (now) => {
+      const gap = lastT ? now - lastT : 0;
+      lastT = now;
+      if (!gap || gap > 250 || now - start < 2500 || level >= LEVELS.length - 1) return;
+      slowSum += gap; slowN++;
+      if (slowN < 60) return;
+      const avg = slowSum / slowN;
+      slowSum = 0; slowN = 0;
+      if (avg > 22) { level++; SCALE = LEVELS[level].scale; }
+    };
     const frame = (now) => {
       raf = 0;
-      if (!visible || document.hidden) return;
+      if (!visible || document.hidden) { lastT = 0; return; }
+      adapt(now);
       if (!resize()) return fallback();
       const aspect = canvas.width / canvas.height;
       // This frame's push, capped so a flick doesn't tear the water.
@@ -335,7 +360,7 @@
       if (now - lastPush < 5000) {
         const tw = 1 / canvas.width, th = 1 / canvas.height;
         pass(divP, div, (u) => { tex(0, vel[0], u.uV); gl.uniform2f(u.uTx, tw, th); });
-        for (let i = 0; i < 24; i++) {
+        for (let i = 0; i < LEVELS[level].jacobi; i++) {
           pass(jacP, prs[1], (u) => { tex(0, prs[0], u.uP); tex(1, div, u.uD); gl.uniform2f(u.uTx, tw, th); });
           prs.reverse();
         }
