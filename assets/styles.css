@@ -85,15 +85,27 @@
   --r-3: clamp(16px, 0.75rem + 1.1vw, 32px);
   --r-pill: 999px;
 
-  /* Easing (Emil Kowalski) */
-  --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  /* Motion tokens (16 Nov 2026): the structure of the web motion spec Jay
+     pasted, at the calmer apple.com timings (the spec's 150-200ms felt too
+     fast to Jay). Before: .verbose-backup/before-motion-spec/
+     (Apple-measured version) and .verbose-backup/before-apple-motion-pass/. */
+  --duration-instant: 100ms;   /* press feedback */
+  --duration-fast: 240ms;      /* fades, menus, exits */
+  --duration-standard: 320ms;  /* hovers, colour, underlines */
+  --duration-medium: 400ms;    /* modals, viewers, card lift */
+  --duration-slow: 500ms;      /* larger moves */
+  --duration-reveal: 700ms;    /* page entrance rise */
+  --duration-hero: 800ms;
+  --ease-out: cubic-bezier(0, 0, 0.5, 1);          /* anything that moves (apple.com's card curve) */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.6, 1);   /* colour, opacity, underlines (apple.com's UI curve) */
+  --ease: var(--ease-standard);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 
-  /* Durations */
-  --t-fast: 160ms;
-  --t-base: 220ms;
-  --t-slow: 380ms;
+  /* Short names used throughout this sheet */
+  --t-fast: var(--duration-fast);
+  --t-base: var(--duration-standard);
+  --t-slow: var(--duration-slow);
 
   /* Shadows: three depths, used everywhere (design audit, 8 Nov 2026) */
   --shadow-rest:    2px 4px 12px rgb(0 0 0 / 0.08);                                 /* cards, panels */
@@ -281,10 +293,10 @@ section { padding: var(--section-y) 0; }
      the page scrolls (is-scrolled is set by main.js past 8px). */
   background: transparent;
   border-bottom: 1px solid transparent;
-  transition: background-color var(--t-base) var(--ease-out),
-              border-color var(--t-base) var(--ease-out),
+  transition: background-color var(--t-base) var(--ease),
+              border-color var(--t-base) var(--ease),
               transform var(--t-base) var(--ease-out),
-              opacity var(--t-base) var(--ease-out);
+              opacity var(--t-base) var(--ease);
 }
 .nav.is-scrolled {
   /* a light veil, not a white slab: mostly see-through with a soft blur,
@@ -305,12 +317,12 @@ section { padding: var(--section-y) 0; }
   .has-modal .nav { transition: none; }
 }
 /* The case-study rail steps aside for the same reason. */
-.cs-toc { transition: opacity var(--t-base) var(--ease-out), top var(--t-base) var(--ease-out); }
+.cs-toc { transition: opacity var(--t-base) var(--ease), transform var(--t-base) var(--ease-out); }
 /* Case studies below 1200px: scrolling down tucks the nav away and the
    section tabs take the top (main.js sets .nav-tucked). */
 @media (max-width: 1199px) {
   .nav-tucked .has-toc .nav { transform: translateY(-100%); }
-  .nav-tucked .has-toc .cs-toc { top: 0; }
+  .nav-tucked .has-toc .cs-toc { transform: translateY(calc(-1 * var(--nav-h))); }
 }
 @media (prefers-reduced-motion: reduce) {
   .cs-toc { transition: none; }
@@ -323,7 +335,7 @@ section { padding: var(--section-y) 0; }
   letter-spacing: -0.016em;
   color: var(--ink);
   display: inline-flex; align-items: center; gap: 8px;
-  transition: color var(--t-fast) var(--ease-out);
+  transition: color var(--t-fast) var(--ease);
 }
 .nav__brand:hover { color: var(--accent-ink); }
 .nav__brand .dot {
@@ -353,7 +365,7 @@ section { padding: var(--section-y) 0; }
   pointer-events: none;
   opacity: 0;
   transform: translate(-6px, -50%) rotate(-6deg);
-  transition: opacity .2s var(--ease-out), transform .3s var(--ease-out);
+  transition: opacity var(--t-fast) var(--ease), transform var(--duration-standard) var(--ease-out);
 }
 .nav__brand:hover .nav__name,
 .nav__brand:focus-visible .nav__name { opacity: 1; transform: translate(0, -50%) rotate(-6deg); }
@@ -437,14 +449,14 @@ html.has-intro, html.intro-wait { overflow: hidden; overscroll-behavior: none; }
   font-size: 15px;
   padding: 6px 2px;
   color: var(--ink-2);
-  transition: color var(--t-fast) var(--ease-out);
+  transition: color var(--t-fast) var(--ease);
 }
 .nav__link::after {
   content: "";
   position: absolute; left: 2px; right: 2px; bottom: 2px;
   height: 1px; background: currentColor;
   clip-path: inset(0 100% 0 0);
-  transition: clip-path 320ms var(--ease-out);
+  transition: clip-path var(--t-base) var(--ease);
 }
 .nav__link:hover, .nav__link.is-active { color: var(--ink); }
 .nav__link:hover::after, .nav__link.is-active::after { clip-path: inset(0 0 0 0); }
@@ -463,7 +475,7 @@ html.has-intro, html.intro-wait { overflow: hidden; overscroll-behavior: none; }
   .nav__toggle span {
     display: block; width: 20px; height: 1.5px; border-radius: 1px;
     background: currentColor;
-    transition: transform var(--t-base) var(--ease-out), opacity var(--t-fast) var(--ease-out);
+    transition: transform var(--t-base) var(--ease-out), opacity var(--t-fast) var(--ease);
   }
   .nav.is-open .nav__toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
   .nav.is-open .nav__toggle span:nth-child(2) { opacity: 0; }
@@ -480,13 +492,13 @@ html.has-intro, html.intro-wait { overflow: hidden; overscroll-behavior: none; }
     box-shadow: var(--shadow-rest);
     opacity: 0; visibility: hidden;
     transform: translateY(calc(-1 * var(--s-2)));
-    transition: opacity var(--t-base) var(--ease-out),
+    transition: opacity var(--t-base) var(--ease),
                 transform var(--t-base) var(--ease-out),
                 visibility 0s linear var(--t-base);
   }
   .nav.is-open .nav__links {
     opacity: 1; visibility: visible; transform: none;
-    transition: opacity var(--t-base) var(--ease-out),
+    transition: opacity var(--t-base) var(--ease),
                 transform var(--t-base) var(--ease-out);
   }
   .nav__link {
@@ -504,35 +516,37 @@ html.has-intro, html.intro-wait { overflow: hidden; overscroll-behavior: none; }
 
 /* ---------- Buttons & links ---------- */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
-  /* Height comes from min-height, not the text's line box, so the label sits
-     on the pill's true centre. Every variant carries a 1px border (transparent
-     on primary) so a primary and a ghost side by side are the same height. */
-  min-height: 52px;
-  /* SF Pro Text centres itself in the pill (caps within 0.2px of true centre at
-     15px), so unlike the old Satoshi setup no optical nudge is needed. */
-  padding: 0 var(--s-5);
+  /* Quiet text links, not pills (16 Nov 2026, Jay: the gradient "View Resume"
+     and "Start a conversation" pills were too much). The label and an arrow,
+     no fill or border; a 44px tall hit area keeps them easy to tap. The
+     primary one is in the accent colour, the rest in grey ink. Before:
+     .verbose-backup/before-quiet-buttons/ */
+  display: inline-flex; align-items: center; gap: var(--s-2);
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
   line-height: 1;
-  border: 1px solid transparent;
-  border-radius: var(--r-pill);
-  font-weight: 500;
+  font: inherit;
   font-size: 15px;
-  transition: transform var(--t-fast) var(--ease-out),
-              background var(--t-fast) var(--ease-out),
-              color var(--t-fast) var(--ease-out);
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  text-decoration: underline 1px transparent;
+  text-underline-offset: 4px;
+  transition: color var(--t-fast) var(--ease), text-decoration-color var(--t-fast) var(--ease);
 }
-.btn:active { transform: scale(0.97); }
-/* Primary buttons wear the sky gradient with ink text (white on #00BBFF is too
-   faint to read). Hover deepens it a little. */
-/* The gradient spans the border box too: by default it would start inside the
-   transparent 1px border and repeat into it, leaving a choppy sliver from the
-   gradient's far end round the edge. */
-.btn--primary { background: var(--sky-grad) border-box; color: var(--ink); }
-.btn--primary:hover { background: var(--sky-grad) border-box; filter: saturate(1.15) brightness(0.96); }
-.btn--ghost { border: 1px solid var(--line-strong); color: var(--ink); }
-.btn--ghost:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn--primary { color: var(--accent-ink); }
+.btn--ghost { color: var(--ink-2); }
+.btn:hover { text-decoration-color: currentColor; }
+.btn--ghost:hover { color: var(--ink); }
 .btn .arr { display: inline-block; transition: transform var(--t-base) var(--ease-out); }
 .btn:hover .arr { transform: translateX(4px); }
+/* Press feedback (motion spec: immediate, 100-150ms, never delays the action):
+   links dim while held; project pictures settle back a touch. */
+.btn:active, .nav__link:active, .foot a:active, .back:active, .cs-next:active { opacity: 0.6; transition-duration: var(--duration-instant); }
+.proj__link:active .proj__img { transform: scale(0.99); transition-duration: var(--duration-instant); }
+.row:has(> .btn), .hero__sub--actions .hero__cluster .row:has(> .btn) { column-gap: var(--s-6); }
 
 /* Underline on-hover reveal (left→right) */
 .ulink {
@@ -545,7 +559,7 @@ html.has-intro, html.intro-wait { overflow: hidden; overscroll-behavior: none; }
   position: absolute; left: 0; right: 0; bottom: 0;
   height: 1px; background: currentColor;
   clip-path: inset(0 100% 0 0);
-  transition: clip-path 380ms var(--ease-out);
+  transition: clip-path var(--t-base) var(--ease);
 }
 .ulink:hover::after { clip-path: inset(0 0 0 0); }
 
@@ -553,9 +567,9 @@ html.has-intro, html.intro-wait { overflow: hidden; overscroll-behavior: none; }
 .back {
   display: inline-flex; align-items: center; gap: var(--s-2);
   font-size: 14px; color: var(--ink-3);
-  transition: color var(--t-fast) var(--ease-out), gap var(--t-base) var(--ease-out);
+  transition: color var(--t-fast) var(--ease);
 }
-.back:hover { color: var(--ink); gap: var(--s-3); }
+.back:hover { color: var(--ink); }
 /* Invisible padding around the link so it can be hit without aiming at the
    text: about 16px above and below, 24px either side. Layout is unchanged. */
 .back { position: relative; }
@@ -906,153 +920,62 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
 }
 
 
-/* ---------- Expanding panels (home page Selected work, 9 Nov 2026) ----------
-   Three tall panels; hovering, focusing or tapping one opens it wide to show
-   its story while the others narrow to a slice. main.js moves .is-on. Phones
-   stack them, the open one tall and the rest as short bands. */
-.panels {
-  container-type: inline-size;   /* label widths below are measured from the row, not the moving panel */
+/* ---------- Selected work: lead plus two (home page, 16 Nov 2026) ----------
+   Jay's pick (option 2) from selected-work-study.html, replacing the
+   expanding panels: MEC as a wide lead, CarePath and DDA side by side under
+   it. Everything is visible without hover, so it reads the same with a
+   mouse, on touch and on a slow PC, and nothing resizes. A slow zoom on the
+   picture and a nudge of the arrow on hover. One column on phones.
+   Panels: .verbose-backup/before-lead-plus-two/ */
+.projects {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  gap: var(--s-3);
-  height: clamp(440px, 64vh, 600px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-7) var(--s-5);
 }
-.panel {
-  position: relative;
-  flex: 1 1 0;
-  min-width: 0;
-  margin: 0;
+.proj--lead { grid-column: 1 / -1; }
+.proj__link { display: block; color: inherit; text-decoration: none; }
+.proj__img {
+  aspect-ratio: 4 / 3;
+  margin-bottom: var(--s-4);
   border-radius: var(--r-3);
   overflow: hidden;
-  background: oklch(0.3 0.02 240);
-  box-shadow: var(--shadow-rest);
-  transition: flex-grow 700ms cubic-bezier(.2, .8, .2, 1), box-shadow 300ms cubic-bezier(0, 0, .5, 1);
+  background: oklch(96% 0.004 240);
 }
-.panel.is-on { flex-grow: 3.4; box-shadow: var(--shadow-raised); }
-.panel__link { position: absolute; inset: 0; display: block; color: #fff; text-decoration: none; }
-.panel__link:focus-visible { outline-offset: -4px; }
-/* The photo is always the open panel's size and centred; the panel only
-   clips it, so nothing is resized or re-filtered while panels animate
-   (that was laggy on PC, 12 Nov 2026). Closed panels are dimmed by a dark
-   layer that fades out, which the graphics chip does for free. */
-.panel img {
-  --pw: calc((100cqw - 2 * var(--s-3)) * 3.4 / 5.4);   /* the open panel's width */
-  --ph: 100%;
-  position: absolute; left: 50%; top: calc(50% - var(--ph) / 2);
-  width: var(--pw); max-width: none; height: var(--ph);
-  margin-left: calc(var(--pw) / -2);
-  object-fit: cover;
-  transition: transform 1s var(--ease-out);
-}
-.panel.is-on img { transform: scale(1.03); }
-.panel__link::before {
-  content: ""; position: absolute; inset: 0; z-index: 0;
-  background: rgb(0 0 0 / .2);
-  pointer-events: none;
-  transition: opacity 600ms var(--ease-out);
-}
-.panel.is-on .panel__link::before { opacity: 0; }
-/* MEC's thumbnail is black in the middle with its logo on the left; anchor it
-   right and zoomed from the top so panels show the phones, not the logo
-   that would sit behind the text. */
-.panel--mec img { left: auto; right: 0; margin-left: 0; object-position: 100% 0; transform-origin: 100% 0; transform: scale(1.75); }
-.panel--mec.is-on img { transform: scale(1.8); }
-.panel__link::after {
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(transparent 28%, rgb(0 0 0 / .5) 55%, rgb(0 0 0 / .86));
-  pointer-events: none;
-}
-/* Two text layers so nothing reflows or slides while the panels resize:
-   a short title label for the narrow state, and the full story block, whose
-   width is set from the viewport (not the panel) so its lines never rewrap
-   mid-animation. They cross-fade: the label goes at once, the story fades in
-   once the panel is mostly open, and the reverse on closing. */
-.panel__label,
-.panel__txt {
-  position: absolute;
-  left: clamp(16px, 2.5vw, 32px);
-  bottom: clamp(16px, 2.5vw, 32px);
-  z-index: 1;
-  color: #fff;
-  text-shadow: 0 1px 12px rgb(0 0 0 / .35);
-}
-.panel__label {
-  /* the closed panel's final width (1 of 1 + 1 + 3.4 shares, less the gaps and
-     padding), fixed so the title's line breaks never change as panels resize */
-  width: calc((100cqw - 2 * var(--s-3)) / 5.4 - 2 * clamp(16px, 2.5vw, 32px));
-  font-family: var(--display);
-  font-weight: 600;
-  font-size: var(--fs-h4);
-  line-height: var(--lh-h4);
-  opacity: 0;
-  transition: opacity 250ms var(--ease-out) 120ms;
-}
-.panel__txt {
-  width: clamp(280px, 38vw, 480px);
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-2);
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 150ms var(--ease-out), transform 150ms var(--ease-out);
-}
-.panel:not(.is-on) .panel__label { opacity: 1; }
-.panel.is-on .panel__label { opacity: 0; transition: opacity 120ms var(--ease-out); }
-.panel.is-on .panel__txt {
-  opacity: 1;
-  transform: none;
-  transition: opacity 450ms var(--ease-out) 300ms, transform 600ms var(--ease-out) 300ms;
-}
-.panel__kind { font-size: var(--fs-label); color: rgb(255 255 255 / .82); }
-.panel__title {
-  font-family: var(--display);
-  font-weight: 600;
-  font-size: var(--fs-tile);
-  line-height: 1.12;
-  letter-spacing: 0;
+.proj--lead .proj__img { aspect-ratio: 21 / 9; }
+.proj__img img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* Hover lifts the whole picture a touch, as apple.com's product tiles do
+   (scale 1.016 over 0.3s on their card curve), instead of a slow zoom inside. */
+.proj__img { transition: transform var(--duration-medium) var(--ease-out); }
+/* Card text (16 Nov 2026, "research and redo"): modelled on the portfolios
+   Jay admires. Joann Vu's lead-plus-two grid gives each card just a name, one
+   line and a category on the right, with the whole card as the link; Caleb
+   Wu leads each line with what he did and for whom. So: the name, then one
+   line. No labels, pills or "Read case study"; the picture zooms on hover.
+   The lead uses the same pattern at full width, for consistency. */
+.proj__title {
   margin: 0;
-  color: #fff;
+  font-family: var(--display);
+  font-size: var(--fs-h4);
+  font-weight: 600;
+  line-height: var(--lh-h4);
+  letter-spacing: 0;
+  color: var(--ink);
 }
-.panel__desc {
-  font-size: var(--fs-small);
-  line-height: 1.5;
-  color: rgb(255 255 255 / .9);
-  margin: var(--s-1) 0 0;
-  max-width: 46ch;
-}
-.panel__tags { display: flex; gap: var(--s-2); flex-wrap: wrap; margin-top: var(--s-4); }
-.panel__tags span {
-  display: inline-block;
-  line-height: 1;
-  font-size: var(--fs-label);
-  padding: 8px 12px;
-  border: 1px solid rgb(255 255 255 / .35);
-  border-radius: var(--r-pill);
-  color: #fff;
-  white-space: nowrap;
-}
-.panel__cta { display: inline-flex; align-items: center; gap: 8px; margin-top: var(--s-4); font-size: 12px; color: #fff; }
-.panel__cta .arr { transition: transform var(--t-base) var(--ease-out); }
+.proj--lead .proj__title { font-size: var(--fs-h3); line-height: var(--lh-h3); }
+.proj__desc { margin: var(--s-1) 0 0; font-size: var(--fs-small); line-height: 1.5; color: var(--ink-2); max-width: 52ch; }
 @media (hover: hover) and (pointer: fine) {
-  .panel__link:hover .panel__cta > span:first-child { text-decoration: underline; text-underline-offset: 3px; }
-  .panel__link:hover .panel__cta .arr { transform: translateX(6px); }
+  .proj__link:hover .proj__img { transform: scale(1.016); }
 }
-/* Stacked only on phones; tablets keep the side-by-side panels (polish,
-   10 Nov 2026; was 860px). */
 @media (max-width: 720px) {
-  .panels { flex-direction: column; height: auto; }
-  .panel { flex: none; height: 104px; transition: height 700ms cubic-bezier(.2, .8, .2, 1); }
-  .panel.is-on { height: clamp(380px, 110vw, 480px); }
-  .panel img { --pw: 100cqw; --ph: clamp(380px, 110vw, 480px); }
-  .panel--mec img { top: 0; }
-  .panel__txt, .panel__label { width: calc(100cqw - 2 * clamp(16px, 2.5vw, 32px)); }
+  .projects { grid-template-columns: 1fr; gap: var(--s-7); }
+  .proj--lead .proj__img { aspect-ratio: 4 / 3; }
+  .proj--lead .proj__title { font-size: var(--fs-h4); line-height: var(--lh-h4); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .panel, .panel img, .panel__label, .panel__txt { transition: none !important; }
-  .panel.is-on img { transform: none; }
+  .proj__img { transition: none; }
 }
 
 /* ---------- Approach — numbered editorial principles ---------- */
@@ -1110,7 +1033,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   color: var(--ink);
   position: relative;
   padding-bottom: var(--s-4);
-  transition: gap var(--t-base) var(--ease-out), color var(--t-base) var(--ease-out);
+  transition: color var(--t-base) var(--ease);
 }
 .approach-more::after {
   content: "";
@@ -1119,7 +1042,7 @@ section.section--roomy + section.section--roomy { padding-top: var(--s-8); }
   height: 1px;
   background: currentColor;
 }
-.approach-more:hover { color: var(--accent-ink); gap: 16px; }
+.approach-more:hover { color: var(--accent-ink); }
 .approach-more .arr { transition: transform var(--t-base) var(--ease-out); }
 .approach-more:hover .arr { transform: translateX(4px); }
 
@@ -1569,10 +1492,8 @@ html.is-draft .todo-shot { display: grid; gap: var(--s-3); }
    These are flex items, so they're blockified and the trim applies. Padding
    grows 2px to keep the same overall height as the untrimmed fallback. */
 @supports (text-box: trim-both cap alphabetic) {
-  .work__tags span,
-  .panel__tags span { text-box: trim-both cap alphabetic; }
+  .work__tags span { text-box: trim-both cap alphabetic; }
   .work__tags span { padding-block: 11px; }
-  .panel__tags span { padding-block: 10px; }
 }
 /* All-caps labels have no descenders, so centre on the capitals themselves:
    trim the box to cap height and baseline, then pad evenly around it. */
@@ -1660,14 +1581,14 @@ html.is-draft .todo-shot { display: grid; gap: var(--s-3); }
   align-items: center;
   padding: var(--s-6) 0;
   /* border removed — cs-outcomes' own bottom border closes the section */
-  transition: padding var(--t-slow) var(--ease-out);
 }
 /* Tighten the gap between the outcomes block and the next-project link.
    Without this, section--roomy + default section padding produces ~408px
    of empty air. */
 section:has(> .cs-outcomes:last-child) { padding-bottom: var(--s-6); }
 section:has(> .cs-next) { padding-top: var(--s-5); }
-.cs-next:hover { padding-left: 12px; }
+.cs-next > * { transition: transform var(--duration-medium) var(--ease-out); }
+.cs-next:hover > * { transform: translateX(12px); }
 .cs-next .lbl { font-family: var(--mono); font-size: 12px; color: var(--ink-3); letter-spacing: 0; }
 .cs-next .title {
   font-family: var(--display);
@@ -1675,8 +1596,12 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   font-weight: 600;
   letter-spacing: 0;
 }
-.cs-next .arr { font-size: 1.4rem; transition: transform var(--t-slow) var(--ease-out); }
-.cs-next:hover .arr { transform: translateX(8px); }
+.cs-next .arr { font-size: 1.4rem; }
+.cs-next:hover .arr { transform: translateX(20px); }
+@media (prefers-reduced-motion: reduce) {
+  .cs-next > *, .cs-next:hover > *, .cs-next:hover .arr { transition: none; transform: none; }
+  .btn .arr, .back .arr, .approach-more .arr, .proj__link:active .proj__img { transition: none; transform: none; }
+}
 
 /* ---------- About page ---------- */
 .about-intro {
@@ -1787,7 +1712,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   border: 1px solid var(--line);
   border-radius: var(--r-pill);
   color: var(--ink-2);
-  transition: border-color var(--t-fast) var(--ease-out), color var(--t-fast) var(--ease-out);
+  transition: border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
 }
 .pill-row span:hover { border-color: var(--line-strong); color: var(--ink); }
 /* Same cap-trim as the tag pills above, kept after the base rule so its
@@ -1811,7 +1736,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   /* The email can't wrap and runs ~10.6em wide, so the size is also capped to
      the column (viewport or container, minus gutters) over 11em. */
   font-size: min(clamp(2rem, 1.6rem + 1.4vw, 3rem),          /* Apple headline: 48 desktop */
-                 calc((min(100vw, var(--container)) - 2 * var(--gutter)) / 11));
+                 calc((min(100vw, var(--container)) - 2 * var(--gutter)) / 11.7));   /* 11.7: room for the copy icon */
   line-height: 1.08;
   letter-spacing: -0.003em;
   color: var(--ink);
@@ -1819,14 +1744,14 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 .contact-big a {
   position: relative;
   display: inline-block;
-  transition: color var(--t-slow) var(--ease-out);
+  transition: color var(--t-slow) var(--ease);
 }
 .contact-big a::after {
   content: "";
   position: absolute; left: 0; right: 0; bottom: 0.06em;
   height: 3px; background: currentColor;
   clip-path: inset(0 100% 0 0);
-  transition: clip-path 620ms var(--ease-out);
+  transition: clip-path var(--t-base) var(--ease);
 }
 .contact-big a:hover { color: var(--accent-ink); }
 .contact-big a:hover::after { clip-path: inset(0 0 0 0); }
@@ -1841,51 +1766,100 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   font: inherit;
   color: inherit;
   cursor: pointer;
-  transition: color var(--t-slow) var(--ease-out);
+  transition: color var(--t-slow) var(--ease);
 }
 .copy-email::after {
   content: "";
   position: absolute; left: 0; right: 0; bottom: 0.06em;
   height: 3px; background: currentColor;
   clip-path: inset(0 100% 0 0);
-  transition: clip-path 620ms var(--ease-out);
+  transition: clip-path var(--t-base) var(--ease);
 }
 .copy-email:hover { color: var(--accent-ink); }
 .copy-email:hover::after { clip-path: inset(0 0 0 0); }
-/* Typography comes from .eyebrow — this only places and reveals it.
-   The offset is a percentage of the email's own line box, so it clears the
-   descenders at every step of the clamped display size. */
-.copy-email__hint {
+/* Copy icon (16 Nov 2026, Jay: a copy icon on hover instead of the "Copy"
+   cursor label and "Click to copy" hint, now that the "Email copied" notice
+   confirms). It sits just right of the email, outside the button's width so
+   the underline stays under the address. Hover or keyboard focus fades it in;
+   while copied it turns into a check. Touch screens show it all the time,
+   since they can't hover. Before: .verbose-backup/before-copy-toast/ */
+.copy-email__icon {
   position: absolute;
-  top: 128%;
-  left: 0;
-  transform: translateY(4px);
-  white-space: nowrap;
+  left: calc(100% + 0.28em);
+  top: 50%;
+  width: 0.62em;
+  height: 0.62em;
+  color: var(--ink-3);
   opacity: 0;
+  transform: translate(-6px, -50%);
+  transition: opacity var(--t-base) var(--ease), transform var(--t-base) var(--ease-out), color var(--t-base) var(--ease);
   pointer-events: none;
-  transition: opacity var(--t-base) var(--ease-out),
-              transform var(--t-base) var(--ease-out),
-              color var(--t-base) var(--ease-out);
 }
-/* No custom pointer (touch, reduced motion, no JS) — the hint does the work. */
-.copy-email:hover .copy-email__hint,
-.copy-email:focus-visible .copy-email__hint,
-.copy-email[data-state="copied"] .copy-email__hint {
-  opacity: 1;
-  transform: translateY(0);
+.copy-email__icon svg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round;
+  transition: opacity var(--t-fast) var(--ease), transform var(--t-base) var(--ease-out);
 }
-/* With the custom pointer the cursor carries the label, so the hint stands
-   down rather than saying it twice — but it still answers keyboard focus. */
-.has-cursor .copy-email:hover .copy-email__hint,
-.has-cursor .copy-email[data-state="copied"] .copy-email__hint {
+.copy-email__done { opacity: 0; transform: scale(0.6); }
+.copy-email:hover .copy-email__icon,
+.copy-email:focus-visible .copy-email__icon,
+.copy-email[data-state="copied"] .copy-email__icon { opacity: 1; transform: translate(0, -50%); color: var(--accent-ink); }
+.copy-email[data-state="copied"] .copy-email__copy { opacity: 0; transform: scale(0.6); }
+.copy-email[data-state="copied"] .copy-email__done { opacity: 1; transform: none; }
+@media (pointer: coarse) {
+  .copy-email__icon { opacity: 1; transform: translate(0, -50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .copy-email__icon, .copy-email__icon svg { transition: opacity var(--t-fast) linear; }
+}
+/* While copied, the email stays in the accent colour with its underline drawn. */
+.copy-email[data-state="copied"] { color: var(--accent-ink); }
+.copy-email[data-state="copied"]::after { clip-path: inset(0 0 0 0); }
+.copy-email { transform-origin: left center; }
+
+/* "Email copied" notice (main.js). Dark HUD pill at the bottom centre; rises
+   in on the card curve, fades out on the UI curve. */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: max(var(--s-6), env(safe-area-inset-bottom));
+  z-index: 200;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  padding: 0 var(--s-5) 0 var(--s-3);
+  border-radius: var(--r-pill);
+  background: oklch(22% 0.01 250 / 0.92);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  box-shadow: var(--shadow-overlay);
+  pointer-events: none;
   opacity: 0;
-  transform: translateY(4px);
+  transform: translate(-50%, 16px) scale(0.96);
+  transition: opacity var(--t-fast) var(--ease), transform var(--duration-medium) var(--ease-out);
 }
-.has-cursor .copy-email:focus-visible .copy-email__hint {
-  opacity: 1;
-  transform: translateY(0);
+.toast.is-on { opacity: 1; transform: translate(-50%, 0) scale(1); }
+.toast__tick {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
 }
-.copy-email[data-state="copied"] .copy-email__hint { color: var(--accent-ink); }
+.toast__tick svg { width: 14px; height: 14px; fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 12; stroke-dashoffset: 12; }
+.toast.is-on .toast__tick svg { animation: tick-draw 400ms var(--ease-out) 160ms forwards; }
+@keyframes tick-draw { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .toast { transform: translate(-50%, 0); transition: opacity var(--t-fast) linear; }
+  .toast.is-on .toast__tick svg { animation: none; stroke-dashoffset: 0; }
+}
 
 .contact-cols {
   display: grid;
@@ -1927,8 +1901,8 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   font-family: var(--mono);
   font-size: 12px;
   color: var(--ink-2);
-  transition: border-color var(--t-fast) var(--ease-out),
-              color var(--t-fast) var(--ease-out),
+  transition: border-color var(--t-fast) var(--ease),
+              color var(--t-fast) var(--ease),
               transform var(--t-fast) var(--ease-out);
 }
 .status--stacked { margin-bottom: var(--s-6); }
@@ -1992,7 +1966,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
 .foot h5, .foot .foot__h { font-family: var(--mono); font-size: var(--fs-label); letter-spacing: 0; color: var(--ink-3); font-weight: 500; margin: 0 0 var(--s-3); }
 .foot .brand-line { font-family: var(--display); font-weight: 700; font-size: 1.5rem; color: var(--ink); letter-spacing: -0.018em; }
 .foot .blurb { margin-top: var(--s-3); color: var(--ink-3); max-width: 32ch; font-size: 14px; line-height: 1.55; }
-.foot a { color: var(--ink-2); display: block; padding: 4px 0; position: relative; width: fit-content; transition: color var(--t-fast) var(--ease-out); }
+.foot a { color: var(--ink-2); display: block; padding: 4px 0; position: relative; width: fit-content; transition: color var(--t-fast) var(--ease); }
 .foot a:hover, .foot a:focus-visible { color: var(--ink); }
 /* The same sliding underline as .ulink, so footer links show they're links
    on hover (Jay, 10 Nov 2026; before only the colour shifted slightly). */
@@ -2001,7 +1975,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   position: absolute; left: 0; right: 0; bottom: 3px;
   height: 1px; background: currentColor;
   clip-path: inset(0 100% 0 0);
-  transition: clip-path 380ms var(--ease-out);
+  transition: clip-path var(--t-base) var(--ease);
 }
 @media (hover: hover) {
   .foot a:hover::after { clip-path: inset(0 0 0 0); }
@@ -2041,8 +2015,8 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   backdrop-filter: blur(14px) saturate(118%);
   -webkit-backdrop-filter: blur(14px) saturate(118%);
   background: color-mix(in oklch, var(--bg) 40%, transparent);
-  transition: backdrop-filter var(--t-base) var(--ease-out),
-              background var(--t-base) var(--ease-out);
+  transition: backdrop-filter var(--t-base) var(--ease),
+              background var(--t-base) var(--ease);
 }
 /* Easing the frost on hover hints that there's something real underneath. */
 .poster:hover .poster__veil {
@@ -2129,14 +2103,14 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 200ms var(--ease-out), visibility 0s linear 200ms;
+  transition: opacity var(--t-fast) var(--ease), visibility 0s linear var(--t-fast);
 }
 .pdf-modal[hidden] { display: none; }
 .pdf-modal.is-open {
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
-  transition: opacity 240ms var(--ease-out), visibility 0s;
+  transition: opacity var(--duration-medium) var(--ease), visibility 0s;
 }
 /* A flat dim, no backdrop blur: blurring the whole page behind a fading layer
    is one of the most expensive things to composite, and it was a source of
@@ -2158,7 +2132,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   box-shadow: var(--shadow-overlay);
   overflow: hidden;
   transform: translateY(16px) scale(0.985);
-  transition: transform 260ms var(--ease-out);
+  transition: transform var(--t-base) var(--ease-out);
 }
 .pdf-modal.is-open .pdf-modal__panel {
   transform: none;
@@ -2265,7 +2239,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
      centred in the pill, not nudged left. */
   margin-right: -0.06em;
   opacity: 0;
-  transition: opacity 140ms var(--ease-out);
+  transition: opacity var(--t-fast) var(--ease);
 }
 /* The label is a grid item (a block), so it can trim to its capitals and
    centre exactly; it's always uppercase, so nothing hangs below. */
@@ -2366,7 +2340,7 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   font-size: var(--fs-label);
   letter-spacing: 0;
   color: var(--ink-3);   /* ink-4 was 3.6:1, under the 4.5:1 text minimum */
-  transition: color var(--t-fast) var(--ease-out);
+  transition: color var(--t-fast) var(--ease);
 }
 .cs-toc__link:hover { color: var(--ink-2); }
 .cs-toc__link.is-active { color: var(--ink); }
@@ -2377,8 +2351,8 @@ section:has(> .cs-next) { padding-top: var(--s-5); }
   background: currentColor;
   opacity: 0.55;
   transition: width var(--t-base) var(--ease-out),
-              background var(--t-base) var(--ease-out),
-              opacity var(--t-base) var(--ease-out);
+              background var(--t-base) var(--ease),
+              opacity var(--t-base) var(--ease);
 }
 .cs-toc__link:hover .cs-toc__dash { width: 20px; opacity: 0.8; }
 .cs-toc__link.is-active .cs-toc__dash {
@@ -2406,8 +2380,8 @@ body.has-toc [data-section] {
     top: calc(var(--nav-h) + var(--s-7));
     width: var(--toc-w);
     opacity: 1;
-    transition: opacity var(--t-slow) var(--ease-out),
-                visibility var(--t-slow) var(--ease-out);
+    transition: opacity var(--t-slow) var(--ease),
+                visibility var(--t-slow) var(--ease);
   }
   .cs-toc.is-hidden {
     opacity: 0;
@@ -2472,7 +2446,7 @@ body.has-toc [data-section] {
     height: 1px;
     background: var(--hl, var(--accent));
     clip-path: inset(0 100% 0 0);
-    transition: clip-path 320ms var(--ease-out);
+    transition: clip-path var(--t-base) var(--ease);
   }
   .cs-toc__link.is-active::after { clip-path: inset(0 0 0 0); }
 }
@@ -2533,6 +2507,16 @@ body.has-toc [data-section] {
   color: var(--ink-2);
   max-width: 38ch;
 }
+
+/* "Why" line under a feature or decision: the evidence that drove it, so
+   each design choice traces back to research (hiring review, 15 Nov 2026). */
+.cs-insight p.cs-why, .cs-features p.cs-why {
+  margin-top: var(--s-3);
+  font-size: var(--fs-meta);
+  line-height: 1.55;
+  color: var(--ink-3);
+}
+.cs-why span { font-weight: 500; color: var(--hl, var(--accent-ink)); margin-right: 6px; }
 
 /* ---------- Pull quote ---------- */
 .cs-quote {
@@ -2610,59 +2594,31 @@ body.has-toc [data-section] {
 }
 .cs-compare img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
 @media (max-width: 640px) { .cs-compare { grid-template-columns: 1fr; gap: var(--s-5); } }
-/* Workshop findings (MEC): problem → fix cards sitting straight on the page,
-   white like the persona cards. Three across, two on tablets, one on phones. */
+/* Workshop findings (MEC): what attendees said, then the fix. Apple-style
+   feature grid: no cards, icons or rules, just space (16 Nov 2026, Jay:
+   "minimal like apple"; card and row versions in
+   .verbose-backup/before-mec-declutter/). 3 / 2 / 1 columns. */
 .cs-fixes {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--s-4);
-  margin: 0;
+  gap: var(--s-7) var(--s-6);
+  margin: var(--s-8) 0 0;
   padding: 0;
   list-style: none;
 }
 @media (max-width: 1000px) { .cs-fixes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 640px)  { .cs-fixes { grid-template-columns: 1fr; } }
-.cs-fix {
-  display: flex;
-  flex-direction: column;
-  min-height: 220px;
-  margin: 0;
-  padding: var(--s-5);
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: var(--r-3);
-}
-@media (max-width: 640px) { .cs-fix { min-height: 0; } }
-/* Apple icon proportions: radius 22.37% of the width, gradient MEC green. */
-.cs-fix__icon {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  margin-bottom: auto;
-  border-radius: 22.37%;
-  background: linear-gradient(135deg, #5baa6e, #1e5631);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.22), 0 1px 3px rgb(30 86 49 / 0.12);
-}
-.cs-fix__icon svg {
-  width: 26px;
-  height: 26px;
-  fill: none;
-  stroke: #fff;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
+@media (max-width: 640px)  { .cs-fixes { grid-template-columns: 1fr; gap: var(--s-5); margin-top: var(--s-7); } }
+.cs-fix { margin: 0; }
 .cs-fix__quote {
-  margin: var(--s-6) 0 var(--s-2);
-  font-size: 14px;
-  line-height: 1.45;
+  margin: 0 0 var(--s-2);
+  font-size: 15px;
+  line-height: 1.5;
   color: var(--ink-3);
   text-wrap: pretty;
 }
-@media (max-width: 640px) { .cs-fix__quote { margin-top: var(--s-4); } }
 .cs-fix h4 {
   margin: 0;
+  max-width: 22ch;
   font-family: var(--display);
   font-size: var(--fs-h4);
   font-weight: 600;
@@ -2671,6 +2627,20 @@ body.has-toc [data-section] {
   color: var(--ink);
   text-wrap: balance;
 }
+
+/* MEC pivot: dropped vs kept. Big titles and space, no rules; the dropped
+   idea sits in grey so the kept one reads as the answer. */
+.cs-pivot .cs-insight { border-top: 0; padding-top: 0; }
+.cs-pivot__tag {
+  display: block;
+  margin-bottom: var(--s-2);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  color: var(--ink-3);
+}
+.cs-pivot--kept .cs-pivot__tag { color: var(--hl); }
+.cs-pivot .cs-insight h3 { min-height: 0; font-size: var(--fs-tile); max-width: none; }
+.cs-pivot .cs-insight:not(.cs-pivot--kept) h3 { color: var(--ink-3); }
 /* Isolated component close-ups sit above each feature's heading. */
 .cs-features .cs-frame { margin-bottom: var(--s-4); border: 0; }
 .cs-features h3 {
@@ -2876,7 +2846,7 @@ img[data-zoom] { cursor: zoom-in; }
 .zoom-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 /* Desktop: the button only appears on hover or focus; touch keeps it shown. */
 @media (hover: hover) and (pointer: fine) {
-  .zoom-btn { opacity: 0; transition: opacity var(--t-fast) var(--ease-out); }
+  .zoom-btn { opacity: 0; transition: opacity var(--t-fast) var(--ease); }
   .has-zoom:hover .zoom-btn, .zoom-btn:focus-visible { opacity: 1; }
 }
 .zoom {
@@ -2886,9 +2856,9 @@ img[data-zoom] { cursor: zoom-in; }
   background: rgb(10 14 22 / .88);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 220ms var(--ease-out), visibility 0s linear 220ms;
+  transition: opacity var(--t-fast) var(--ease), visibility 0s linear var(--t-fast);
 }
-.zoom.is-open { opacity: 1; visibility: visible; transition: opacity 220ms var(--ease-out); }
+.zoom.is-open { opacity: 1; visibility: visible; transition: opacity var(--duration-medium) var(--ease); }
 .zoom__scroll {
   position: absolute;
   inset: 0;
@@ -2951,18 +2921,6 @@ img[data-zoom] { cursor: zoom-in; }
 @media (max-width: 900px) {
   .persona__chips, .persona__bio { min-height: 0; }
 }
-@media (max-width: 640px) {
-  .cs-fixes { gap: var(--s-3); }
-  .cs-fix {
-    display: grid;
-    grid-template-columns: 44px minmax(0, 1fr);
-    column-gap: var(--s-4);
-    align-items: start;
-    padding: var(--s-4);
-  }
-  .cs-fix__icon { grid-row: 1 / span 2; margin: 0; }
-  .cs-fix__quote { margin: 0 0 var(--s-1); }
-}
 
 /* Keeps a hyphenated word such as "co-op" on one line in headings. */
 .nobr { white-space: nowrap; }
@@ -2971,19 +2929,68 @@ img[data-zoom] { cursor: zoom-in; }
    10 Nov 2026). em, not ch: ch measures the "0", wider than average text. */
 .copy-block > p:not(.lede) { max-width: 32em; }
 
-/* Home panels on touch screens: a closed panel says it can be opened (the
-   first tap reveals it, the second goes to the case study). The label is
-   aria-hidden, so this cue is visual only (Jay, 10 Nov 2026). */
-@media (pointer: coarse) {
-  .panel__label::after {
-    content: "Tap to reveal";
-    display: block;
-    margin-top: var(--s-1);
-    font-family: var(--sans);
-    font-size: var(--fs-label);
-    font-weight: 500;
-    line-height: 1.3;
-    letter-spacing: 0;
-    color: rgb(255 255 255 / .82);
-  }
+/* ---------- No divider lines (16 Nov 2026, Jay: "not feeling the lines") ----------
+   Space alone separates things now, Apple-style: the case-study meta row,
+   insight cards, About's table, the résumé rows, contact columns, CTA rows
+   and the footer all lose their hairlines. Functional borders stay: image
+   and card frames, buttons, the phone menu and the case-study section tabs.
+   Before: .verbose-backup/styles-before-no-lines.css */
+.cs-meta { border-top: 0; border-bottom: 0; padding: var(--s-5) 0; }
+.cs-insight { border-top: 0; padding-top: 0; }
+.kv-table { border-top: 0; }
+.kv-table .k, .kv-table .v { border-bottom: 0; padding: var(--s-3) 0; }
+.kv-table .k { padding-top: calc(var(--s-3) + 6px); }
+.cv-grid .h { border-top: 0; padding-top: 0; }
+.cv-row, .cv-row:first-child { border-top: 0; border-bottom: 0; padding: var(--s-4) 0; }
+.contact-cols, .contact-cta, .cta-row { border-top: 0; }
+.foot, .foot .fine { border-top: 0; }
+.work__meta .row { border-bottom: 0; }
+
+/* ---------- Layout pass (16 Nov 2026, against the web-design spec Jay pasted) ----------
+   Case studies stopped repeating one composition (heading, paragraph, three
+   text columns) in every section. Research findings now read as editorial
+   rows, heading on the left and the finding on the right; CarePath's
+   Highlights pair each screen with its feature in alternating rows instead of
+   three text cards above three phones. Before: .verbose-backup/before-layout-pass/ */
+.cs-insights--rows { grid-template-columns: 1fr; gap: var(--s-6); }
+.cs-insights--rows .cs-insight {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  column-gap: var(--s-6);
+  align-items: baseline;
+}
+.cs-insights--rows .cs-insight h3 { min-height: 0; margin: 0; max-width: 18ch; }
+.cs-insights--rows .cs-insight p { font-size: var(--fs-body); line-height: 1.55; max-width: 44ch; }
+@media (max-width: 720px) {
+  .cs-insights--rows { gap: var(--s-5); }
+  .cs-insights--rows .cs-insight { grid-template-columns: 1fr; row-gap: var(--s-2); }
+}
+
+/* Feature rows: screen and story side by side, alternating sides. */
+.cs-rows { display: grid; gap: var(--s-9); margin-top: var(--s-8); }
+.cs-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--s-8);
+  align-items: center;
+}
+.cs-row:nth-child(even) .cs-row__media { order: 2; }
+.cs-row__media { margin: 0; width: 100%; max-width: 300px; justify-self: center; }
+.cs-row__text h3 {
+  margin: 0 0 var(--s-3);
+  font-family: var(--display);
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  line-height: var(--lh-h3);
+  letter-spacing: 0;
+  color: var(--ink);
+  max-width: 18ch;
+}
+.cs-row__text p { margin: 0; font-size: var(--fs-body); line-height: 1.55; color: var(--ink-2); max-width: 40ch; }
+.cs-row__text p.cs-why { margin-top: var(--s-4); font-size: var(--fs-meta); line-height: 1.55; color: var(--ink-3); }
+@media (max-width: 720px) {
+  .cs-rows { gap: var(--s-8); margin-top: var(--s-7); }
+  .cs-row { grid-template-columns: 1fr; row-gap: var(--s-5); }
+  .cs-row:nth-child(even) .cs-row__media { order: 0; }
+  .cs-row__media { max-width: 260px; }
 }

@@ -18,7 +18,7 @@
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Jay Ho, product and interaction designer: MEC Connect, Costco CarePath, Dutch Design Awards." />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="stylesheet" href="../assets/styles.css?v=20261112a" />
+  <link rel="stylesheet" href="../assets/styles.css?v=20261116r" />
   <link rel="icon" type="image/svg+xml" href="../assets/logo.svg" />
 </head>
 <body class="has-toc cs--carepath">
@@ -146,7 +146,7 @@
       <!-- IMAGE NOTE (findings): a before/after strip is the strongest proof here. For
            each finding, the Week 3 "Pharmacy Pal" screen next to its final version.
            Figma: "Week 3 - Prototyping" (before) vs "Week 5 - Prototype" (after). -->
-      <div class="cs-insights reveal" data-delay="2">
+      <div class="cs-insights cs-insights--rows reveal" data-delay="2">
         <div class="cs-insight">
           <h3>Information was scattered</h3>
           <p>Medications hid under Profile, so testers couldn&rsquo;t see what they had left or when to refill.</p>
@@ -161,13 +161,6 @@
         </div>
       </div>
 
-      <blockquote class="cs-quote reveal" data-delay="3">
-        <p>
-          &ldquo;Should show how many refills are left, reminders to call doctor to order
-          more refills.&rdquo;
-        </p>
-        <cite>Test participant</cite>
-      </blockquote>
     </section>
 
     <div class="section-divider reveal" aria-hidden="true">
@@ -187,43 +180,43 @@
         </p>
       </div>
 
-      <div class="cs-insights reveal" data-delay="2">
-        <div class="cs-insight">
-          <h3>A home that says what&rsquo;s next</h3>
-          <p>Today&rsquo;s dose with Taken or Remind me, and refill status before it&rsquo;s urgent.</p>
-        </div>
-        <div class="cs-insight">
-          <h3>Logs that reach a person</h3>
-          <p>Every symptom ties to a medication. Members choose which logs their pharmacist sees, then see when they reply.</p>
-        </div>
-        <div class="cs-insight">
-          <h3>Refill in one flow</h3>
-          <p>Straight from the reminder: no Rx number, pick a pickup location, add a note for the pharmacist.</p>
-        </div>
-      </div>
-
-      <!-- IMAGE NOTE (highlights): these stills work. Best upgrade: a 4-6s loop of the
-           dose card (Taken > confirmation, or Remind Me > "Reminding again in 4:15"),
-           and a loop of choosing which symptom logs to share in Care Passport. -->
-      <div class="cs-showcase cs-showcase--phones cs-showcase--aligned reveal" data-delay="2">
-        <figure class="cs-figure">
-          <div class="cs-frame cs-frame--phone">
-            <img src="../assets/carepath/01-home.jpg" alt="Home dashboard greeting Marian, with a pattern note about dizziness, Log Your Symptoms and Ask Your Pharmacist shortcuts, and today's dose with Taken and Remind Me buttons." width="536" height="1568" loading="lazy" decoding="async">
+      <div class="cs-rows reveal" data-delay="2">
+        <article class="cs-row">
+          <figure class="cs-figure cs-row__media">
+            <div class="cs-frame cs-frame--phone">
+              <img src="../assets/carepath/01-home.jpg" alt="Home dashboard greeting Marian, with a pattern note about dizziness, Log Your Symptoms and Ask Your Pharmacist shortcuts, and today's dose with Taken and Remind Me buttons." width="536" height="1568" loading="lazy" decoding="async">
+            </div>
+          </figure>
+          <div class="cs-row__text">
+            <h3>A home that says what&rsquo;s next</h3>
+            <p>Today&rsquo;s dose with Taken or Remind me, and refill status before it&rsquo;s urgent.</p>
+            <p class="cs-why"><span>Why</span> Testers couldn&rsquo;t see what they had left or when to refill.</p>
           </div>
-          <figcaption class="cs-image__caption">Home</figcaption>
-        </figure>
-        <figure class="cs-figure">
-          <div class="cs-frame cs-frame--phone">
-            <img src="../assets/carepath/03-care-passport.jpg" alt="Care Passport screen with Log Your Symptoms and Contact a Pharmacist buttons and a message log entry marked Replied." width="722" height="1568" loading="lazy" decoding="async">
+        </article>
+        <article class="cs-row">
+          <figure class="cs-figure cs-row__media">
+            <div class="cs-frame cs-frame--phone">
+              <img src="../assets/carepath/03-care-passport.jpg" alt="Care Passport screen with Log Your Symptoms and Contact a Pharmacist buttons and a message log entry marked Replied." width="722" height="1568" loading="lazy" decoding="async">
+            </div>
+          </figure>
+          <div class="cs-row__text">
+            <h3>Logs that reach a person</h3>
+            <p>Every symptom ties to a medication. Members choose which logs their pharmacist sees, then see when they reply.</p>
+            <p class="cs-why"><span>Why</span> Nothing linked a side effect at home to the pharmacist, and testers didn&rsquo;t know who to contact.</p>
           </div>
-          <figcaption class="cs-image__caption">Care Passport &middot; symptom log</figcaption>
-        </figure>
-        <figure class="cs-figure">
-          <div class="cs-frame cs-frame--phone">
-            <img src="../assets/carepath/05-refill.jpg" alt="Request a refill screen with the medication, a pickup location and a note to the pharmacy." width="722" height="1568" loading="lazy" decoding="async">
+        </article>
+        <article class="cs-row">
+          <figure class="cs-figure cs-row__media">
+            <div class="cs-frame cs-frame--phone">
+              <img src="../assets/carepath/05-refill.jpg" alt="Request a refill screen with the medication, a pickup location and a note to the pharmacy." width="722" height="1568" loading="lazy" decoding="async">
+            </div>
+          </figure>
+          <div class="cs-row__text">
+            <h3>Refill in one flow</h3>
+            <p>Straight from the reminder: no Rx number, pick a pickup location, add a note for the pharmacist.</p>
+            <p class="cs-why"><span>Why</span> A tester asked to see refills left, with a reminder to order more.</p>
           </div>
-          <figcaption class="cs-image__caption">Refill request</figcaption>
-        </figure>
+        </article>
       </div>
     </section>
 
@@ -240,7 +233,7 @@
 
       <div class="cs-prose reveal" data-delay="1">
         <p>
-          <strong>Each finding became a design change.</strong> A second session with two of the testers caught small touch targets, an X that read as delete and too much blue, so we toned the interface down and made it consistent.
+          <strong>Each finding became a design change.</strong> A second session with two of the testers caught small touch targets, an X that read as delete and too much blue. One suggested plain rectangles instead of our rounded shapes; the other liked them but flagged accessibility. <strong>We kept the shapes</strong>, toned the interface down and made it consistent.
         </p>
       </div>
 
@@ -353,6 +346,6 @@
     <div class="fine"><span>&copy; <span data-year>2026</span> Jay Ho</span></div>
   </footer>
 
-  <script src="../assets/main.js?v=20261112a"></script>
+  <script src="../assets/main.js?v=20261116r"></script>
 </body>
 </html>

@@ -1360,23 +1360,6 @@
     });
   }
 
-  /* ---------- Expanding project panels (home page) ----------
-     Hovering or focusing a panel opens it wide (.is-on). A tap on a closed
-     panel only opens it; tapping the open one goes to the case study. With a
-     mouse the hover has already opened it, so a click goes straight through. */
-  document.querySelectorAll(".panels").forEach((list) => {
-    const panels = [...list.querySelectorAll(".panel")];
-    const open = (p) => panels.forEach((x) => x.classList.toggle("is-on", x === p));
-    panels.forEach((p) => {
-      const link = p.querySelector(".panel__link");
-      p.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") open(p); });
-      link.addEventListener("focus", () => open(p));
-      link.addEventListener("click", (e) => {
-        if (!p.classList.contains("is-on")) { e.preventDefault(); open(p); }
-      });
-    });
-  });
-
   /* ---------- Work link: an unhurried glide to Selected work ----------
      The browser's own smooth scroll is quick and fixed; this one takes
      longer the further it goes (0.8 to 1.4s), eases in and out, and lets go
@@ -1392,9 +1375,20 @@
   // pops in unanimated. The nav stays put. Arriving at index.html#work, it
   // settles on the section first. Not under reduced motion, and not while
   // the intro is up (the intro's handoff does this itself).
+  // The outgoing page's half of a skipped cross-page transition rejects too.
+  window.addEventListener("pageswap", (e) => {
+    const vt = e.viewTransition;
+    if (vt) [vt.ready, vt.finished, vt.updateCallbackDone].forEach((p) => p && p.catch(() => {}));
+  });
   const html = document.documentElement;
   if (!prefersReduced && !html.classList.contains("has-intro") && !html.classList.contains("intro-wait")) {
-    window.addEventListener("pagereveal", (e) => { if (e.viewTransition) e.viewTransition.skipTransition(); }, { once: true });
+    window.addEventListener("pagereveal", (e) => {
+      const vt = e.viewTransition;
+      if (!vt) return;
+      // Skipping rejects the transition's promises; catch them so the console stays clean.
+      [vt.ready, vt.finished, vt.updateCallbackDone].forEach((p) => p && p.catch(() => {}));
+      vt.skipTransition();
+    }, { once: true });
     if (workSec && location.hash === "#work") {
       const margin = parseFloat(getComputedStyle(workSec).scrollMarginTop) || 0;
       window.scrollTo(0, workSec.getBoundingClientRect().top + window.scrollY - margin);
@@ -1414,6 +1408,9 @@
     // anything else on screen outside main (the footer on a short page) joins the first block
     const rest = [...document.body.children].filter((el) =>
       !el.matches("main, .nav, .sky, .cursor, .intro, .cs-toc, .pdf-modal, script") && getComputedStyle(el).position !== "fixed" && shown(el));
+    // Apple's StaggeredFadeIn values (Jay, 7 Nov 2026; briefly quicker on
+    // 16 Nov, which Jay found too fast): rise 30px over 0.7s, fade over 0.9s,
+    // easeInOutQuad, 0.15s apart.
     const QUAD = "cubic-bezier(.455, .03, .515, .955)";   // easeInOutQuad
     const fadeUp = (el, i, y) => {
       el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 900, delay: i * 150, easing: QUAD, fill: "backwards" });
@@ -1549,7 +1546,7 @@
       label("");
     };
     document
-      .querySelectorAll('a, button, [role="button"], .panel__link, .work__item, .cs-next')
+      .querySelectorAll('a, button, [role="button"], .work__item, .cs-next')
       .forEach((el) => {
         el.addEventListener("mouseenter", enter);
         el.addEventListener("mouseleave", leave);
@@ -1617,6 +1614,29 @@
     }
   };
 
+  /* A clear "copied" confirmation (Jay found the cursor's word swap too
+     subtle, 16 Nov 2026): a small dark notice with a check rises from the
+     bottom of the screen for about two seconds, like a macOS/iOS HUD, and the
+     email itself gives a soft press. The notice is a live region, so screen
+     readers announce it too. */
+  let toast, toastTimer;
+  const showToast = (text) => {
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.className = "toast";
+      toast.setAttribute("role", "status");
+      toast.setAttribute("aria-live", "polite");
+      toast.innerHTML = '<span class="toast__tick" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 8.5l2.5 2.5L12 5.5"/></svg></span><span class="toast__text"></span>';
+      document.body.appendChild(toast);
+    }
+    toast.querySelector(".toast__text").textContent = text;
+    toast.classList.remove("is-on");
+    void toast.offsetWidth;                       // restart the entrance if it's already showing
+    toast.classList.add("is-on");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("is-on"), 2200);
+  };
+
   document.querySelectorAll("[data-copy]").forEach((btn) => {
     const original = btn.querySelector("[data-copy-label]")?.textContent ?? btn.textContent;
     /* In-app browsers (LinkedIn, Instagram) can block the Clipboard API. Fall
@@ -1645,11 +1665,16 @@
         const label = btn.querySelector("[data-copy-label]");
         if (label) label.textContent = "Copied";
         tellCursor(btn, "Copied");
+        showToast("Email copied");
+        if (!prefersReduced) {
+          btn.animate([{ transform: "scale(1)" }, { transform: "scale(0.97)" }, { transform: "scale(1)" }],
+            { duration: 400, easing: "cubic-bezier(0, 0, 0.5, 1)" });
+        }
         setTimeout(() => {
           btn.removeAttribute("data-state");
           if (label) label.textContent = original;
           tellCursor(btn, btn.dataset.cursorLabel);
-        }, 1400);
+        }, 2200);
       } catch {
         window.location.href = `mailto:${btn.dataset.copy}`;
       }
@@ -1846,7 +1871,7 @@
     if (!opener || !phonePdf.matches) return;
     e.preventDefault();
     e.stopImmediatePropagation();
-    window.location.href = opener.dataset.pdfHref || "assets/resume.pdf";
+    window.location.href = opener.dataset.pdfHref || "assets/resume.pdf?v=20261116";
   }, true);
   bindModal("pdf-modal", "[data-pdf-open]", "[data-pdf-close]");
   bindModal("poster-modal", "[data-poster-open]", "[data-poster-close]");
