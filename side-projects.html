@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Any page with ?intro: hide the page for the logo intro, which main.js
+       plays. Failsafe: the page shows after 4s. -->
+  <script>try{if(/[?&]intro\b/.test(location.search)){var r=document.documentElement;r.classList.add("has-intro");setTimeout(function(){r.classList.remove("has-intro")},4000)}}catch(e){}</script>
+  <title>Side projects · Jay Ho</title>
+  <meta name="description" content="Side projects by Jay Ho: Switch Fidget, a desktop keyboard switch for Mac, and Hojicha, the animated character behind this site." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Jay Ho" />
+  <meta property="og:title" content="Side projects · Jay Ho" />
+  <meta property="og:description" content="Switch Fidget, a desktop keyboard switch for Mac, and Hojicha, the animated character behind this site." />
+  <meta property="og:url" content="https://jayho.fyi/side-projects.html" />
+  <meta property="og:image" content="https://jayho.fyi/assets/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Jay Ho, product and interaction designer: MEC Connect, Costco CarePath, Dutch Design Awards." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="assets/styles.css?v=20261117i" />
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+</head>
+<body>
+
+  <nav class="nav" aria-label="Primary">
+    <a href="index.html" class="nav__brand" aria-label="Jay Ho · Home">
+      <img class="nav__logo" src="assets/logo.svg" width="540" height="639" alt="">
+    </a>
+    <div class="nav__links">
+      <a href="index.html#work" class="nav__link">Work</a>
+      <a href="side-projects.html" class="nav__link is-active" aria-current="page">Side projects</a>
+      <a href="about.html" class="nav__link">About</a>
+      <a href="resume.html" class="nav__link">Resume</a>
+      <a href="contact.html" class="nav__link">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <header class="hero shell">
+      <h1 class="hero__lead reveal" data-delay="1">
+        Things I make for fun.
+      </h1>
+
+      <div class="hero__sub reveal" data-delay="2">
+        <p class="hero__discipline">Side projects</p>
+        <p class="hero__tag">
+          Small tools and characters I build outside class and work, then keep polishing.
+        </p>
+      </div>
+    </header>
+
+    <!-- Switch Fidget -->
+    <section class="shell section--roomy side" id="switch-fidget">
+      <div class="side__intro reveal">
+        <p class="side__meta">Mac app &middot; 2026 &middot; Swift</p>
+        <h2>Switch Fidget</h2>
+        <p class="side__lede">
+          A 3D mechanical keyboard switch that lives on my Mac desktop. Click it for a
+          <strong>real switch sound</strong> and a tap of trackpad haptics.
+        </p>
+      </div>
+
+      <div class="side__demo side__demo--switch reveal" data-delay="1">
+        <div class="fidget" data-fidget>
+          <div class="fidget__switch">
+            <img class="fidget__frame is-on" data-frame="rest" src="assets/side/switch-rest.png" width="860" height="615"
+                 alt="Switch Fidget with two keys on one white base: two powder blue keycaps, the left one with Hojicha on top.">
+            <img class="fidget__frame" data-frame="0" src="assets/side/switch-down-0.png" width="860" height="615" alt="" aria-hidden="true">
+            <img class="fidget__frame" data-frame="1" src="assets/side/switch-down-1.png" width="860" height="615" alt="" aria-hidden="true">
+            <button type="button" class="fidget__key fidget__key--left" data-key="0" aria-label="Press the left key"></button>
+            <button type="button" class="fidget__key fidget__key--right" data-key="1" aria-label="Press the right key"></button>
+          </div>
+          <p class="fidget__count" aria-live="polite"><b data-fidget-count>0</b> clicks</p>
+          <div class="fidget__packs" role="radiogroup" aria-label="Switch sound">
+            <button type="button" class="fidget__pack" role="radio" aria-checked="true" data-pack="cherrymx-blue-abs">Clicky</button>
+            <button type="button" class="fidget__pack" role="radio" aria-checked="false" data-pack="akko-lavenders">Lavender</button>
+            <button type="button" class="fidget__pack" role="radio" aria-checked="false" data-pack="typewriter">Typewriter</button>
+          </div>
+        </div>
+        <p class="side__caption">Rendered from the app. Try both keys; the sounds come from its sound packs.</p>
+      </div>
+
+      <div class="cs-insights cs-insights--rows reveal" data-delay="1">
+        <div class="cs-insight">
+          <h3>Pick a sound</h3>
+          <p>Sound packs for different switches, and you can import your own.</p>
+        </div>
+        <div class="cs-insight">
+          <h3>Make it yours</h3>
+          <p>Any keycap colour, your own icon on top, or a slime keycap. One switch or two.</p>
+        </div>
+        <div class="cs-insight">
+          <h3>Clicks that do things</h3>
+          <p>A single, double or triple click can run an action. Fidget mode pauses them so it just clicks.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hojicha -->
+    <section class="shell section--roomy side" id="hojicha">
+      <div class="side__intro reveal">
+        <p class="side__meta">Character &amp; motion &middot; 2026 &middot; this site</p>
+        <h2>Hojicha</h2>
+        <p class="side__lede">
+          The cup in my logo. I drew him in Figma, then rebuilt him as a
+          <strong>posable rig</strong> so he moves live on the page. Give him a move.
+        </p>
+      </div>
+
+      <div class="side__demo side__demo--hoji reveal" data-delay="1">
+        <div class="hoji-stage" data-hoji-stage>
+          <span class="hoji-stage__fig"><img src="assets/logo.svg" alt="" width="540" height="639"></span>
+        </div>
+        <div class="hoji-moves" role="group" aria-label="Hojicha's moves">
+          <button type="button" class="fidget__pack" data-move="chillOut">Sway</button>
+          <button type="button" class="fidget__pack" data-move="curious">Glance</button>
+          <button type="button" class="fidget__pack" data-move="bounce">Bounce</button>
+          <button type="button" class="fidget__pack" data-move="shimmy">Shimmy</button>
+          <button type="button" class="fidget__pack" data-move="doze">Doze</button>
+        </div>
+      </div>
+
+      <div class="cs-insights cs-insights--rows reveal" data-delay="1">
+        <div class="cs-insight">
+          <h3>Real liquid</h3>
+          <p>The tea is a small water simulation, so it sloshes when he leans or hops.</p>
+        </div>
+        <div class="cs-insight">
+          <h3>A beat behind</h3>
+          <p>His eyes and straw sit on springs, so they lag and wobble after every move.</p>
+        </div>
+        <div class="cs-insight">
+          <h3>A first-visit intro</h3>
+          <p>On your first visit he drinks his tea, then flies into the corner of the page.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div>
+      <div class="brand-line">Jay Ho</div>
+      <p class="blurb">Product &amp; interaction designer, SFU Interactive Arts &amp; Technology. Vancouver &amp; HK.</p>
+    </div>
+    <div><h2 class="foot__h">Contact</h2><a href="mailto:jayho5403@gmail.com">jayho5403@gmail.com</a><a href="https://www.linkedin.com/in/jay-ho-520134220/" target="_blank" rel="noopener">LinkedIn</a></div>
+    <div class="fine"><span>&copy; <span data-year>2026</span> Jay Ho</span></div>
+  </footer>
+
+  <script src="assets/main.js?v=20261117i"></script>
+</body>
+</html>

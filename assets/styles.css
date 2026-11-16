@@ -2994,3 +2994,83 @@ img[data-zoom] { cursor: zoom-in; }
   .cs-row:nth-child(even) .cs-row__media { order: 0; }
   .cs-row__media { max-width: 260px; }
 }
+
+/* ---------- Side projects page (16 Nov 2026) ----------
+   Two projects, each: a small meta line, the name, one lede, an interactive
+   demo on a soft panel, then editorial rows of what it does. */
+.side__meta { margin: 0 0 var(--s-2); font-size: var(--fs-meta); color: var(--ink-3); }
+.side__intro h2 { margin: 0; }
+.side__lede { margin: var(--s-4) 0 0; font-size: var(--fs-body); line-height: 1.55; color: var(--ink-2); max-width: 36em; }
+.side__demo {
+  margin-top: var(--s-7);
+  padding: var(--s-8) var(--s-5) var(--s-6);
+  border-radius: var(--r-3);
+  background: oklch(97.5% 0.004 240);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.side__caption { margin: var(--s-5) 0 0; font-size: var(--fs-meta); color: var(--ink-3); text-align: center; }
+
+/* The switch: Jay's own two-key setup rendered from the app's 3D scene
+   (assets/side/switch-*.png: at rest, left key down, slime key down). The
+   frames are stacked and swapped instantly on a press; two invisible buttons
+   sit over the keys. */
+.fidget { display: flex; flex-direction: column; align-items: center; }
+.fidget__switch { position: relative; width: min(420px, 84vw); aspect-ratio: 860 / 615; }
+.fidget__frame { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; user-select: none; }
+.fidget__frame.is-on { opacity: 1; }
+.fidget__key {
+  position: absolute;
+  top: 2%;
+  height: 62%;
+  padding: 0;
+  border: 0;
+  border-radius: 24px;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.fidget__key--left { left: 10%; width: 43%; }
+.fidget__key--right { left: 53%; width: 38%; }
+.fidget__key:focus-visible { outline-offset: 2px; }
+.fidget__count { margin: var(--s-4) 0 var(--s-4); font-size: var(--fs-meta); color: var(--ink-3); }
+.fidget__count b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* Segmented control (sound packs, Hojicha's moves): Apple-style, a grey
+   track with the chosen option on white. */
+.fidget__packs, .hoji-moves {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--r-pill);
+  background: oklch(93% 0.005 240);
+}
+.fidget__pack {
+  min-height: 36px;
+  padding: 0 var(--s-4);
+  border: 0;
+  border-radius: var(--r-pill);
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: background-color var(--t-base) var(--ease), color var(--t-base) var(--ease), box-shadow var(--t-base) var(--ease);
+}
+.fidget__pack:hover:not(:disabled) { color: var(--ink); }
+.fidget__pack[aria-checked="true"], .fidget__pack.is-on { background: #fff; color: var(--ink); box-shadow: 0 1px 4px rgb(0 0 0 / 0.1); }
+.fidget__pack:disabled { cursor: default; opacity: 0.5; }
+
+/* Hojicha's stage: a big live figure; click him or pick a move. */
+.hoji-stage { display: grid; place-items: center; height: 300px; margin-bottom: var(--s-5); cursor: pointer; }
+.hoji-stage__fig, .hoji-stage__svg, .hoji-stage__fig img { display: block; width: 170px; height: auto; }
+@media (max-width: 720px) {
+  .side__demo { padding: var(--s-7) var(--s-4) var(--s-5); }
+  .hoji-stage { height: 240px; }
+  .hoji-stage__fig, .hoji-stage__svg, .hoji-stage__fig img { width: 140px; }
+}

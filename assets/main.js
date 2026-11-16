@@ -963,6 +963,103 @@
     }
   }
 
+  // ---------- Side projects page: Switch Fidget demo and Hojicha stage ----------
+  // (16 Nov 2026.) The keycap plays a real switch's press and release sounds
+  // (from Jay's Switch Fidget app) through Web Audio, so clicks land with no
+  // lag; buffers load on the first press. Phones that can vibrate get a short
+  // tap. Hojicha's stage is a big live figure with buttons for his five moves.
+  const fidget = document.querySelector("[data-fidget]");
+  if (fidget) {
+    // Jay's own two-key setup, rendered from the app's 3D scene: one frame at
+    // rest and one per key pressed. A press shows that key's frame for the
+    // app's key travel (the release lands 0.13s later, its releaseDelay).
+    const keys = [...fidget.querySelectorAll("[data-key]")];
+    const frames = Object.fromEntries([...fidget.querySelectorAll("[data-frame]")].map((f) => [f.dataset.frame, f]));
+    const countEl = fidget.querySelector("[data-fidget-count]");
+    const packs = [...fidget.querySelectorAll("[data-pack]")];
+    const RELEASE = 0.13;
+    let pack = "cherrymx-blue-abs", ctx = null, count = 0, upTimer = 0;
+    const buffers = {};
+    try { count = +sessionStorage.getItem("fidgetCount") || 0; } catch {}
+    countEl.textContent = count;
+    const show = (name) => Object.entries(frames).forEach(([k, f]) => f.classList.toggle("is-on", k === name));
+    const load = (name) => {
+      if (!buffers[name]) {
+        const get = async (part) => ctx.decodeAudioData(await (await fetch(`assets/side/sounds/${name}-${part}.wav`)).arrayBuffer());
+        buffers[name] = Promise.all([get("press"), get("release")]);
+      }
+      return buffers[name];
+    };
+    const play = (buf, when = 0) => {
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      src.connect(ctx.destination);
+      src.start(ctx.currentTime + when);
+    };
+    // counts = false for a sound preview (picking a pack): it plays and
+    // presses the key but doesn't add to the click count.
+    const press = async (k = "0", counts = true) => {
+      clearTimeout(upTimer);
+      show(k);
+      upTimer = setTimeout(() => show("rest"), RELEASE * 1000);
+      if (counts) {
+        count++; countEl.textContent = count;
+        try { sessionStorage.setItem("fidgetCount", count); } catch {}
+      }
+      if (navigator.vibrate) { try { navigator.vibrate(8); } catch {} }
+      try {
+        ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+        if (ctx.state === "suspended") await ctx.resume();
+        const [down, up] = await load(pack);
+        play(down); play(up, RELEASE);
+      } catch {}
+    };
+    keys.forEach((b) => b.addEventListener("click", () => press(b.dataset.key)));
+    packs.forEach((b) => b.addEventListener("click", () => {
+      pack = b.dataset.pack;
+      packs.forEach((x) => x.setAttribute("aria-checked", String(x === b)));
+      press("0", false);
+    }));
+  }
+
+  const hojiStage = document.querySelector("[data-hoji-stage]");
+  if (hojiStage && !prefersReduced) {
+    const fig = makeFigure("hs", "hoji-stage__svg logo-live");
+    hojiStage.querySelector(".hoji-stage__fig").replaceChildren(fig.svg);
+    const buttons = [...document.querySelectorAll("[data-move]")];
+    const names = buttons.map((b) => b.dataset.move);
+    let prev = "", token = 0, busy = false;
+    const REST = { look: 0, lid: 0, wide: 0, perk: 0, tilt: 0, lift: 0, squash: 0, straw: 0, sip: 0 };
+    // Only the latest move owns the highlight: a move cut short by a newer
+    // one must not clear the newer one's button when it ends. A cut-short
+    // move is eased back to rest first so no half-done pose carries over.
+    const perform = async (name) => {
+      const me = ++token;
+      buttons.forEach((b) => {
+        const on = b.dataset.move === name;
+        b.classList.toggle("is-on", on);
+        b.setAttribute("aria-pressed", String(on));
+      });
+      if (busy) { fig.stop(); await fig.go(REST, 160, E.out); }
+      if (me !== token) return;
+      busy = true;
+      await fig.run(name);
+      if (me !== token) return;
+      busy = false;
+      buttons.forEach((b) => { b.classList.remove("is-on"); b.setAttribute("aria-pressed", "false"); });
+    };
+    buttons.forEach((b) => b.setAttribute("aria-pressed", "false"));
+    buttons.forEach((b) => b.addEventListener("click", () => perform(b.dataset.move)));
+    hojiStage.addEventListener("click", () => {
+      let n;
+      do n = names[Math.floor(Math.random() * names.length)]; while (n === prev && names.length > 1);
+      prev = n;
+      perform(n);
+    });
+  } else if (hojiStage) {
+    document.querySelectorAll("[data-move]").forEach((b) => { b.disabled = true; });
+  }
+
   // Intro: the home page when arriving from outside the site, or ?intro. The
   // <head> of each page adds .has-intro (which hides the page) only when the
   // intro should play, so this follows that decision, reduced motion included.
