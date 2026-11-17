@@ -6,22 +6,24 @@
   <!-- Any page with ?intro: hide the page for the logo intro, which main.js
        plays. Failsafe: the page shows after 4s. -->
   <script>try{if(/[?&]intro\b/.test(location.search)){var r=document.documentElement;r.classList.add("has-intro");setTimeout(function(){r.classList.remove("has-intro")},4000)}}catch(e){}</script>
+  <!-- Side pages: cards wait in the dark until the lamp settles (main.js adds lamp-lit); failsafe shows them after 4s. -->
+  <script>try{var h=document.documentElement;h.classList.add("lamp-wait");setTimeout(function(){h.classList.add("lamp-lit")},4000)}catch(e){}</script>
   <title>Side projects · Jay Ho</title>
-  <meta name="description" content="Side projects by Jay Ho: Switch Fidget, a desktop keyboard switch for Mac, and Hojicha, the animated character behind this site." />
+  <meta name="description" content="Side projects by Jay Ho: Digital Macro Switch, a desktop keyboard switch for Mac, and the Hojicha Mascot, the animated character behind this site." />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Jay Ho" />
   <meta property="og:title" content="Side projects · Jay Ho" />
-  <meta property="og:description" content="Switch Fidget, a desktop keyboard switch for Mac, and Hojicha, the animated character behind this site." />
+  <meta property="og:description" content="Digital Macro Switch, a desktop keyboard switch for Mac, and the Hojicha Mascot, the animated character behind this site." />
   <meta property="og:url" content="https://jayho.fyi/side-projects.html" />
   <meta property="og:image" content="https://jayho.fyi/assets/og.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Jay Ho, product and interaction designer: MEC Connect, Costco CarePath, Dutch Design Awards." />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="stylesheet" href="assets/styles.css?v=20261117i" />
+  <link rel="stylesheet" href="assets/styles.css?v=20261118u" />
   <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
 </head>
-<body>
+<body class="page-side">
 
   <nav class="nav" aria-label="Primary">
     <a href="index.html" class="nav__brand" aria-label="Jay Ho · Home">
@@ -50,91 +52,27 @@
       </div>
     </header>
 
-    <!-- Switch Fidget -->
-    <section class="shell section--roomy side" id="switch-fidget">
-      <div class="side__intro reveal">
-        <p class="side__meta">Mac app &middot; 2026 &middot; Swift</p>
-        <h2>Switch Fidget</h2>
-        <p class="side__lede">
-          A 3D mechanical keyboard switch that lives on my Mac desktop. Click it for a
-          <strong>real switch sound</strong> and a tap of trackpad haptics.
-        </p>
-      </div>
-
-      <div class="side__demo side__demo--switch reveal" data-delay="1">
-        <div class="fidget" data-fidget>
-          <div class="fidget__switch">
-            <img class="fidget__frame is-on" data-frame="rest" src="assets/side/switch-rest.png" width="860" height="615"
-                 alt="Switch Fidget with two keys on one white base: two powder blue keycaps, the left one with Hojicha on top.">
-            <img class="fidget__frame" data-frame="0" src="assets/side/switch-down-0.png" width="860" height="615" alt="" aria-hidden="true">
-            <img class="fidget__frame" data-frame="1" src="assets/side/switch-down-1.png" width="860" height="615" alt="" aria-hidden="true">
-            <button type="button" class="fidget__key fidget__key--left" data-key="0" aria-label="Press the left key"></button>
-            <button type="button" class="fidget__key fidget__key--right" data-key="1" aria-label="Press the right key"></button>
-          </div>
-          <p class="fidget__count" aria-live="polite"><b data-fidget-count>0</b> clicks</p>
-          <div class="fidget__packs" role="radiogroup" aria-label="Switch sound">
-            <button type="button" class="fidget__pack" role="radio" aria-checked="true" data-pack="cherrymx-blue-abs">Clicky</button>
-            <button type="button" class="fidget__pack" role="radio" aria-checked="false" data-pack="akko-lavenders">Lavender</button>
-            <button type="button" class="fidget__pack" role="radio" aria-checked="false" data-pack="typewriter">Typewriter</button>
-          </div>
-        </div>
-        <p class="side__caption">Rendered from the app. Try both keys; the sounds come from its sound packs.</p>
-      </div>
-
-      <div class="cs-insights cs-insights--rows reveal" data-delay="1">
-        <div class="cs-insight">
-          <h3>Pick a sound</h3>
-          <p>Sound packs for different switches, and you can import your own.</p>
-        </div>
-        <div class="cs-insight">
-          <h3>Make it yours</h3>
-          <p>Any keycap colour, your own icon on top, or a slime keycap. One switch or two.</p>
-        </div>
-        <div class="cs-insight">
-          <h3>Clicks that do things</h3>
-          <p>A single, double or triple click can run an action. Fidget mode pauses them so it just clicks.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Hojicha -->
-    <section class="shell section--roomy side" id="hojicha">
-      <div class="side__intro reveal">
-        <p class="side__meta">Character &amp; motion &middot; 2026 &middot; this site</p>
-        <h2>Hojicha</h2>
-        <p class="side__lede">
-          The cup in my logo. I drew him in Figma, then rebuilt him as a
-          <strong>posable rig</strong> so he moves live on the page. Give him a move.
-        </p>
-      </div>
-
-      <div class="side__demo side__demo--hoji reveal" data-delay="1">
-        <div class="hoji-stage" data-hoji-stage>
-          <span class="hoji-stage__fig"><img src="assets/logo.svg" alt="" width="540" height="639"></span>
-        </div>
-        <div class="hoji-moves" role="group" aria-label="Hojicha's moves">
-          <button type="button" class="fidget__pack" data-move="chillOut">Sway</button>
-          <button type="button" class="fidget__pack" data-move="curious">Glance</button>
-          <button type="button" class="fidget__pack" data-move="bounce">Bounce</button>
-          <button type="button" class="fidget__pack" data-move="shimmy">Shimmy</button>
-          <button type="button" class="fidget__pack" data-move="doze">Doze</button>
-        </div>
-      </div>
-
-      <div class="cs-insights cs-insights--rows reveal" data-delay="1">
-        <div class="cs-insight">
-          <h3>Real liquid</h3>
-          <p>The tea is a small water simulation, so it sloshes when he leans or hops.</p>
-        </div>
-        <div class="cs-insight">
-          <h3>A beat behind</h3>
-          <p>His eyes and straw sit on springs, so they lag and wobble after every move.</p>
-        </div>
-        <div class="cs-insight">
-          <h3>A first-visit intro</h3>
-          <p>On your first visit he drinks his tea, then flies into the corner of the page.</p>
-        </div>
-      </div>
+    <section class="shell section--first" id="projects">
+      <ol class="projects side-cards reveal" data-delay="2">
+        <li class="proj">
+          <a href="switch-fidget.html" class="proj__link">
+            <div class="proj__img side-card__img">
+              <img src="assets/side/switch-rest.png?v=3" srcset="assets/side/switch-rest-320.png?v=3 320w, assets/side/switch-rest-480.png?v=3 480w, assets/side/switch-rest.png?v=3 860w" sizes="(max-width: 720px) 58vw, (max-width: 1000px) 28vw, 240px" alt="" width="860" height="615" decoding="async">
+            </div>
+            <h3 class="proj__title">Digital Macro Switch</h3>
+            <p class="proj__desc">A 3D keyboard switch that clicks on my Mac desktop.</p>
+          </a>
+        </li>
+        <li class="proj">
+          <a href="hojicha.html" class="proj__link">
+            <div class="proj__img side-card__img side-card__img--hoji">
+              <img src="assets/side/hojicha-card.svg" alt="" width="620" height="664" decoding="async">
+            </div>
+            <h3 class="proj__title">Hojicha Mascot</h3>
+            <p class="proj__desc">The animated cup behind this site, built as a posable rig.</p>
+          </a>
+        </li>
+      </ol>
     </section>
   </main>
 
@@ -147,6 +85,6 @@
     <div class="fine"><span>&copy; <span data-year>2026</span> Jay Ho</span></div>
   </footer>
 
-  <script src="assets/main.js?v=20261117i"></script>
+  <script src="assets/main.js?v=20261118u"></script>
 </body>
 </html>

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Any page with ?intro: hide the page for the logo intro, which main.js
+       plays. Failsafe: the page shows after 4s. -->
+  <script>try{if(/[?&]intro\b/.test(location.search)){var r=document.documentElement;r.classList.add("has-intro");setTimeout(function(){r.classList.remove("has-intro")},4000)}}catch(e){}</script>
+  <!-- Side pages: cards wait in the dark until the lamp settles (main.js adds lamp-lit); failsafe shows them after 4s. -->
+  <script>try{var h=document.documentElement;h.classList.add("lamp-wait");setTimeout(function(){h.classList.add("lamp-lit")},4000)}catch(e){}</script>
+  <title>Digital Macro Switch · Jay Ho</title>
+  <meta name="description" content="Digital Macro Switch by Jay Ho: a 3D mechanical keyboard switch for the Mac desktop, with real switch sounds, custom keycaps and click actions." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Jay Ho" />
+  <meta property="og:title" content="Digital Macro Switch · Jay Ho" />
+  <meta property="og:description" content="Digital Macro Switch by Jay Ho: a 3D mechanical keyboard switch for the Mac desktop, with real switch sounds, custom keycaps and click actions." />
+  <meta property="og:url" content="https://jayho.fyi/switch-fidget.html" />
+  <meta property="og:image" content="https://jayho.fyi/assets/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Jay Ho, product and interaction designer: MEC Connect, Costco CarePath, Dutch Design Awards." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="assets/styles.css?v=20261118u" />
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+</head>
+<body class="page-side">
+
+  <nav class="nav" aria-label="Primary">
+    <a href="index.html" class="nav__brand" aria-label="Jay Ho · Home">
+      <img class="nav__logo" src="assets/logo.svg" width="540" height="639" alt="">
+    </a>
+    <div class="nav__links">
+      <a href="index.html#work" class="nav__link">Work</a>
+      <a href="side-projects.html" class="nav__link is-active" aria-current="true">Side projects</a>
+      <a href="about.html" class="nav__link">About</a>
+      <a href="resume.html" class="nav__link">Resume</a>
+      <a href="contact.html" class="nav__link">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="shell" style="padding-top: var(--s-6);">
+      <a href="side-projects.html" class="back">
+        <span class="arr" aria-hidden="true">&larr;</span> All side projects
+      </a>
+    </section>
+
+    <header class="hero shell">
+      <h1 class="hero__lead reveal" data-delay="1">Digital Macro Switch</h1>
+      <div class="hero__sub reveal" data-delay="2">
+        <p class="hero__discipline">Mac app &middot; 2026 &middot; Swift &amp; SceneKit</p>
+        <p class="hero__tag">A 3D mechanical keyboard switch that lives on my Mac desktop. Click it for a <strong>real switch sound</strong> and a tap of trackpad haptics.</p>
+      </div>
+    </header>
+
+    <section class="shell section--first side" id="try-it">
+      <div class="side__demo side__demo--switch reveal" data-delay="1">
+        <div class="fidget" data-fidget>
+          <div class="fidget__switch">
+            <img class="fidget__frame is-on" data-frame="rest" src="assets/side/switch-rest.png?v=3" srcset="assets/side/switch-rest-320.png?v=3 320w, assets/side/switch-rest-480.png?v=3 480w, assets/side/switch-rest.png?v=3 860w" sizes="min(420px, 84vw)" width="860" height="615"
+                 alt="Digital Macro Switch with two keys on one white base: two powder blue keycaps, the left one with Hojicha on top.">
+            <img class="fidget__frame" data-frame="0" src="assets/side/switch-down-0.png?v=3" srcset="assets/side/switch-down-0-320.png?v=3 320w, assets/side/switch-down-0-480.png?v=3 480w, assets/side/switch-down-0.png?v=3 860w" sizes="min(420px, 84vw)" width="860" height="615" alt="" aria-hidden="true">
+            <img class="fidget__frame" data-frame="1" src="assets/side/switch-down-1.png?v=3" srcset="assets/side/switch-down-1-320.png?v=3 320w, assets/side/switch-down-1-480.png?v=3 480w, assets/side/switch-down-1.png?v=3 860w" sizes="min(420px, 84vw)" width="860" height="615" alt="" aria-hidden="true">
+            <button type="button" class="fidget__key fidget__key--left" data-key="0" aria-label="Press the left key"></button>
+            <button type="button" class="fidget__key fidget__key--right" data-key="1" aria-label="Press the right key"></button>
+          </div>
+          <p class="fidget__count" aria-live="polite"><b data-fidget-count>0</b> clicks</p>
+          <div class="fidget__packs" role="radiogroup" aria-label="Switch sound">
+            <button type="button" class="fidget__pack" role="radio" aria-checked="true" data-pack="cherrymx-blue-abs">Clicky</button>
+            <button type="button" class="fidget__pack" role="radio" aria-checked="false" data-pack="akko-lavenders">Lavender</button>
+            <button type="button" class="fidget__pack" role="radio" aria-checked="false" data-pack="typewriter">Typewriter</button>
+          </div>
+        </div>
+        <p class="side__caption">Rendered from the app. Try both keys; the sounds come from its sound packs.</p>
+      </div>
+    </section>
+
+    <section class="shell section--roomy side" id="details">
+      <div class="sec-head reveal"><div><h2>What it does</h2></div></div>
+      <div class="spec reveal" data-delay="1">
+        <div class="spec__group">
+          <h3>Sound</h3>
+          <p>Real switch recordings, picked per pack.</p>
+          <ul class="spec__chips"><li>Clicky</li><li>Tactile</li><li>Linear</li><li>Import your own</li></ul>
+        </div>
+        <div class="spec__group">
+          <h3>Look</h3>
+          <p>Change the keycap and the base.</p>
+          <ul class="spec__chips"><li>Any colour</li><li>Your own icon</li><li>1 or 2 keys</li><li>3 sizes</li></ul>
+        </div>
+        <div class="spec__group">
+          <h3>Actions</h3>
+          <p>Each key can run something.</p>
+          <ul class="spec__chips"><li>Single click</li><li>Double click</li><li>Triple click</li><li>Fidget mode</li></ul>
+        </div>
+        <div class="spec__group">
+          <h3>Always there</h3>
+          <p>Sits above every window.</p>
+          <ul class="spec__chips"><li>Full-screen apps</li><li>Send to back</li><li>&#8963;&#8997;S to summon</li><li>Haptics</li></ul>
+        </div>
+      </div>
+
+      <figure class="cs-image side__shot reveal" data-delay="1">
+        <div class="side__window">
+          <img src="assets/side/customize-switch.webp" data-zoom data-cursor-label="Enlarge" width="2000" height="1563" loading="lazy" decoding="async"
+               alt="The Customize Switch window: a sidebar of action categories, a grid assigning single, double and triple clicks for the left and right keys (Play / Pause, Next Track, Clock / Timer), and a list of actions to assign.">
+        </div>
+        <figcaption class="cs-image__caption">Customize Switch: pick what each key does on a single, double or triple click</figcaption>
+      </figure>
+    </section>
+
+    <section class="shell">
+      <a href="hojicha.html" class="cs-next">
+        <span class="lbl">Next side project</span>
+        <span class="title">Hojicha Mascot &middot; the cup behind this site</span>
+        <span class="arr" aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div>
+      <div class="brand-line">Jay Ho</div>
+      <p class="blurb">Product &amp; interaction designer, SFU Interactive Arts &amp; Technology. Vancouver &amp; HK.</p>
+    </div>
+    <div><h2 class="foot__h">Contact</h2><a href="mailto:jayho5403@gmail.com">jayho5403@gmail.com</a><a href="https://www.linkedin.com/in/jay-ho-520134220/" target="_blank" rel="noopener">LinkedIn</a></div>
+    <div class="fine"><span>&copy; <span data-year>2026</span> Jay Ho</span></div>
+  </footer>
+
+  <script src="assets/main.js?v=20261118u"></script>
+</body>
+</html>

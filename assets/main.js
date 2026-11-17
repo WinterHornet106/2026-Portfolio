@@ -424,7 +424,8 @@
   // white cover, so it's there with everything else when the site fades in.
   // Not on the case studies (Jay, 8 Nov 2026): they open straight onto the
   // work, on plain white.
-  if (!/\bcs--/.test(document.body.className)) sky();
+  // No sky on the case studies or the dark side project pages.
+  if (!/\b(cs--|page-side)/.test(document.body.className)) sky();
 
   /* Draft mode shows .todo-shot placeholders: local previews (and file://),
      or any URL with ?draft. On jayho.fyi they stay hidden. */
@@ -1020,6 +1021,68 @@
       packs.forEach((x) => x.setAttribute("aria-checked", String(x === b)));
       press("0", false);
     }));
+  }
+
+  // ---------- Side projects: the lamp (16 Nov 2026, Jay) ----------
+  // One pendant lamp hangs at the top of the dark side project pages and is
+  // the room's only light: it switches on shortly after you arrive (a quick
+  // warm flicker, then steady), and its glow spreads down the page so the
+  // frosted cards catch it from above, brightest at the top, fading with
+  // distance like a real light. Decorative, so hidden from screen readers.
+  if (document.body.classList.contains("page-side")) {
+    const room = document.createElement("div");
+    room.className = "lamp-room";
+    room.setAttribute("aria-hidden", "true");
+    room.innerHTML = `
+      <div class="lamp-light"></div>
+      <svg class="lamp" viewBox="0 0 200 250" width="200" height="250">
+        <defs>
+          <linearGradient id="lampShade" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#3a3f48"/><stop offset=".28" stop-color="#6b727e"/>
+            <stop offset=".45" stop-color="#4a505a"/><stop offset="1" stop-color="#1e2228"/>
+          </linearGradient>
+          <linearGradient id="lampShadeTop" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fff" stop-opacity=".18"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+          </linearGradient>
+          <radialGradient id="lampInside" cx=".5" cy=".2" r=".9">
+            <stop offset="0" class="lamp-in-a" stop-color="#2a2d33"/><stop offset="1" class="lamp-in-b" stop-color="#15171b"/>
+          </radialGradient>
+          <radialGradient id="lampBulb" cx=".42" cy=".38" r=".7">
+            <stop offset="0" class="lamp-bulb-a" stop-color="#6f6a60"/><stop offset="1" class="lamp-bulb-b" stop-color="#3b3833"/>
+          </radialGradient>
+        </defs>
+        <line x1="100" y1="0" x2="100" y2="112" stroke="#2b2f36" stroke-width="2.4"/>
+        <rect x="93" y="104" width="14" height="16" rx="3" fill="#2f343c"/>
+        <rect x="95" y="105" width="3" height="14" rx="1.5" fill="#fff" fill-opacity=".12"/>
+        <path d="M100 118 C64 118 40 146 34 192 L166 192 C160 146 136 118 100 118 Z" fill="url(#lampShade)"/>
+        <path d="M100 118 C64 118 40 146 34 192 L166 192 C160 146 136 118 100 118 Z" fill="url(#lampShadeTop)"/>
+        <path d="M78 128 C62 140 52 160 48 186" stroke="#fff" stroke-opacity=".22" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- The bulb lives entirely inside the opening: it's clipped to the
+             opening's oval inset by more than the rim line's width, and sized
+             to fit inside it, so neither rim line can ever cross it (Jay,
+             16 Nov 2026: the line drew over the bulb twice). Change the oval
+             and this clip together. -->
+        <clipPath id="lampOpening">
+          <ellipse cx="100" cy="192" rx="63.5" ry="14"/>
+        </clipPath>
+        <ellipse cx="100" cy="192" rx="66" ry="16" fill="url(#lampInside)"/>
+        <path d="M34 192 A66 16 0 0 1 166 192" fill="none" stroke="#5c636e" stroke-width="1.6"/>
+        <path d="M34 192 A66 16 0 0 0 166 192" fill="none" stroke="#5c636e" stroke-width="1.6"/>
+        <g clip-path="url(#lampOpening)">
+          <ellipse class="lamp-halo" cx="100" cy="196" rx="30" ry="12" fill="#ffe2b0"/>
+          <circle cx="100" cy="194" r="12" fill="url(#lampBulb)"/>
+        </g>
+      </svg>`;
+    document.body.prepend(room);
+    // The product cards (and the project pages' demo panels) wait in the dark
+    // and only appear once the bulb has settled: switch-on at 0.9s plus the
+    // 1.1s flicker (Jay, 16 Nov 2026). Under reduced motion all at once.
+    const html = document.documentElement;
+    html.classList.add("lamp-wait");
+    const on = () => room.classList.add("is-on");
+    const lit = () => html.classList.add("lamp-lit");
+    if (prefersReduced) { on(); lit(); }
+    else { setTimeout(on, 900); setTimeout(lit, 900 + 1100); }
   }
 
   const hojiStage = document.querySelector("[data-hoji-stage]");

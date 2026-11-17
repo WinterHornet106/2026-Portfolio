@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Any page with ?intro: hide the page for the logo intro, which main.js
+       plays. Failsafe: the page shows after 4s. -->
+  <script>try{if(/[?&]intro\b/.test(location.search)){var r=document.documentElement;r.classList.add("has-intro");setTimeout(function(){r.classList.remove("has-intro")},4000)}}catch(e){}</script>
+  <!-- Side pages: cards wait in the dark until the lamp settles (main.js adds lamp-lit); failsafe shows them after 4s. -->
+  <script>try{var h=document.documentElement;h.classList.add("lamp-wait");setTimeout(function(){h.classList.add("lamp-lit")},4000)}catch(e){}</script>
+  <title>Hojicha Mascot · Jay Ho</title>
+  <meta name="description" content="Hojicha Mascot by Jay Ho: the animated cup behind jayho.fyi, a posable rig with a live liquid simulation and spring-driven moves." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Jay Ho" />
+  <meta property="og:title" content="Hojicha Mascot · Jay Ho" />
+  <meta property="og:description" content="Hojicha Mascot by Jay Ho: the animated cup behind jayho.fyi, a posable rig with a live liquid simulation and spring-driven moves." />
+  <meta property="og:url" content="https://jayho.fyi/hojicha.html" />
+  <meta property="og:image" content="https://jayho.fyi/assets/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Jay Ho, product and interaction designer: MEC Connect, Costco CarePath, Dutch Design Awards." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="assets/styles.css?v=20261118u" />
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+</head>
+<body class="page-side">
+
+  <nav class="nav" aria-label="Primary">
+    <a href="index.html" class="nav__brand" aria-label="Jay Ho · Home">
+      <img class="nav__logo" src="assets/logo.svg" width="540" height="639" alt="">
+    </a>
+    <div class="nav__links">
+      <a href="index.html#work" class="nav__link">Work</a>
+      <a href="side-projects.html" class="nav__link is-active" aria-current="true">Side projects</a>
+      <a href="about.html" class="nav__link">About</a>
+      <a href="resume.html" class="nav__link">Resume</a>
+      <a href="contact.html" class="nav__link">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="shell" style="padding-top: var(--s-6);">
+      <a href="side-projects.html" class="back">
+        <span class="arr" aria-hidden="true">&larr;</span> All side projects
+      </a>
+    </section>
+
+    <header class="hero shell">
+      <h1 class="hero__lead reveal" data-delay="1">Hojicha Mascot</h1>
+      <div class="hero__sub reveal" data-delay="2">
+        <p class="hero__discipline">Character &amp; motion &middot; 2026 &middot; this site</p>
+        <p class="hero__tag">The cup in my logo. I drew him in Figma, then rebuilt him as a <strong>posable rig</strong> so he moves live on the page. Give him a move.</p>
+      </div>
+    </header>
+
+    <section class="shell section--first side" id="try-it">
+      <div class="side__demo side__demo--hoji reveal" data-delay="1">
+        <div class="hoji-stage" data-hoji-stage>
+          <span class="hoji-stage__fig"><img src="assets/logo.svg" alt="" width="540" height="639"></span>
+        </div>
+        <div class="hoji-moves" role="group" aria-label="Hojicha's moves">
+          <button type="button" class="fidget__pack" data-move="chillOut">Sway</button>
+          <button type="button" class="fidget__pack" data-move="curious">Glance</button>
+          <button type="button" class="fidget__pack" data-move="bounce">Bounce</button>
+          <button type="button" class="fidget__pack" data-move="shimmy">Shimmy</button>
+          <button type="button" class="fidget__pack" data-move="doze">Doze</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell section--roomy side" id="details">
+      <div class="sec-head reveal"><div><h2>How he works</h2></div></div>
+      <div class="cs-insights cs-insights--rows reveal" data-delay="1">
+        <div class="cs-insight">
+          <h3>From drawing to rig</h3>
+          <p>I rebuilt my Figma drawing as one layered SVG, posed by four numbers: drink level, where he looks, his lids and his straw.</p>
+        </div>
+        <div class="cs-insight">
+          <h3>Real liquid</h3>
+          <p>The tea is a small water simulation, so it sloshes when he leans or hops.</p>
+        </div>
+        <div class="cs-insight">
+          <h3>A beat behind</h3>
+          <p>His eyes and straw sit on springs, so they lag and wobble after every move.</p>
+        </div>
+        <div class="cs-insight">
+          <h3>Five moods</h3>
+          <p>Sway, glance, bounce, shimmy and doze. Hover the logo in the nav and he picks one, never the same twice.</p>
+        </div>
+        <div class="cs-insight">
+          <h3>A first-visit intro</h3>
+          <p>On your first visit he drinks his tea, then flies into the corner of the page on real spring physics.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell">
+      <a href="switch-fidget.html" class="cs-next">
+        <span class="lbl">Next side project</span>
+        <span class="title">Digital Macro Switch &middot; a keyboard switch for my desktop</span>
+        <span class="arr" aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div>
+      <div class="brand-line">Jay Ho</div>
+      <p class="blurb">Product &amp; interaction designer, SFU Interactive Arts &amp; Technology. Vancouver &amp; HK.</p>
+    </div>
+    <div><h2 class="foot__h">Contact</h2><a href="mailto:jayho5403@gmail.com">jayho5403@gmail.com</a><a href="https://www.linkedin.com/in/jay-ho-520134220/" target="_blank" rel="noopener">LinkedIn</a></div>
+    <div class="fine"><span>&copy; <span data-year>2026</span> Jay Ho</span></div>
+  </footer>
+
+  <script src="assets/main.js?v=20261118u"></script>
+</body>
+</html>
