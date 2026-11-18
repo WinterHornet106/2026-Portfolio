@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Any page with ?intro: hide the page for the logo intro, which main.js
+       plays. Failsafe: the page shows after 4s. -->
+  <script>try{if(/[?&]intro\b/.test(location.search)){var r=document.documentElement;r.classList.add("has-intro");setTimeout(function(){r.classList.remove("has-intro")},4000)}}catch(e){}</script>
+  <!-- Side pages: cards wait in the dark until the lamp settles (main.js adds lamp-lit); failsafe shows them after 4s. -->
+  <script>try{var h=document.documentElement;h.classList.add("lamp-wait");setTimeout(function(){h.classList.add("lamp-lit")},4000)}catch(e){}</script>
+  <title>Sculpture Pavilion · Jay Ho</title>
+  <meta name="description" content="Sculpture Pavilion by Jay Ho: a two-level oak panel pavilion for sculpture, designed for IAT 233." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Jay Ho" />
+  <meta property="og:title" content="Sculpture Pavilion · Jay Ho" />
+  <meta property="og:description" content="Sculpture Pavilion by Jay Ho: a two-level oak panel pavilion for sculpture, designed for IAT 233." />
+  <meta property="og:url" content="https://jayho.fyi/pavilion.html" />
+  <meta property="og:image" content="https://jayho.fyi/assets/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Jay Ho, product and interaction designer: MEC Connect, Costco CarePath, Dutch Design Awards." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="assets/styles.css?v=20261119c" />
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+</head>
+<body class="page-side">
+
+  <nav class="nav" aria-label="Primary">
+    <a href="index.html" class="nav__brand" aria-label="Jay Ho · Home">
+      <img class="nav__logo" src="assets/logo.svg" width="540" height="639" alt="">
+    </a>
+    <div class="nav__links">
+      <a href="index.html#work" class="nav__link">Work</a>
+      <a href="side-projects.html" class="nav__link is-active" aria-current="true">Side projects</a>
+      <a href="about.html" class="nav__link">About</a>
+      <a href="resume.html" class="nav__link">Resume</a>
+      <a href="contact.html" class="nav__link">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="shell" style="padding-top: var(--s-6);">
+      <a href="side-projects.html" class="back">
+        <span class="arr" aria-hidden="true">&larr;</span> All side projects
+      </a>
+    </section>
+
+    <header class="hero shell">
+      <h1 class="hero__lead reveal" data-delay="1">Sculpture Pavilion</h1>
+      <div class="hero__sub reveal" data-delay="2">
+        <p class="hero__discipline">Spatial design &middot; IAT 233 &middot; 2026</p>
+        <p class="hero__tag">A two-level pavilion in Holland Park, Surrey, for showing sculpture. Repeated <strong>oak panels</strong> set the rhythm and frame the views as you walk through.</p>
+      </div>
+    </header>
+    <section class="shell section--first side" id="showcase">
+      <figure class="side-fig side-fig--lead reveal" data-delay="1">
+        <img src="assets/side/pavilion/exterior.jpg" width="1330" height="696" loading="lazy" decoding="async" data-zoom data-cursor-label="Enlarge" alt="The pavilion in a park: vertical oak panels, a polished cement base and ramp, and a large sculpture at the entrance.">
+        <figcaption class="cs-image__caption">Digital model</figcaption>
+      </figure>
+    </section>
+    <section class="shell section--roomy side" id="design">
+      <div class="sec-head reveal"><div><h2>The design</h2></div></div>
+      <div class="spec reveal" data-delay="1">
+        <div class="spec__group">
+          <h3>Panel architecture</h3>
+          <p>Repeated vertical oak panels define the rooms; rotated and layered, they make thresholds and guide you through.</p>
+        </div>
+        <div class="spec__group">
+          <h3>A path through it</h3>
+          <p>You meet the main sculpture at the entrance, pass smaller works on stone plinths, then take the ramp up.</p>
+        </div>
+        <div class="spec__group">
+          <h3>Two ways to look</h3>
+          <p>See the sculptures up close at ground level, or from above through the openings in the frames.</p>
+        </div>
+        <div class="spec__group">
+          <h3>Materials</h3>
+          <p>Oak frames, polished cement floors and ramp, stone brick plinths and glass railings upstairs.</p>
+        </div>
+      </div>
+      <div class="side-grid side-grid--2">
+      <figure class="side-fig  reveal" data-delay="1">
+        <img src="assets/side/pavilion/above.jpg?v=2" width="1329" height="690" loading="lazy" decoding="async" data-zoom data-cursor-label="Enlarge" alt="The pavilion from above, showing the upper deck and the slatted oak roof.">
+        <figcaption class="cs-image__caption">From above</figcaption>
+      </figure>
+      <figure class="side-fig  reveal" data-delay="1">
+        <img src="assets/side/pavilion/interior.jpg?v=2" width="1329" height="690" loading="lazy" decoding="async" data-zoom data-cursor-label="Enlarge" alt="Inside: sculptures on stone brick plinths between oak panels.">
+        <figcaption class="cs-image__caption">Inside, sculptures on stone plinths</figcaption>
+      </figure>
+      </div>
+    </section>
+    <section class="shell section--roomy side" id="sketches">
+      <div class="sec-head reveal"><div><h2>Initial sketches</h2></div></div>
+      <div class="side-grid side-grid--2">
+      <figure class="side-fig  reveal" data-delay="1">
+        <img src="assets/side/pavilion/sketch-1.jpg" width="1110" height="708" loading="lazy" decoding="async" data-zoom data-cursor-label="Enlarge" alt="Pencil sketch of the pavilion with notes on the patio, ramp and benches.">
+      </figure>
+      <figure class="side-fig  reveal" data-delay="1">
+        <img src="assets/side/pavilion/sketch-2.jpg" width="1116" height="704" loading="lazy" decoding="async" data-zoom data-cursor-label="Enlarge" alt="Pencil sketch of the two levels and the ramp.">
+      </figure>
+      </div>
+    </section>
+    <section class="shell">
+      <a href="posters.html" class="cs-next">
+        <span class="lbl">Next side project</span>
+        <span class="title">Posters &middot; graphic design</span>
+        <span class="arr" aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div>
+      <div class="brand-line">Jay Ho</div>
+      <p class="blurb">Product &amp; interaction designer, SFU Interactive Arts &amp; Technology. Vancouver &amp; HK.</p>
+    </div>
+    <div><h2 class="foot__h">Contact</h2><a href="mailto:jayho5403@gmail.com">jayho5403@gmail.com</a><a href="https://www.linkedin.com/in/jay-ho-520134220/" target="_blank" rel="noopener">LinkedIn</a></div>
+    <div class="fine"><span>&copy; <span data-year>2026</span> Jay Ho</span></div>
+  </footer>
+
+  <script src="assets/main.js?v=20261119c"></script>
+</body>
+</html>

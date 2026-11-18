@@ -1075,14 +1075,15 @@
       </svg>`;
     document.body.prepend(room);
     // The product cards (and the project pages' demo panels) wait in the dark
-    // and only appear once the bulb has settled: switch-on at 0.9s plus the
-    // 1.1s flicker (Jay, 16 Nov 2026). Under reduced motion all at once.
+    // and appear as the light comes up: switch-on at 0.9s, then 0.5s, when
+    // the flicker reaches full strength (Jay, 17 Nov 2026: waiting for the
+    // whole 1.1s flicker felt late). Under reduced motion all at once.
     const html = document.documentElement;
     html.classList.add("lamp-wait");
     const on = () => room.classList.add("is-on");
     const lit = () => html.classList.add("lamp-lit");
     if (prefersReduced) { on(); lit(); }
-    else { setTimeout(on, 900); setTimeout(lit, 900 + 1100); }
+    else { setTimeout(on, 900); setTimeout(lit, 900 + 500); }
   }
 
   const hojiStage = document.querySelector("[data-hoji-stage]");
@@ -2042,6 +2043,15 @@
      the button or the image opens it full screen. On wide screens it fits the
      window; on narrow ones it shows at a readable width you can pan, and
      pinch-zoom still works. Escape, the close button or the backdrop close it. */
+  // Every content picture can be enlarged (Jay, 17 Nov 2026), not only the
+  // ones marked by hand: case-study frames and figures, side project figures.
+  // Cards, logos and portraits stay as they are (they're links or tiny).
+  document.querySelectorAll("main .cs-frame > img, main .cs-figure img, main .cs-image img, main .cs-poster img, main .side-fig img, main .side__shot img")
+    .forEach((img) => {
+      if (img.closest("a, .cs-swipe, .persona") || img.hasAttribute("data-zoom")) return;
+      img.setAttribute("data-zoom", "");
+      if (!img.hasAttribute("data-cursor-label")) img.setAttribute("data-cursor-label", "Enlarge");
+    });
   const zoomImgs = [...document.querySelectorAll("img[data-zoom]")];
   if (zoomImgs.length) {
     const box = document.createElement("div");
@@ -2050,20 +2060,107 @@
     box.setAttribute("aria-modal", "true");
     box.setAttribute("aria-label", "Enlarged image");
     box.inert = true;
-    box.innerHTML = '<button type="button" class="zoom__close" aria-label="Close">&times;</button><div class="zoom__scroll"><img class="zoom__img" alt=""></div>';
+    box.innerHTML = '<button type="button" class="zoom__close" aria-label="Close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"/></svg></button><div class="zoom__scroll"><img class="zoom__img" alt=""></div>';
     document.body.appendChild(box);
     const big = box.querySelector(".zoom__img"), scroller = box.querySelector(".zoom__scroll");
     const closeBtn = box.querySelector(".zoom__close");
-    let back = null;
+    /* Zoom inside the viewer (Jay, 17 Nov 2026): click or tap the picture to
+       zoom in at that point (again to fit), pinch on a trackpad or phone,
+       Ctrl + scroll, the - % + bar, or the + - 0 keys; drag to pan when
+       zoomed. Width changes are instant, as in the résumé viewer, because
+       animating a large image's width relayouts every frame. */
+    const bar = document.createElement("div");
+    bar.className = "zoom__bar";
+    bar.innerHTML = '<button type="button" data-z="out" aria-label="Zoom out"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h9"/></svg></button><button type="button" data-z="fit" class="zoom__pct" aria-label="Fit to screen">100%</button><button type="button" data-z="in" aria-label="Zoom in"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h9M8 3.5v9"/></svg></button>';
+    box.appendChild(bar);
+    const [outBtn, pctBtn, inBtn] = bar.querySelectorAll("button");
+    const ZMAX = 4, STEP = 1.5;
+    let back = null, base = 0, z = 1;
+    const apply = () => {
+      big.style.width = `${base * z}px`;
+      pctBtn.textContent = `${Math.round(z * 100)}%`;
+      box.classList.toggle("is-zoomed", z > 1.01);
+      outBtn.disabled = z <= 1.001;
+      inBtn.disabled = z >= ZMAX - 0.001;
+    };
+    // Zoom to nz keeping the point (cx, cy) on screen where it was.
+    const zoomTo = (nz, cx, cy) => {
+      nz = Math.min(ZMAX, Math.max(1, nz));
+      const sr = scroller.getBoundingClientRect();
+      if (cx == null) { cx = sr.left + sr.width / 2; cy = sr.top + sr.height / 2; }
+      const ir = big.getBoundingClientRect();
+      const fx = Math.min(1, Math.max(0, (cx - ir.left) / ir.width));
+      const fy = Math.min(1, Math.max(0, (cy - ir.top) / ir.height));
+      z = nz;
+      apply();
+      scroller.scrollLeft = big.offsetLeft + fx * big.offsetWidth - (cx - sr.left);
+      scroller.scrollTop = big.offsetTop + fy * big.offsetHeight - (cy - sr.top);
+    };
     const size = () => {
       const nat = big.naturalWidth || 1200;
       const vw = window.innerWidth;
       // Retina exports (3000px and up) are shown at half their pixels.
       const css = nat > 2400 ? nat / 2 : nat;
-      big.style.width = `${vw >= 1000 ? Math.min(css, vw - 96) : Math.max(vw - 32, Math.min(css, 1400))}px`;
+      base = vw >= 1000 ? Math.min(css, vw - 96) : Math.max(vw - 32, Math.min(css, 1400));
+      apply();
     };
+    bar.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      zoomTo(b.dataset.z === "in" ? z * STEP : b.dataset.z === "out" ? z / STEP : 1);
+    });
+    // Mouse: drag to pan; a click without a drag toggles zoom at the pointer.
+    let drag = null, dragged = false;
+    scroller.addEventListener("pointerdown", (e) => {
+      if (e.pointerType !== "mouse" || e.button !== 0 || e.target !== big) return;
+      drag = { x: e.clientX, y: e.clientY, left: scroller.scrollLeft, top: scroller.scrollTop };
+      dragged = false;
+    });
+    scroller.addEventListener("pointermove", (e) => {
+      if (!drag) return;
+      const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+      if (!dragged && Math.hypot(dx, dy) < 4) return;
+      if (!dragged) { dragged = true; scroller.setPointerCapture(e.pointerId); scroller.classList.add("is-dragging"); }
+      scroller.scrollLeft = drag.left - dx;
+      scroller.scrollTop = drag.top - dy;
+    });
+    const endDrag = () => { drag = null; scroller.classList.remove("is-dragging"); };
+    scroller.addEventListener("pointerup", endDrag);
+    scroller.addEventListener("pointercancel", endDrag);
+    big.addEventListener("click", (e) => {
+      if (dragged) return;
+      zoomTo(z > 1.01 ? 1 : 2.5, e.clientX, e.clientY);
+    });
+    // Trackpad pinch (Chrome, Firefox: ctrl + wheel) and Ctrl + scroll.
+    scroller.addEventListener("wheel", (e) => {
+      if (!e.ctrlKey) return;
+      e.preventDefault();
+      zoomTo(z * Math.exp(-e.deltaY * 0.01), e.clientX, e.clientY);
+    }, { passive: false });
+    // Trackpad pinch in Safari.
+    let gz = 1;
+    box.addEventListener("gesturestart", (e) => { e.preventDefault(); gz = z; });
+    box.addEventListener("gesturechange", (e) => { e.preventDefault(); zoomTo(gz * e.scale, e.clientX, e.clientY); });
+    // Two-finger pinch on touch screens; one finger still scrolls natively.
+    let pinch = null;
+    const mid = (t) => ({ x: (t[0].clientX + t[1].clientX) / 2, y: (t[0].clientY + t[1].clientY) / 2, d: Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY) });
+    scroller.addEventListener("touchstart", (e) => { if (e.touches.length === 2) pinch = { z, d: mid(e.touches).d }; }, { passive: true });
+    scroller.addEventListener("touchmove", (e) => {
+      if (!pinch || e.touches.length !== 2) return;
+      e.preventDefault();
+      const m = mid(e.touches);
+      zoomTo(pinch.z * m.d / pinch.d, m.x, m.y);
+    }, { passive: false });
+    scroller.addEventListener("touchend", (e) => { if (e.touches.length < 2) pinch = null; });
+    document.addEventListener("keydown", (e) => {
+      if (!box.classList.contains("is-open") || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === "+" || e.key === "=") zoomTo(z * STEP);
+      else if (e.key === "-" || e.key === "_") zoomTo(z / STEP);
+      else if (e.key === "0") zoomTo(1);
+    });
     const open = (img) => {
       back = document.activeElement;
+      z = 1;
       big.src = img.currentSrc || img.src;
       big.alt = img.alt;
       if (big.complete) size(); else big.onload = size;
@@ -2095,7 +2192,8 @@
       img.addEventListener("click", () => open(img));
     });
     closeBtn.addEventListener("click", close);
-    box.addEventListener("click", (e) => { if (e.target === box || e.target === scroller) close(); });
+    // The click that ends a drag over the backdrop is a pan, not a close.
+    box.addEventListener("click", (e) => { if (dragged) { dragged = false; return; } if (e.target === box || e.target === scroller) close(); });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
     window.addEventListener("resize", () => { if (box.classList.contains("is-open")) size(); });
   }

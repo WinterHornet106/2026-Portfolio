@@ -2843,6 +2843,16 @@ img[data-zoom] { cursor: zoom-in; }
   box-shadow: var(--shadow-rest);
   cursor: pointer;
 }
+/* Side pages are dark: the enlarge button stays a light circle with dark ink
+   so it reads over any picture, and has no live blur (see the side pages'
+   no-backdrop-filter rule). */
+body.page-side .zoom-btn {
+  background: rgb(255 255 255 / 0.92);
+  border-color: rgb(0 0 0 / 0.08);
+  color: #1d1d1f;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
 .zoom-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 /* Desktop: the button only appears on hover or focus; touch keeps it shown. */
 @media (hover: hover) and (pointer: fine) {
@@ -2888,8 +2898,11 @@ img[data-zoom] { cursor: zoom-in; }
   border-radius: 50%;
   border: 0;
   background: #fff;
-  color: var(--ink);
-  font-size: 22px;
+  /* Fixed dark ink: on the dark side pages --ink turns near white, which
+     left a white x on the white circle (Jay, 17 Nov 2026). */
+  color: #1d1d1f;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.3);
+  font-size: 24px;
   line-height: 1;
   cursor: pointer;
 }
@@ -3292,7 +3305,7 @@ body.page-side { background-color: transparent; }
 
 /* Cards wait for the lamp (16 Nov 2026, Jay): hidden while the room is
    dark, then rise and fade in one after another once the bulb has settled
-   (main.js adds .lamp-lit 2s in). Only when JS is running (.lamp-wait). */
+   (main.js adds .lamp-lit 1.4s in). Only when JS is running (.lamp-wait). */
 .lamp-wait body.page-side .side-cards .proj,
 .lamp-wait body.page-side .side__demo {
   opacity: 0;
@@ -3308,3 +3321,141 @@ body.page-side { background-color: transparent; }
   .lamp-wait body.page-side .side-cards .proj,
   .lamp-wait body.page-side .side__demo { transition: none; transform: none; }
 }
+
+/* ---------- More side project pages (16 Nov 2026) ----------
+   Domino's, Jackalope, Daylog, Sculpture Pavilion and Posters share one
+   layout: a lead image, short spec groups and image grids. */
+.side-fig { margin: 0; }
+.side-fig img { display: block; width: 100%; height: auto; border-radius: var(--r-3); }
+.side-fig .cs-image__caption { margin-top: var(--s-3); }
+.side-fig--lead { margin-top: var(--s-5); }
+.side .spec + .side-fig, .side .spec + .side-grid, .side .side-quotes + .side-fig { margin-top: var(--s-8); }
+.side-grid { display: grid; gap: var(--s-7) var(--s-5); }
+.side-grid--1 { grid-template-columns: 1fr; }
+.side-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.side-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.side-grid + .spec { margin-top: var(--s-8); }
+.sec-head + .side-grid { margin-top: 0; }
+.spec--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.side-quotes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-5); margin-top: var(--s-8); }
+.side-quote { margin: 0; padding-left: var(--s-4); border-left: 2px solid var(--line-strong); }
+.side-quote p { margin: 0; font-size: 17px; line-height: 1.5; color: var(--ink); }
+.side-quote cite { display: block; margin-top: var(--s-2); font-style: normal; font-size: var(--fs-meta); color: var(--ink-3); }
+@media (max-width: 1000px) { .spec--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px) {
+  .side-grid--2, .side-grid--3, .spec--3, .side-quotes { grid-template-columns: 1fr; }
+  .side-grid--3 .side-fig img { max-width: 300px; margin: 0 auto; }
+}
+
+/* Side projects index: grouped by kind of work (16 Nov 2026), each card
+   with a small pill naming the type. Photo thumbnails fill their tile. */
+.side-cat__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-5); flex-wrap: wrap; margin-bottom: var(--s-6); }
+.side-cat__head h2 { margin: 0; font-size: var(--fs-h3); line-height: var(--lh-h3); }
+.side-cat__head p { margin: 0; font-size: var(--fs-meta); color: var(--ink-3); }
+.side-cat--next { padding-top: var(--s-9); }
+.side-pill {
+  display: inline-flex; align-items: center;
+  margin: 0 0 var(--s-2);
+  padding: 5px 10px;
+  border-radius: var(--r-pill);
+  font-size: 12px; font-weight: 500; line-height: 1;
+  color: var(--ink-2);
+  background: rgb(255 255 255 / 0.08);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+}
+.proj__img.side-card__img--photo img { inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.side-grid + .sec-head { margin-top: var(--s-9); }
+/* Posters keep their own crisp corners. */
+.side-fig--poster img { border-radius: 4px; }
+
+/* Pictures are never cropped (Jay, 17 Nov 2026: "make it so the whole thing
+   fits"). A frame holding a real image takes the image's own shape instead
+   of a fixed aspect ratio, so long phone screenshots and photos show whole
+   at every width; every one can also be enlarged (main.js). Videos keep
+   their frames, which already match them. The fallback SVG still sits
+   underneath. Before: .verbose-backup/before-no-crop/ */
+main .cs-frame:has(> img) { aspect-ratio: auto; }
+main .cs-frame > img {
+  position: relative;
+  inset: auto;
+  height: auto;
+  object-fit: fill;
+}
+
+/* Close buttons draw their X as a centred SVG (Jay, 17 Nov 2026): the old
+   "&times;" glyph sat on the font's baseline, off centre in the circle. */
+.zoom__close, .pdf-modal__close { display: grid; place-items: center; padding: 0; }
+.zoom__close svg, .pdf-modal__close svg {
+  width: 16px; height: 16px; fill: none; stroke: currentColor;
+  stroke-width: 1.8; stroke-linecap: round;
+}
+
+/* ---- iPhone squircle (17 Nov 2026, Jay) ----
+   Phone screens get Apple's continuous corner, not a plain circular radius:
+   the iPhone 17's 62pt corner on its 402x874pt screen, drawn with Figma's
+   iOS corner smoothing (60%). Masked so it works in every browser; the
+   frame's hairline is redrawn along the same curve. All phone frames are
+   iPhone shaped, so stretching the one shape to the frame is exact. */
+.cs-frame--phone {
+  border: 0;
+  border-radius: 0;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 402 874' preserveAspectRatio='none'%3E%3Cpath d='M302.8 0c34.723 0 52.085 0 65.347 6.758a62 62 0 0 1 27.095 27.095c6.758 13.263 6.758 30.624 6.758 65.347L402 774.8c0 34.723 0 52.085 -6.758 65.347a62 62 0 0 1 -27.095 27.095c-13.263 6.758 -30.624 6.758 -65.347 6.758L99.2 874c-34.723 0 -52.085 0 -65.347 -6.758a62 62 0 0 1 -27.095 -27.095c-6.758 -13.263 -6.758 -30.624 -6.758 -65.347L0 99.2c0 -34.723 0 -52.085 6.758 -65.347a62 62 0 0 1 27.095 -27.095c13.263 -6.758 30.624 -6.758 65.347 -6.758Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 402 874' preserveAspectRatio='none'%3E%3Cpath d='M302.8 0c34.723 0 52.085 0 65.347 6.758a62 62 0 0 1 27.095 27.095c6.758 13.263 6.758 30.624 6.758 65.347L402 774.8c0 34.723 0 52.085 -6.758 65.347a62 62 0 0 1 -27.095 27.095c-13.263 6.758 -30.624 6.758 -65.347 6.758L99.2 874c-34.723 0 -52.085 0 -65.347 -6.758a62 62 0 0 1 -27.095 -27.095c-6.758 -13.263 -6.758 -30.624 -6.758 -65.347L0 99.2c0 -34.723 0 -52.085 6.758 -65.347a62 62 0 0 1 27.095 -27.095c13.263 -6.758 30.624 -6.758 65.347 -6.758Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+.cs-frame--phone::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 402 874' preserveAspectRatio='none'%3E%3Cpath d='M302.8 0c34.723 0 52.085 0 65.347 6.758a62 62 0 0 1 27.095 27.095c6.758 13.263 6.758 30.624 6.758 65.347L402 774.8c0 34.723 0 52.085 -6.758 65.347a62 62 0 0 1 -27.095 27.095c-13.263 6.758 -30.624 6.758 -65.347 6.758L99.2 874c-34.723 0 -52.085 0 -65.347 -6.758a62 62 0 0 1 -27.095 -27.095c-6.758 -13.263 -6.758 -30.624 -6.758 -65.347L0 99.2c0 -34.723 0 -52.085 6.758 -65.347a62 62 0 0 1 27.095 -27.095c13.263 -6.758 30.624 -6.758 65.347 -6.758Z' fill='none' stroke='%23000' stroke-opacity='.1' stroke-width='2' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+/* The corner curve cuts ~25% of the width in; keep the enlarge button clear of it. */
+.cs-frame--phone .zoom-btn { top: var(--s-4); right: var(--s-4); }
+
+/* Side project walkthrough video (17 Nov 2026) */
+.side-video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: var(--r-3); background: #0a1a2b; object-fit: contain; }
+
+/* Zoom inside the image viewer (17 Nov 2026): a - % + bar at the bottom,
+   zoom-in / grab cursors, and room under the picture for the bar. One-finger
+   scrolling stays native; main.js handles the pinch itself. */
+.zoom__scroll { padding-bottom: 80px; touch-action: pan-x pan-y; }
+.zoom__bar {
+  position: fixed;
+  left: 50%;
+  bottom: var(--s-4);
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 999px;
+  background: #fff;
+  color: #1d1d1f;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.3);
+}
+.zoom__bar button {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  height: 36px;
+  padding: 0 var(--s-2);
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: inherit;
+  font: 500 13px/1 var(--sans);
+  font-variant-numeric: tabular-nums;
+  transition: background-color var(--duration-fast) var(--ease-standard), opacity var(--duration-fast) var(--ease-standard);
+}
+.zoom__bar .zoom__pct { min-width: 56px; }
+.zoom__bar button:hover:not(:disabled) { background: rgb(0 0 0 / 0.06); }
+.zoom__bar button:disabled { opacity: 0.3; }
+.zoom__bar svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+.has-modal .zoom .zoom__bar button { cursor: pointer; }
+.has-modal .zoom .zoom__bar button:disabled { cursor: default; }
+.has-modal .zoom .zoom__img { cursor: zoom-in; }
+.has-modal .zoom.is-zoomed .zoom__img { cursor: grab; }
+.has-modal .zoom .zoom__scroll.is-dragging, .has-modal .zoom .zoom__scroll.is-dragging .zoom__img { cursor: grabbing; }
+@media (prefers-reduced-motion: reduce) { .zoom__bar button { transition: none; } }

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Any page with ?intro: hide the page for the logo intro, which main.js
+       plays. Failsafe: the page shows after 4s. -->
+  <script>try{if(/[?&]intro\b/.test(location.search)){var r=document.documentElement;r.classList.add("has-intro");setTimeout(function(){r.classList.remove("has-intro")},4000)}}catch(e){}</script>
+  <!-- Side pages: cards wait in the dark until the lamp settles (main.js adds lamp-lit); failsafe shows them after 4s. -->
+  <script>try{var h=document.documentElement;h.classList.add("lamp-wait");setTimeout(function(){h.classList.add("lamp-lit")},4000)}catch(e){}</script>
+  <title>Domino&rsquo;s App Redesign · Jay Ho</title>
+  <meta name="description" content="Domino’s App Redesign by Jay Ho: a concept refresh with in-app payment, fewer steps and live order tracking." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Jay Ho" />
+  <meta property="og:title" content="Domino&rsquo;s App Redesign · Jay Ho" />
+  <meta property="og:description" content="Domino’s App Redesign by Jay Ho: a concept refresh with in-app payment, fewer steps and live order tracking." />
+  <meta property="og:url" content="https://jayho.fyi/dominos.html" />
+  <meta property="og:image" content="https://jayho.fyi/assets/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Jay Ho, product and interaction designer: MEC Connect, Costco CarePath, Dutch Design Awards." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="assets/styles.css?v=20261119c" />
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+</head>
+<body class="page-side">
+
+  <nav class="nav" aria-label="Primary">
+    <a href="index.html" class="nav__brand" aria-label="Jay Ho · Home">
+      <img class="nav__logo" src="assets/logo.svg" width="540" height="639" alt="">
+    </a>
+    <div class="nav__links">
+      <a href="index.html#work" class="nav__link">Work</a>
+      <a href="side-projects.html" class="nav__link is-active" aria-current="true">Side projects</a>
+      <a href="about.html" class="nav__link">About</a>
+      <a href="resume.html" class="nav__link">Resume</a>
+      <a href="contact.html" class="nav__link">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="shell" style="padding-top: var(--s-6);">
+      <a href="side-projects.html" class="back">
+        <span class="arr" aria-hidden="true">&larr;</span> All side projects
+      </a>
+    </section>
+
+    <header class="hero shell">
+      <h1 class="hero__lead reveal" data-delay="1">Domino&rsquo;s App Redesign</h1>
+      <div class="hero__sub reveal" data-delay="2">
+        <p class="hero__discipline">App redesign &middot; 2026 &middot; Figma</p>
+        <p class="hero__tag">A refresh of the Domino&rsquo;s app around what its reviews kept asking for: <strong>pay in the app</strong>, take fewer steps, and know when the pizza is on its way. A personal concept, not affiliated with Domino&rsquo;s.</p>
+      </div>
+    </header>
+    <section class="shell section--first side" id="showcase">
+      <figure class="side-fig side-fig--lead reveal" data-delay="1">
+        <img src="assets/side/dominos/flow-2.jpg?v=4" width="1800" height="984" loading="lazy" decoding="async" data-zoom data-cursor-label="Enlarge" alt="Four screens: home with reorder, the menu, customising a pepperoni pizza, and the bag with points earned.">
+        <figcaption class="cs-image__caption">Browse and order: home, menu, customise, bag</figcaption>
+      </figure>
+    </section>
+    <section class="shell section--roomy side" id="problem">
+      <div class="sec-head reveal"><div><h2>What reviewers said</h2></div></div>
+      <div class="spec reveal" data-delay="1">
+        <div class="spec__group">
+          <h3>Paying was a hassle</h3>
+          <p>Reviewers asked why they couldn&rsquo;t pay through the app, and noted there was no Apple Pay.</p>
+        </div>
+        <div class="spec__group">
+          <h3>It looked dated</h3>
+          <p>One review said the app looked like it was made in 2010.</p>
+        </div>
+        <div class="spec__group">
+          <h3>Too many steps</h3>
+          <p>Checking points or going back to the menu meant extra screens.</p>
+        </div>
+        <div class="spec__group">
+          <h3>Where&rsquo;s my pizza?</h3>
+          <p>A reviewer wanted a heads-up when the pizza leaves the store.</p>
+        </div>
+      </div>
+      <div class="side-quotes reveal" data-delay="1">
+        <blockquote class="side-quote">
+          <p>&ldquo;UI and design look like app was made in 2010. Doesn&rsquo;t even have Apple Pay.&rdquo;</p>
+          <cite>App Store review</cite>
+        </blockquote>
+        <blockquote class="side-quote">
+          <p>&ldquo;Make it so when the pizza is leaving the store there is a notification.&rdquo;</p>
+          <cite>App Store review</cite>
+        </blockquote>
+      </div>
+    </section>
+    <section class="shell section--roomy side" id="changes">
+      <div class="sec-head reveal"><div><h2>What changed</h2></div></div>
+      <div class="spec reveal" data-delay="1">
+        <div class="spec__group">
+          <h3>Faster sign-in</h3>
+          <p>Continue with Apple or Google, or use a passkey. No password to type.</p>
+        </div>
+        <div class="spec__group">
+          <h3>Order in fewer taps</h3>
+          <p>Reorder your last order from home; size, crust and extras on one screen; points shown in the bag.</p>
+        </div>
+        <div class="spec__group">
+          <h3>Apple Pay and live tracking</h3>
+          <p>Pay in the app, then follow the driver on a map and on your Lock Screen.</p>
+        </div>
+        <div class="spec__group">
+          <h3>Points you can see</h3>
+          <p>A progress ring shows how close the next free pizza is, and past orders reorder in one tap.</p>
+        </div>
+      </div>
+      <div class="side-grid side-grid--1">
+      <figure class="side-fig  reveal" data-delay="1">
+        <img src="assets/side/dominos/flow-1.jpg?v=4" width="1800" height="1081" loading="lazy" decoding="async" data-zoom data-cursor-label="Enlarge" alt="Splash, welcome with Apple and Google sign-in, sign in with a passkey, and the design system with colour contrast, type scale and spacing.">
+        <figcaption class="cs-image__caption">Onboarding and the design system</figcaption>
+      </figure>
+      <figure class="side-fig  reveal" data-delay="1">
+        <img src="assets/side/dominos/flow-3.jpg?v=4" width="1800" height="984" loading="lazy" decoding="async" data-zoom data-cursor-label="Enlarge" alt="Checkout with Apple Pay, order confirmed, live tracking on a map, and a Live Activity on the Lock Screen.">
+        <figcaption class="cs-image__caption">Checkout, live tracking and the Lock Screen</figcaption>
+      </figure>
+      <figure class="side-fig  reveal" data-delay="1">
+        <img src="assets/side/dominos/flow-4.jpg?v=4" width="1800" height="984" loading="lazy" decoding="async" data-zoom data-cursor-label="Enlarge" alt="Rewards with a points ring, deals, account, and order history with reorder buttons.">
+        <figcaption class="cs-image__caption">Rewards, deals, account and order history</figcaption>
+      </figure>
+      </div>
+    </section>
+    <section class="shell">
+      <a href="jackalope.html" class="cs-next">
+        <span class="lbl">Next side project</span>
+        <span class="title">Jackalope &middot; events for international students</span>
+        <span class="arr" aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div>
+      <div class="brand-line">Jay Ho</div>
+      <p class="blurb">Product &amp; interaction designer, SFU Interactive Arts &amp; Technology. Vancouver &amp; HK.</p>
+    </div>
+    <div><h2 class="foot__h">Contact</h2><a href="mailto:jayho5403@gmail.com">jayho5403@gmail.com</a><a href="https://www.linkedin.com/in/jay-ho-520134220/" target="_blank" rel="noopener">LinkedIn</a></div>
+    <div class="fine"><span>&copy; <span data-year>2026</span> Jay Ho</span></div>
+  </footer>
+
+  <script src="assets/main.js?v=20261119c"></script>
+</body>
+</html>
