@@ -3459,3 +3459,32 @@ main .cs-frame > img {
 .has-modal .zoom.is-zoomed .zoom__img { cursor: grab; }
 .has-modal .zoom .zoom__scroll.is-dragging, .has-modal .zoom .zoom__scroll.is-dragging .zoom__img { cursor: grabbing; }
 @media (prefers-reduced-motion: reduce) { .zoom__bar button { transition: none; } }
+
+/* Side project info as rows (17 Nov 2026, Jay: the info felt cluttered).
+   The two-up and three-up grids of small headings and 15px paragraphs
+   become editorial rows like the case-study findings: heading on the left
+   (4 of 12), text on the right (7 of 12) at body size, separated by space
+   only. Digital Macro Switch's spec sheet with chips (Jay's pick) keeps its
+   grid. Quotes lose their rule and read as pull quotes. */
+.side .spec:not(:has(.spec__chips)) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+  max-width: 1000px;
+}
+.side .spec:not(:has(.spec__chips)) .spec__group {
+  display: grid;
+  grid-template-columns: 4fr 7fr;
+  gap: var(--s-6);
+  align-items: baseline;
+}
+.side .spec:not(:has(.spec__chips)) .spec__group h3 { margin: 0; }
+.side .spec:not(:has(.spec__chips)) .spec__group p { font-size: var(--fs-body); line-height: 1.55; max-width: 46ch; }
+.side-quotes { gap: var(--s-7); max-width: 1000px; }
+.side-quote { padding-left: 0; border-left: 0; }
+.side-quote p { font-family: var(--display); font-size: var(--fs-h3); line-height: var(--lh-h3); font-weight: 500; text-wrap: balance; }
+.side-quote cite { margin-top: var(--s-3); }
+@media (max-width: 720px) {
+  .side .spec:not(:has(.spec__chips)) .spec__group { grid-template-columns: 1fr; gap: var(--s-2); }
+  .side .spec:not(:has(.spec__chips)) { gap: var(--s-5); }
+}
