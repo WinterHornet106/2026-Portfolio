@@ -6,7 +6,7 @@ Context and working agreements for anyone (human or agent) continuing this site.
 
 ## Where things stand — last worked 16 Nov 2026
 
-**Everything is committed and live** (16 Nov 2026 batch: design-decision Why lines, MEC/CarePath/DDA trims, no divider lines, layout pass, Selected work as lead plus two, quiet text-link buttons, motion tokens, copy-email notice and icon, résumé fit fix; see the dated notes below). `main` matches GitHub and jayho.fyi. Recent commits:
+**Everything is committed and live** (18 Nov 2026: commit a89e4f2, case-study relayout, live diagrams, phone screens; earlier 16 Nov 2026 batch: design-decision Why lines, MEC/CarePath/DDA trims, no divider lines, layout pass, Selected work as lead plus two, quiet text-link buttons, motion tokens, copy-email notice and icon, résumé fit fix; see the dated notes below). `main` matches GitHub and jayho.fyi. Recent commits:
 `f5ff11d` Inter on non-Apple devices, thin scrollbars · `926c36c` DDA rework, space-based
 sections, semantic headings · `7c9ddb6` process visuals, hover clips, Apple spacing, tighter copy.
 Commit or push only when Jay asks. Never commit the loose source files in the repo root
