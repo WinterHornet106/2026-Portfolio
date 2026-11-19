@@ -320,7 +320,7 @@ section { padding: var(--section-y) 0; }
 .cs-toc { transition: opacity var(--t-base) var(--ease), transform var(--t-base) var(--ease-out); }
 /* Case studies below 1200px: scrolling down tucks the nav away and the
    section tabs take the top (main.js sets .nav-tucked). */
-@media (max-width: 1199px) {
+@media (max-width: 767px) {
   .nav-tucked .has-toc .nav { transform: translateY(-100%); }
   .nav-tucked .has-toc .cs-toc { transform: translateY(calc(-1 * var(--nav-h))); }
 }
@@ -1373,7 +1373,7 @@ video:-webkit-full-screen { object-fit: contain !important; background: #000 !im
    any rendered width (cqw = % of the .cs-figure's width), ~46px at 300px. */
 .cs-frame--phone { aspect-ratio: 724 / 1568; border-radius: 46px; }
 @supports (width: 1cqw) {
-  .cs-frame--phone { border-radius: calc(62 / 402 * 100cqw); }
+  .cs-frame--phone { border-radius: calc(50 / 402 * 100cqw); }
 }
 /* Scrolling screens run taller than the device; show the top, as on a phone. */
 .cs-frame--phone > img { object-position: top; }
@@ -2367,7 +2367,7 @@ body.has-toc [data-section] {
 }
 
 /* ---- Wide: vertical rail ---- */
-@media (min-width: 1200px) {
+@media (min-width: 768px) {
   body.has-toc main { padding-left: var(--toc-space); }
   body.has-toc .foot { padding-left: calc(var(--toc-space) + var(--gutter)); }
   body.has-toc [data-section] { scroll-margin-top: calc(var(--nav-h) + var(--s-5)); }
@@ -2402,7 +2402,7 @@ body.has-toc [data-section] {
 }
 
 /* ---- Narrow: sticky horizontal bar ---- */
-@media (max-width: 1199px) {
+@media (max-width: 767px) {
   .cs-toc {
     position: sticky;
     top: var(--nav-h);
@@ -3399,8 +3399,8 @@ main .cs-frame > img {
 .cs-frame--phone {
   border: 0;
   border-radius: 0;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 402 874' preserveAspectRatio='none'%3E%3Cpath d='M302.8 0c34.723 0 52.085 0 65.347 6.758a62 62 0 0 1 27.095 27.095c6.758 13.263 6.758 30.624 6.758 65.347L402 774.8c0 34.723 0 52.085 -6.758 65.347a62 62 0 0 1 -27.095 27.095c-13.263 6.758 -30.624 6.758 -65.347 6.758L99.2 874c-34.723 0 -52.085 0 -65.347 -6.758a62 62 0 0 1 -27.095 -27.095c-6.758 -13.263 -6.758 -30.624 -6.758 -65.347L0 99.2c0 -34.723 0 -52.085 6.758 -65.347a62 62 0 0 1 27.095 -27.095c13.263 -6.758 30.624 -6.758 65.347 -6.758Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
-          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 402 874' preserveAspectRatio='none'%3E%3Cpath d='M302.8 0c34.723 0 52.085 0 65.347 6.758a62 62 0 0 1 27.095 27.095c6.758 13.263 6.758 30.624 6.758 65.347L402 774.8c0 34.723 0 52.085 -6.758 65.347a62 62 0 0 1 -27.095 27.095c-13.263 6.758 -30.624 6.758 -65.347 6.758L99.2 874c-34.723 0 -52.085 0 -65.347 -6.758a62 62 0 0 1 -27.095 -27.095c-6.758 -13.263 -6.758 -30.624 -6.758 -65.347L0 99.2c0 -34.723 0 -52.085 6.758 -65.347a62 62 0 0 1 27.095 -27.095c13.263 -6.758 30.624 -6.758 65.347 -6.758Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 402 874' preserveAspectRatio='none'%3E%3Cpath d='M322 0c28.003 0 42.004 0 52.7 5.45a50 50 0 0 1 21.851 21.851c5.45 10.696 5.45 24.697 5.45 52.7L402 794c0 28.003 0 42.004 -5.45 52.7a50 50 0 0 1 -21.851 21.851c-10.696 5.45 -24.697 5.45 -52.7 5.45L80 874c-28.003 0 -42.004 0 -52.7 -5.45a50 50 0 0 1 -21.851 -21.851c-5.45 -10.696 -5.45 -24.697 -5.45 -52.7L0 80c0 -28.003 0 -42.004 5.45 -52.7a50 50 0 0 1 21.851 -21.851c10.696 -5.45 24.697 -5.45 52.7 -5.45Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 402 874' preserveAspectRatio='none'%3E%3Cpath d='M322 0c28.003 0 42.004 0 52.7 5.45a50 50 0 0 1 21.851 21.851c5.45 10.696 5.45 24.697 5.45 52.7L402 794c0 28.003 0 42.004 -5.45 52.7a50 50 0 0 1 -21.851 21.851c-10.696 5.45 -24.697 5.45 -52.7 5.45L80 874c-28.003 0 -42.004 0 -52.7 -5.45a50 50 0 0 1 -21.851 -21.851c-5.45 -10.696 -5.45 -24.697 -5.45 -52.7L0 80c0 -28.003 0 -42.004 5.45 -52.7a50 50 0 0 1 21.851 -21.851c10.696 -5.45 24.697 -5.45 52.7 -5.45Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
 }
 .cs-frame--phone::after {
   content: "";
@@ -3408,7 +3408,7 @@ main .cs-frame > img {
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 402 874' preserveAspectRatio='none'%3E%3Cpath d='M302.8 0c34.723 0 52.085 0 65.347 6.758a62 62 0 0 1 27.095 27.095c6.758 13.263 6.758 30.624 6.758 65.347L402 774.8c0 34.723 0 52.085 -6.758 65.347a62 62 0 0 1 -27.095 27.095c-13.263 6.758 -30.624 6.758 -65.347 6.758L99.2 874c-34.723 0 -52.085 0 -65.347 -6.758a62 62 0 0 1 -27.095 -27.095c-6.758 -13.263 -6.758 -30.624 -6.758 -65.347L0 99.2c0 -34.723 0 -52.085 6.758 -65.347a62 62 0 0 1 27.095 -27.095c13.263 -6.758 30.624 -6.758 65.347 -6.758Z' fill='none' stroke='%23000' stroke-opacity='.1' stroke-width='2' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 402 874' preserveAspectRatio='none'%3E%3Cpath d='M322 0c28.003 0 42.004 0 52.7 5.45a50 50 0 0 1 21.851 21.851c5.45 10.696 5.45 24.697 5.45 52.7L402 794c0 28.003 0 42.004 -5.45 52.7a50 50 0 0 1 -21.851 21.851c-10.696 5.45 -24.697 5.45 -52.7 5.45L80 874c-28.003 0 -42.004 0 -52.7 -5.45a50 50 0 0 1 -21.851 -21.851c-5.45 -10.696 -5.45 -24.697 -5.45 -52.7L0 80c0 -28.003 0 -42.004 5.45 -52.7a50 50 0 0 1 21.851 -21.851c10.696 -5.45 24.697 -5.45 52.7 -5.45Z' fill='none' stroke='%23000' stroke-opacity='.1' stroke-width='2' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
 }
 /* The corner curve cuts ~25% of the width in; keep the enlarge button clear of it. */
 .cs-frame--phone .zoom-btn { top: var(--s-4); right: var(--s-4); }
@@ -3487,4 +3487,669 @@ main .cs-frame > img {
 @media (max-width: 720px) {
   .side .spec:not(:has(.spec__chips)) .spec__group { grid-template-columns: 1fr; gap: var(--s-2); }
   .side .spec:not(:has(.spec__chips)) { gap: var(--s-5); }
+}
+
+/* Side-by-side photo pairs share one shape (18 Nov 2026, Jay: MEC's last two
+   photos were different sizes). Under the no-crop rule each frame took its
+   photo's own shape (1.29:1 and 1.19:1), so one stood taller. A pair now
+   shares 5:4: the team photo loses about 3% at its sides, the presenting
+   photo about 5% at the bottom (table clutter; the wall text and the "ME!"
+   mark stay). Enlarging still shows each photo whole. */
+main .cs-showcase--two .cs-frame:has(> img) { aspect-ratio: 5 / 4; }
+main .cs-showcase--two .cs-frame > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0%;
+}
+
+/* Narrower pages (18 Nov 2026, Jay: "all pages have too much width ... make it
+   only the width of 2" columns). Content is capped at 880px, about two of the
+   old three columns, so wide screens get generous side margins. The nav and
+   footer line up with that same column instead of running to the screen
+   edges. --edge is the side padding that centres an 880px column (never less
+   than the usual gutter). Side project cards go two to a row. */
+:root {
+  --content: 880px;
+  --container: calc(var(--content) + 2 * var(--gutter));
+  --edge: max(var(--gutter), calc((100vw - var(--content)) / 2));
+}
+/* The nav keeps its original full-width edges (Jay, 18 Nov 2026: logo and top nav back to their old place). */
+.foot { padding-left: var(--edge); padding-right: var(--edge); }
+.side-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 720px) { .side-cards { grid-template-columns: 1fr; } }
+/* With the narrow column the side margin can hold the case-study rail, so main
+   only reserves what the rail still lacks (centred content starts at
+   --edge + padding / 2). From about 1460px wide it needs nothing and the
+   content lines up with the nav and footer. */
+@media (min-width: 768px) {
+  body.has-toc main { padding-left: max(0px, calc(2 * (var(--toc-space) + var(--gutter) - var(--edge)))); }
+  body.has-toc .foot { padding-left: max(var(--edge), calc(var(--toc-space) + var(--gutter))); }
+}
+
+/* Caleb Wu's spacing (18 Nov 2026, Jay: "I like the spacing and padding of
+   calebwu.ca/RevisionDojo, copy his threshold for the side nav"). Measured
+   from his page: a centred 944px content column; section gaps of 80px from
+   1280px wide and 48px below; on case studies the vertical rail shows from
+   768px (it was 1200), 128px wide to 1023px, 192px to 1679px and 288px from
+   1680px, sitting in the left margin, and the content keeps a margin of at
+   least the rail plus his gap (52, 28 and 56px) on both sides so it stays
+   centred. Below 768px the rail becomes our sticky tab bar, as before.
+   Before: .verbose-backup/before-caleb-spacing/ */
+:root { --content: 944px; --section-y: 24px; }
+@media (min-width: 1280px) { :root { --section-y: 40px; } }
+section.section--roomy:has(+ section.section--roomy) { padding-bottom: var(--section-y); }
+section.section--roomy + section.section--roomy { padding-top: var(--section-y); }
+@media (max-width: 720px) {
+  section.section--roomy:has(+ section.section--roomy) { padding-bottom: var(--section-y); }
+  section.section--roomy + section.section--roomy { padding-top: var(--section-y); }
+}
+@media (min-width: 768px) {
+  body.has-toc { --rail-r: 128px; --rail-gap: 52px; }
+  body.has-toc {
+    --case-m: max(var(--gutter), calc(var(--rail-r) + var(--rail-gap)), calc((100vw - var(--content)) / 2));
+  }
+  body.has-toc main { padding-left: 0; }
+  body.has-toc .shell { max-width: none; padding-left: var(--case-m); padding-right: var(--case-m); }
+  body.has-toc .foot { padding-left: var(--case-m); padding-right: var(--case-m); }
+  .cs-toc { left: 0; width: 128px; padding-left: 4vw; }
+}
+@media (min-width: 1024px) {
+  body.has-toc { --rail-r: calc(max(24px, (100vw - 1440px) / 2) + 192px); --rail-gap: 28px; }
+  .cs-toc { left: max(24px, calc((100vw - 1440px) / 2)); width: 192px; padding-left: var(--s-5); }
+}
+@media (min-width: 1680px) {
+  body.has-toc { --rail-r: calc((100vw - 1440px) / 2 + 288px); --rail-gap: 56px; }
+  .cs-toc { width: 288px; }
+}
+/* The (line-less) dividers between sections added 64 + 65 + 64px; collapse
+   them so every section gap is Caleb's 80px (48px below 1280). */
+main section:has(+ .section-divider) { padding-bottom: var(--section-y); }
+main .section-divider + section { padding-top: var(--section-y); }
+main .section-divider { padding-top: 0; padding-bottom: 0; }
+main .section-divider .section-divider__line { display: none; }
+
+/* One vertical rhythm on every page (18 Nov 2026, Jay: "make sure it's
+   consistent in all pages"). Measured before: section to section ranged 10
+   to 112px, hero to first section 88 to 239px, back link to title 53 to
+   155px, because each section type carried its own padding and its first
+   or last child its own margin. Now every top-level block in main has the
+   same --section-y above and below (80px between blocks from 1280px wide,
+   48px below), with no extra margin from its first or last child; the page
+   opens 96px under the nav (48px above a back link, which sits --section-y
+   above the title). The rail (an aside in main) and the empty dividers are
+   left out. */
+main > :not(.cs-toc):not(.section-divider) {
+  padding-top: var(--section-y) !important;
+  padding-bottom: var(--section-y) !important;
+}
+main > :not(.cs-toc):not(.section-divider) > :first-child { margin-top: 0 !important; }
+main > :not(.cs-toc):not(.section-divider) > :last-child { margin-bottom: 0 !important; }
+main > .section-divider, main > .hero-bridge { display: none !important; }
+main > :not(.cs-toc):not(.section-divider):first-child,
+main > .cs-toc + :not(.section-divider) { padding-top: var(--s-9) !important; }
+main > .shell:has(> .back):first-child,
+main > .cs-toc + .shell:has(> .back) { padding-top: var(--s-7) !important; padding-bottom: 0 !important; }
+/* Padding that used to sit beside divider lines (now gone) still pushed the
+   rhythm: 24px above the case-study meta row, 16px under each résumé
+   section's last row. */
+main > section > .cs-meta:first-child { padding-top: 0; }
+main .stack > .cv-row:last-child { padding-bottom: 0; }
+
+/* Small type, Caleb Wu style (18 Nov 2026, Jay: "everything is too big ...
+   I like the Caleb Wu small text look, let white space do the work").
+   His page, measured at 1440: every heading 19 to 21px at weight 500, body
+   16 to 17.6px, no big display title. Ours sits a touch smaller still:
+   titles 24 to 28, section heads 19 to 21, sub-heads 16 to 17.6, card
+   titles 16 to 17, body 15 to 16, small text 12 to 14; headings at 500;
+   card and frame corners 12 to 16px. Before: .verbose-backup/before-small-type/ */
+:root {
+  --fs-h1:      clamp(1.5rem, 1.3rem + 0.6vw, 1.75rem);
+  --fs-h2:      clamp(1.1875rem, 1.1rem + 0.25vw, 1.3rem);
+  --fs-h3:      clamp(1rem, 0.95rem + 0.2vw, 1.1rem);
+  --fs-h4:      1rem;
+  --fs-tile:    clamp(1rem, 0.97rem + 0.1vw, 1.0625rem);
+  --fs-body:    clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+  --fs-lede:    clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  --fs-display: clamp(1.5rem, 1.3rem + 0.6vw, 1.75rem);
+  --fs-small:   14px;
+  --fs-meta:    13px;
+  --fs-label:   12px;
+  --lh-h3:      1.35;
+  --lh-h4:      1.4;
+  --r-3:        clamp(12px, 0.6rem + 0.4vw, 16px);
+}
+body { line-height: 1.65; }
+h1 { line-height: 1.2; }
+h2 { line-height: 1.35; }
+:is(h1, h2, h3, h4),
+.hero__lead, .display, .proj__title, .cs-next .title, .side-cat__head h2,
+.spec__group h3, .cs-insight h3, .cs-sublabel { font-weight: 500 !important; }
+.hero__lead {
+  font-size: min(var(--fs-h1), calc((100vw - 2 * var(--gutter)) / 6.8));
+  line-height: 1.25;
+}
+.side-quote p { font-size: var(--fs-h3); line-height: var(--lh-h3); }
+.nav__links a, .nav a:not(.nav__brand) { font-size: 14px; }
+.btn { font-size: 14px; }
+.foot { font-size: 13px; }
+.sec-head h2, .work__title { font-size: var(--fs-h2); line-height: 1.35; }
+.cs-hero__title { font-size: var(--fs-h1); line-height: 1.2; }
+.contact-big { font-size: min(var(--fs-h1), calc((min(100vw, var(--container)) - 2 * var(--gutter)) / 11.7)); }
+@media (max-width: 720px) { .nav__link { font-size: 19px !important; } }
+.cs-next .arr { font-size: 1.1rem; }
+.hero__lead, .cs-hero__title { max-width: 30ch; }
+
+/* Spread out, Caleb Wu style (18 Nov 2026, Jay: "his info is well spread
+   out, not blocks of work like mine; separate them with a placeholder
+   image/gif block if you need"). His case study runs heading, one short
+   paragraph, then a full-width picture, over and over. So: card grids become
+   rows (heading left, text right), MEC's features alternate picture and text,
+   CarePath's three test changes sit beside their before/after phones, and
+   draft-only .todo-shot blocks mark where a picture or GIF should go. */
+.contributions { grid-template-columns: 1fr; gap: var(--s-5); }
+.contributions__cluster {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  column-gap: var(--s-6);
+  align-items: baseline;
+}
+.cs-insights--two:not(.cs-pivot) { grid-template-columns: 1fr; gap: var(--s-6); }
+.cs-insights--two:not(.cs-pivot) .cs-insight {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  column-gap: var(--s-6);
+  align-items: baseline;
+}
+.cs-insights--two:not(.cs-pivot) .cs-insight h3 { min-height: 0; margin: 0; }
+.cs-features { grid-template-columns: 1fr; gap: var(--s-8); }
+.cs-features li {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  grid-template-rows: 1fr auto auto auto 1fr;
+  column-gap: var(--s-7);
+}
+.cs-features li > .cs-frame { grid-column: 1; grid-row: 1 / -1; margin: 0; }
+.cs-features li > :not(.cs-frame) { grid-column: 2; }
+.cs-features li > h3 { grid-row: 2; }
+.cs-features li > p:not(.cs-why) { grid-row: 3; }
+.cs-features li > .cs-why { grid-row: 4; }
+.cs-features li:nth-child(even) { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
+.cs-features li:nth-child(even) > .cs-frame { grid-column: 2; }
+.cs-features li:nth-child(even) > :not(.cs-frame) { grid-column: 1; }
+.cs-insights--changes { grid-template-columns: 1fr; gap: var(--s-8); }
+.cs-insights--changes .cs-insight {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  grid-template-rows: 1fr auto auto 1fr;
+  column-gap: var(--s-7);
+}
+.cs-insights--changes .cs-insight > :not(.cs-pair) { grid-column: 1; }
+.cs-insights--changes .cs-insight > h3 { grid-row: 2; min-height: 0; }
+.cs-insights--changes .cs-insight > p { grid-row: 3; }
+.cs-insights--changes .cs-insight > .cs-pair { grid-column: 2; grid-row: 1 / -1; margin: 0; padding: 0; max-width: none; }
+@media (max-width: 720px) {
+  .contributions__cluster,
+  .cs-insights--two:not(.cs-pivot) .cs-insight { grid-template-columns: 1fr; row-gap: var(--s-2); }
+  .cs-features li, .cs-features li:nth-child(even),
+  .cs-insights--changes .cs-insight { grid-template-columns: 1fr; grid-template-rows: none; row-gap: var(--s-3); }
+  .cs-features li > *, .cs-features li:nth-child(even) > *,
+  .cs-insights--changes .cs-insight > * { grid-column: 1 !important; grid-row: auto !important; }
+  .cs-insights--changes .cs-insight > .cs-pair { order: 9; margin-top: var(--s-3); }
+}
+/* Placeholder picture blocks: shown only on local previews and ?draft. */
+.todo-shot { margin: var(--s-6) 0 0; }
+.todo-shot__box {
+  align-items: center;
+  text-align: center;
+  border: 1px dashed var(--line-strong, var(--line));
+  background: color-mix(in oklch, var(--ink) 4%, var(--bg));
+  font-size: 13px;
+}
+.todo-shot__box strong { font-size: var(--fs-h3); font-weight: 500; }
+.todo-shot__tag { font-weight: 500; color: var(--ink-3); }
+
+/* Headings one size up, sub text one tone lighter (18 Nov 2026, Jay).
+   Titles 28 to 32, section heads 21 to 24, sub-heads 17.6 to 19, card
+   titles 17 to 19. Paragraphs and card lines (--ink-2) go from 33% to 43%
+   lightness and captions and notes (--ink-3) from 46% to 54% (about 7:1 and
+   4.6:1 on white); on the dark side pages they soften the same step. */
+:root {
+  --fs-h1:   clamp(1.75rem, 1.55rem + 0.6vw, 2rem);
+  --fs-h2:   clamp(1.3125rem, 1.2rem + 0.35vw, 1.5rem);
+  --fs-h3:   clamp(1.1rem, 1.05rem + 0.2vw, 1.1875rem);
+  --fs-h4:   1.0625rem;
+  --fs-tile: clamp(1.0625rem, 1rem + 0.2vw, 1.1875rem);
+  --ink-2:   oklch(43% 0.012 250);
+  --ink-3:   oklch(54% 0.010 248);
+}
+body.page-side {
+  --ink-2: oklch(76% 0.006 250);
+  --ink-3: oklch(63% 0.008 250);
+}
+
+/* ---------- Case study relayout (18 Nov 2026, Jay: "not a fan of the content
+   pages of my main work ... do a full relayout") ----------
+   Audit findings fixed here: section headings were broken by hand (<br>) into
+   ragged two-line shapes; the hero had a lone name label floating left of the
+   lede; sub-headings ("The pivot", "What I owned") were smaller than the row
+   headings under them; MEC's features and CarePath's highlights alternated
+   picture and text with up to 250px of empty space beside each picture; the
+   before/after rows floated their text mid-height beside tall phones; "What
+   I owned" spent a full-width row on each one-line group, with decorative
+   arrows. Now all three case studies share one set of parts:
+   hero = small name line, title, lede, meta row, lead picture;
+   section = heading, short paragraph, then rows or a grid of tiles;
+   every product picture sits on the same soft grey tile.
+   Before: .verbose-backup/before-cs-relayout/ */
+:root { --tile: oklch(97.2% 0.003 250); }
+
+/* Hero: the name line belongs to the title, the lede sits right under it. */
+body.has-toc .hero__rail--top { padding-bottom: 0; }
+body.has-toc .hero__lead { margin-top: var(--s-3); }
+body.has-toc .hero__sub { display: block; max-width: none; margin: var(--s-4) 0 0; }
+body.has-toc .hero__sub .hero__tag { font-size: var(--fs-lede); line-height: 1.55; max-width: 46ch; }
+body.has-toc main > header.hero { padding-bottom: 0 !important; }
+body.has-toc main > section#overview { padding-top: var(--s-7) !important; }
+body.has-toc .cs-meta { padding: 0; }
+body.has-toc .cs-meta dd { font-size: var(--fs-small); line-height: 1.5; }
+
+/* Headings wrap on their own, evenly. */
+.sec-head h2 { max-width: 30ch; text-wrap: balance; }
+
+/* Hierarchy: section heading > sub-heading > row heading > body. */
+body.has-toc .cs-sublabel {
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  margin: var(--s-8) 0 var(--s-5);
+}
+body.has-toc .cs-sublabel + * { margin-top: 0; }
+body.has-toc .cs-insight h3,
+body.has-toc .cs-features h3,
+body.has-toc .cs-row__text h3 {
+  font-size: var(--fs-h4);
+  line-height: 1.4;
+  max-width: none;
+  margin: 0 0 var(--s-2);
+}
+body.has-toc .cs-insights--rows .cs-insight,
+body.has-toc .cs-insights--two:not(.cs-pivot) .cs-insight { align-items: baseline; }
+body.has-toc .cs-insights--rows .cs-insight h3,
+body.has-toc .cs-insights--two:not(.cs-pivot) .cs-insight h3 { margin: 0; max-width: 24ch; }
+body.has-toc .cs-pivot .cs-insight h3 { font-size: var(--fs-tile); }
+
+/* Tiles: one soft grey surface for every product picture. */
+body.has-toc .cs-features .cs-frame,
+body.has-toc .cs-row__media,
+body.has-toc .cs-pair {
+  background: var(--tile);
+  border: 0;
+  border-radius: var(--r-3);
+}
+
+/* MEC Solution: four features as a 2 x 2 grid, picture above its story. */
+body.has-toc .cs-features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-7) var(--s-5);
+  margin-top: var(--s-6);
+}
+body.has-toc .cs-features li,
+body.has-toc .cs-features li:nth-child(even) { display: flex; flex-direction: column; }
+body.has-toc .cs-features li > .cs-frame { margin: 0 0 var(--s-4); aspect-ratio: 1 / 1; }
+/* The close-ups' white backgrounds are repainted in the tile colour (the
+   cards keep their own white fill), so no blend is needed. Originals:
+   .verbose-backup/before-mec-tile-fill/ */
+body.has-toc .cs-features p { max-width: 40ch; }
+body.has-toc .cs-features p.cs-why { margin-top: var(--s-3); }
+
+/* CarePath Highlights: three phones on tiles, each with its story below. */
+body.has-toc .cs-rows {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-7) var(--s-5);
+  margin-top: var(--s-6);
+}
+body.has-toc .cs-row { display: flex; flex-direction: column; }
+body.has-toc .cs-row .cs-row__media,
+body.has-toc .cs-row:nth-child(even) .cs-row__media {
+  order: 0;
+  width: 100%;
+  max-width: none;
+  margin: 0 0 var(--s-4);
+  padding: var(--s-6) 0;
+}
+body.has-toc .cs-row__media .cs-frame--phone { width: 66%; margin: 0 auto; }
+body.has-toc .cs-row__text p { max-width: 40ch; }
+body.has-toc .cs-row__text p.cs-why { margin-top: var(--s-3); }
+
+/* CarePath Outcomes: each change reads left, its before/after tile right,
+   text top-aligned with the tile instead of floating mid-height. */
+body.has-toc .cs-insights--changes { gap: var(--s-7); margin-top: var(--s-6); }
+body.has-toc .cs-insights--changes .cs-insight {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  grid-template-rows: auto 1fr;
+  column-gap: var(--s-6);
+  align-items: start;
+}
+body.has-toc .cs-insights--changes .cs-insight > h3 { grid-row: 1; margin: 0 0 var(--s-2); }
+body.has-toc .cs-insights--changes .cs-insight > p { grid-row: 2; max-width: 34ch; }
+body.has-toc .cs-insights--changes .cs-insight > .cs-pair { grid-column: 2; grid-row: 1 / -1; }
+body.has-toc .cs-pair {
+  grid-template-columns: repeat(2, minmax(0, 180px));
+  justify-content: center;
+  gap: var(--s-5);
+  max-width: none;
+  margin: 0;
+  padding: var(--s-6) var(--s-5) var(--s-5);
+}
+body.has-toc .cs-pair .cs-image__caption { margin-top: var(--s-3); text-align: center; }
+
+/* What I owned: the groups side by side in one compact band, no arrows. */
+body.has-toc .contributions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: var(--s-6) var(--s-5);
+  margin-top: 0;
+}
+body.has-toc .contributions__cluster { display: flex; flex-direction: column; gap: var(--s-2); }
+body.has-toc .contributions__lbl { font-family: var(--sans); font-size: var(--fs-meta); }
+body.has-toc .contributions ul { gap: var(--s-1); }
+body.has-toc .contributions li { padding-left: 0; font-size: var(--fs-small); line-height: 1.5; }
+body.has-toc .contributions li::before { content: none; }
+
+/* Narrower content (the rail takes the side margin from 768 to 1199px):
+   the three highlights become rows, the changes stack text over tile. */
+@media (max-width: 1199px) {
+  body.has-toc .cs-rows { grid-template-columns: 1fr; gap: var(--s-6); }
+  body.has-toc .cs-row {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    column-gap: var(--s-5);
+    align-items: start;
+  }
+  body.has-toc .cs-row .cs-row__media { margin: 0; }
+  body.has-toc .cs-insights--changes .cs-insight { grid-template-columns: 1fr; grid-template-rows: none; }
+  body.has-toc .cs-insights--changes .cs-insight > * { grid-column: 1 !important; grid-row: auto !important; }
+  body.has-toc .cs-insights--changes .cs-insight > .cs-pair { margin-top: var(--s-4); }
+}
+@media (max-width: 720px) {
+  body.has-toc .cs-features { grid-template-columns: 1fr; gap: var(--s-6); }
+  body.has-toc .cs-row { grid-template-columns: 1fr; row-gap: var(--s-4); }
+  body.has-toc .cs-row__media .cs-frame--phone { width: 56%; }
+  body.has-toc .cs-pair { gap: var(--s-4); padding: var(--s-5) var(--s-4) var(--s-4); }
+  body.has-toc .cs-sublabel { margin-top: var(--s-7); }
+}
+
+/* Home headline (18 Nov 2026, Jay: gap after the typing role, and bolder).
+   The role keeps the width of the longest title so nothing jumps as it
+   types, which left a visible gap mid-line ("UX Researcher|     trying").
+   The rest of the sentence now starts on its own line, so that reserved
+   space trails off the end of the first line, where it can't be seen.
+   The home headline is set at 600. Before: .verbose-backup/index-before-role-line.html */
+.hero__lead:has(.role-swap) { font-weight: 600 !important; max-width: 34ch; }
+.hero__lead .hero__rest { display: block; text-wrap: balance; }
+
+/* Before/after tiles need air (18 Nov 2026, Jay: "screens too big, there's
+   no space around it"). An older rule (.cs-insights--changes ... > .cs-pair,
+   padding 0) outranked the tile's padding, so the phones ran edge to edge.
+   Now each phone is at most a third of the tile (180px max) with even
+   space all round. */
+body.has-toc .cs-insights--changes .cs-insight > .cs-pair {
+  grid-template-columns: repeat(2, min(180px, 33%));
+  justify-content: center;
+  gap: var(--s-5);
+  padding: var(--s-7) var(--s-5) var(--s-6);
+}
+@media (max-width: 720px) {
+  body.has-toc .cs-insights--changes .cs-insight > .cs-pair {
+    grid-template-columns: repeat(2, min(180px, 38%));
+    gap: var(--s-4);
+    padding: var(--s-6) var(--s-4) var(--s-5);
+  }
+}
+
+/* Taller MEC lead card (18 Nov 2026, Jay: "increase length"): 16:9 instead
+   of 21:9, so more of the 4:3 thumbnail shows (it's centred, logo and middle
+   phones stay in view). Phones keep 4:3. */
+@media (min-width: 721px) { .proj--lead .proj__img { aspect-ratio: 16 / 9; } }
+
+/* Phone screens: no status bar, no Dynamic Island, softer corners (18 Nov
+   2026, Jay). The island drawn here earlier the same day is removed. Corners
+   are 50pt on the 402pt screen (were the iPhone's own 62pt), same 60% iOS
+   smoothing. Before: .verbose-backup/styles-before-less-round.css */
+/* No outline on phone screens (18 Nov 2026, Jay: "remove strokes on the
+   phone screen borders"). The hairline traced along the squircle is off;
+   the screen's own edge against the tile is enough. */
+.cs-frame--phone::after { content: none; }
+
+/* ---------- Case-study diagrams (18 Nov 2026, Jay approved the five in
+   placeholder-study.html) ----------
+   Live HTML, not images, so they stay sharp and play an entrance once when
+   scrolled into view (main.js "Case-study diagrams"). Each is drawn on an
+   880 x 495 stage and scaled to the column (up to 1.1x); below 0.62x it
+   stops shrinking and scrolls sideways, like MEC's screen strip. Every rule
+   is scoped to .dg, with a small reset so the site's p/li styles can't leak
+   in. Before: .verbose-backup/before-diagrams/ */
+.cs-diagram { margin: var(--s-6) 0 0; }
+.cs-diagram__vp { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; border-radius: 16px; }
+.cs-diagram__vp::-webkit-scrollbar { display: none; }
+.cs-diagram__sizer { position: relative; width: 880px; height: 495px; }
+.cs-diagram .dg { position: absolute; left: 0; top: 0; transform: scale(var(--dg-s, 1)); transform-origin: 0 0; }
+.cs-diagram__hint { display: none; margin: var(--s-3) 0 0; font-size: var(--fs-label); color: var(--ink-3); text-align: center; }
+.cs-diagram.is-scroll .cs-diagram__hint { display: block; }
+.dg {
+  --ink: #1d1d1f; --ink-2: #6e6e73; --ink-3: #86868b; --line: #e3e5e8;
+  --tile: #f4f6f8; --card: #fff;
+  --mec: #2f6b45; --mec-soft: #dcefe0;
+  --cp: #1f4fa8; --cp-soft: #dde8fb; --cp-red: #c8102e;
+  font-family: var(--sans); color: var(--ink); text-align: left; -webkit-font-smoothing: antialiased;
+}
+.dg p, .dg ul, .dg li, .dg b, .dg small, .dg em, .dg span {
+  margin: 0; padding: 0; max-width: none; font-family: inherit; font-size: inherit; line-height: inherit; color: inherit; letter-spacing: inherit; text-wrap: initial;
+}
+  /* ---- the image ---- */
+  .dg {
+    width: 880px; height: 495px; position: relative; overflow: hidden;
+    background: var(--tile); border-radius: 16px; padding: 40px 44px;
+    font-size: 13px; line-height: 1.45;
+  }
+  .dg .dg__kicker { font-size: 12px; color: var(--ink-3); font-weight: 500; margin: 0; }
+  .dg .dg__title { font-size: 21px; font-weight: 600; letter-spacing: -0.01em; margin: 4px 0 0; }
+  .dg .card { background: var(--card); border-radius: 14px; box-shadow: 0 1px 2px rgba(16,24,40,.04), 0 10px 28px rgba(16,24,40,.06); }
+  .dg .muted { color: var(--ink-3); }
+  .dg .bar { height: 6px; border-radius: 3px; background: #e6e8eb; }
+
+  /* 1 · MEC events today */
+  .dg .steps { position: absolute; left: 44px; right: 44px; top: 140px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+  .dg .step { display: flex; flex-direction: column; gap: 14px; position: relative; }
+  .dg .step .card { height: 222px; padding: 16px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+  .dg .step .h { margin: 0; font-size: 14px; font-weight: 600; }
+  .dg .step p { margin: 0; color: var(--ink-2); font-size: 13px; }
+  .dg .step:not(:last-child)::after {
+    content: ""; position: absolute; right: -19px; top: 104px; width: 10px; height: 10px;
+    border-top: 1.5px solid #b9bec5; border-right: 1.5px solid #b9bec5; transform: rotate(45deg);
+  }
+  .dg .site-nav { display: flex; gap: 6px; align-items: center; }
+  .dg .site-nav span { height: 6px; border-radius: 3px; background: #e6e8eb; flex: 1; }
+  .dg .site-nav .logo { flex: 0 0 22px; height: 14px; border-radius: 3px; background: var(--mec); }
+  .dg .menu { margin-top: 4px; display: grid; gap: 7px; }
+  .dg .menu .bar:nth-child(odd) { width: 70%; }
+  .dg .menu .hit { display: flex; align-items: center; gap: 6px; font-size: 10.5px; color: var(--mec); font-weight: 600; }
+  .dg .menu .hit::before { content: ""; width: 26px; height: 6px; border-radius: 3px; background: var(--mec-soft); }
+  .dg .feed { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 2px; }
+  .dg .feed i { aspect-ratio: 1; border-radius: 4px; background: #e9ebee; }
+  .dg .feed i:nth-child(3n+1) { background: #dfe3e7; }
+  .dg .feed i.ev { background: var(--mec-soft); outline: 1.5px solid var(--mec); outline-offset: -1.5px; }
+  .dg .form { display: grid; gap: 7px; margin-top: 2px; }
+  .dg .form .in { height: 20px; border-radius: 6px; border: 1px solid #e1e4e8; }
+  .dg .form .tag { font-size: 10px; color: var(--ink-3); }
+  .dg .form .btn { height: 22px; border-radius: 6px; background: #9aa1aa; }
+  .dg .sold { margin-top: 6px; display: grid; gap: 8px; }
+  .dg .sold .row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
+  .dg .sold .pill { font-size: 7.5px; font-weight: 500; letter-spacing: .02em; color: #fff; background: #3a3a3c; padding: 1.5px 5px; border-radius: 999px; line-height: 1.25; }
+  .dg .dg__foot { position: absolute; left: 44px; bottom: 36px; font-size: 13px; color: var(--ink-2); }
+  .dg .dg__foot b { color: var(--ink); font-weight: 600; }
+
+  /* 2 · Workshop → app */
+  .dg .map { position: absolute; left: 44px; right: 44px; top: 136px; bottom: 40px; display: grid; grid-template-columns: 1fr 120px 1fr; }
+  .dg .map__col { display: grid; grid-template-rows: 18px repeat(3, 76px); gap: 16px; align-content: start; }
+  .dg .map__col > .card { height: 76px; display: flex; flex-direction: column; justify-content: center; }
+  .dg .map__col > .feat { flex-direction: row; justify-content: flex-start; }
+  .dg .map__head { font-size: 12px; color: var(--ink-3); font-weight: 500; align-self: end; }
+  .dg .quote { padding: 16px 18px; font-size: 15px; font-weight: 500; letter-spacing: -0.005em; }
+  .dg .quote span { display: block; font-size: 11.5px; color: var(--ink-3); font-weight: 400; margin-top: 4px; }
+  .dg .feat { padding: 14px 16px; display: flex; align-items: center; gap: 12px; }
+  .dg .feat .dot { width: 30px; height: 30px; border-radius: 9px; background: var(--mec-soft); display: grid; place-items: center; flex: none; }
+  .dg .feat .dot svg { width: 16px; height: 16px; stroke: var(--mec); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .dg .feat .h { margin: 0; font-size: 14px; font-weight: 600; }
+  .dg .feat p { margin: 1px 0 0; font-size: 12px; color: var(--ink-2); }
+  .dg .map svg.links { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+
+  /* 3 · Handover */
+  .dg .docs { position: absolute; left: 44px; right: 44px; top: 122px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .dg .doc { height: 236px; padding: 16px; display: flex; flex-direction: column; }
+  .dg .doc__art { flex: 1; border-radius: 10px; background: #f6f7f9; position: relative; overflow: hidden; display: grid; place-items: center; }
+  .dg .doc .h { margin: 14px 0 2px; font-size: 14px; font-weight: 600; }
+  .dg .doc p { margin: 0; font-size: 12px; color: var(--ink-2); }
+  .dg .phones { display: flex; gap: 8px; align-items: flex-end; }
+  .dg .phones i { width: 34px; height: 70px; border-radius: 8px; background: #fff; border: 1px solid #cfd4da; position: relative; }
+  .dg .phones i::before { content: ""; position: absolute; left: 6px; right: 6px; top: 12px; height: 18px; border-radius: 3px; background: var(--mec-soft); }
+  .dg .phones i::after { content: ""; position: absolute; left: 6px; right: 12px; top: 36px; height: 4px; border-radius: 2px; background: #e3e6e9; box-shadow: 0 8px 0 #e3e6e9; }
+    .dg .phones i:nth-child(2)::before { background: var(--mec); }
+  .dg .brand { display: grid; grid-template-columns: auto auto; gap: 10px 14px; align-items: center; }
+  .dg .sw { display: flex; gap: 6px; }
+  .dg .sw i { width: 24px; height: 24px; border-radius: 7px; }
+  .dg .aa { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
+  .dg .case { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 600; }
+  .dg .case span { background: #fff; border-radius: 999px; padding: 5px 8px; box-shadow: 0 1px 2px rgba(16,24,40,.06); }
+  .dg .case span.on { background: var(--mec); color: #fff; }
+  .dg .case em { font-style: normal; color: var(--ink-3); font-size: 10px; }
+  .dg .next { position: absolute; left: 44px; right: 44px; bottom: 34px; display: flex; gap: 10px; align-items: center; font-size: 12.5px; color: var(--ink-2); }
+  .dg .next b { color: var(--ink); font-weight: 600; margin-right: 2px; }
+  .dg .next .chip { background: #fff; border-radius: 999px; padding: 6px 12px; box-shadow: 0 1px 2px rgba(16,24,40,.05); color: var(--ink); }
+
+  /* 4 · Where care stops */
+  .dg .chart { position: absolute; left: 44px; right: 44px; top: 118px; height: 183px; }
+  .dg .chart svg { width: 100%; height: 100%; overflow: visible; }
+  .dg .zones { position: absolute; left: 44px; right: 44px; top: 313px; display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 14px; }
+  .dg .zone { padding: 14px 16px; }
+  .dg .zone .h { margin: 0 0 8px; font-size: 13.5px; font-weight: 600; }
+  .dg .zone ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+  .dg .zone li { font-size: 11.5px; padding: 4px 9px; border-radius: 999px; background: var(--cp-soft); color: var(--cp); font-weight: 500; }
+  .dg .zone.home li { background: #f1f2f4; color: var(--ink-2); }
+  .dg .gapnote { margin: 12px 0 0; display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--ink-2); }
+  .dg .gapnote i { width: 6px; height: 6px; border-radius: 50%; background: var(--cp-red); flex: none; }
+  .dg .zone.home .h span { font-weight: 500; color: var(--cp-red); margin-left: 6px; font-size: 12px; }
+
+  /* 5 · Testing round one */
+  .dg .test { position: absolute; left: 44px; right: 44px; top: 122px; bottom: 40px; display: grid; grid-template-columns: 280px 1fr; gap: 20px; }
+  .dg .who { padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 14px; justify-content: space-between; }
+  .dg .who .h, .dg .res .h { margin: 0; font-size: 12px; color: var(--ink-3); font-weight: 500; }
+  .dg .faces { display: flex; }
+  .dg .faces i { width: 38px; height: 38px; border-radius: 50%; border: 2.5px solid #fff; margin-right: -8px; }
+  .dg .who p { margin: 0; font-size: 13px; color: var(--ink-2); }
+  .dg .tasks { display: grid; gap: 8px; margin-top: 2px; }
+  .dg .tasks div { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; }
+  .dg .tasks div::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--cp); flex: none; }
+  .dg .res { padding: 22px 28px 24px; display: flex; flex-direction: column; justify-content: space-between; }
+  .dg .r { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 16px; padding: 18px 0 0; border-top: 1px solid #eef0f2; }
+  .dg .r:first-of-type { border-top: 0; padding-top: 4px; }
+  .dg .r b { font-size: 13.5px; font-weight: 600; }
+  .dg .r small { grid-column: 1; font-size: 12px; color: var(--ink-2); }
+  .dg .dots { grid-row: 1 / span 2; grid-column: 2; display: flex; gap: 4px; align-items: center; }
+  .dg .dots i { width: 11px; height: 11px; border-radius: 50%; background: var(--cp); }
+  .dg .dots.good i { background: #2f8a57; }
+  .dg .dots em { font-style: normal; font-size: 12px; color: var(--ink); margin-left: 10px; font-weight: 600; min-width: 34px; text-align: right; }
+
+  /* ---- Entrance motion: plays once when the image scrolls into view ----
+     Apple-style timing: 0.7s rises on cubic-bezier(0,0,.5,1), small
+     staggers, springy pops for pills and dots, lines that draw. */
+  .dg .a, .dg .al, .dg .ar { opacity: 0; transition: opacity .7s cubic-bezier(.25,.1,.25,1) var(--d,0s), transform .7s cubic-bezier(0,0,.5,1) var(--d,0s); }
+  .dg .a { transform: translateY(14px); }
+  .dg .al { transform: translateX(-16px); }
+  .dg .ar { transform: translateX(16px); }
+  .dg .p { opacity: 0; transform: scale(.82); transition: opacity .35s ease var(--d,0s), transform .55s cubic-bezier(.34,1.56,.64,1) var(--d,0s); }
+  .dg .w { transform: scaleX(0); transform-origin: left center; transition: transform .6s cubic-bezier(0,0,.5,1) var(--d,0s); }
+  .dg .gy { transform: scaleY(0); transform-origin: center bottom; transition: transform .6s cubic-bezier(.34,1.3,.64,1) var(--d,0s); }
+  .dg .f { opacity: 0; transition: opacity .9s ease var(--d,0s); }
+  .dg .draw { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset var(--t,1.2s) cubic-bezier(.45,0,.2,1) var(--d,0s); }
+  .dg.is-in .a, .dg.is-in .al, .dg.is-in .ar, .dg.is-in .p, .dg.is-in .f { opacity: 1; transform: none; }
+  .dg.is-in .w, .dg.is-in .gy { transform: none; }
+  .dg.is-in .draw { stroke-dashoffset: 0; }
+  /* One soft pulse on the event hidden in the feed, once it has landed. */
+  .dg .feed i.ev { position: relative; }
+  .dg.is-in .feed i.ev::after { content: ""; position: absolute; inset: -4px; border-radius: 7px; border: 2px solid var(--mec); opacity: 0; animation: dg-ring 1.4s ease-out 1.5s 2; }
+  @keyframes dg-ring { 0% { opacity: .6; transform: scale(.9); } 100% { opacity: 0; transform: scale(1.25); } }
+  /* The business case lights up in order: events, then loyalty, then sales. */
+  .dg .case span.lit { transition: opacity .7s cubic-bezier(.25,.1,.25,1) var(--d,0s), transform .7s cubic-bezier(0,0,.5,1) var(--d,0s), background .4s ease var(--hl,0s), color .4s ease var(--hl,0s); }
+  .dg svg .p, .dg svg .a { transform-box: fill-box; transform-origin: center; }
+  .dg.is-in .case span.lit { background: var(--mec-soft); color: var(--mec); }
+  .dg.no-t *, .dg.no-t *::before, .dg.no-t *::after { transition: none !important; animation: none !important; }
+  @media (prefers-reduced-motion: reduce) {
+    .dg *, .dg *::before, .dg *::after { transition: none !important; animation: none !important; }
+    .dg .a, .dg .al, .dg .ar, .dg .p, .dg .f, .dg .w, .dg .gy { opacity: 1 !important; transform: none !important; }
+    .dg .draw { stroke-dashoffset: 0 !important; }
+  }
+
+
+
+/* MEC Solution tiles play in when the whole tile is on screen (18 Nov
+   2026, Jay). main.js arms the grid (hidden instantly, so nothing hides
+   without JS) and adds .is-in to each tile once its picture is fully in
+   view: the tile rises 30px and fades in, its picture settles from 1.07x,
+   then the title, line and Why note follow. The right-hand tile of a row
+   trails by 0.15s (--i). Reduced motion: not armed, shown as is. */
+.cs-features.is-armed > li {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity .9s cubic-bezier(.455,.03,.515,.955) calc(var(--i, 0) * .15s), transform .9s cubic-bezier(.455,.03,.515,.955) calc(var(--i, 0) * .15s);
+}
+.cs-features.is-armed > li > .cs-frame > img {
+  transform: scale(1.07);
+  transition: transform 1.3s cubic-bezier(0,0,.5,1) calc(var(--i, 0) * .15s + .1s);
+}
+.cs-features.is-armed > li > :not(.cs-frame) {
+  opacity: 0; transform: translateY(8px);
+  transition: opacity .7s cubic-bezier(.455,.03,.515,.955) calc(var(--i, 0) * .15s + .3s), transform .7s cubic-bezier(.455,.03,.515,.955) calc(var(--i, 0) * .15s + .3s);
+}
+.cs-features.is-armed > li > .cs-why { transition-delay: calc(var(--i, 0) * .15s + .42s); }
+.cs-features.is-armed > li.is-in,
+.cs-features.is-armed > li.is-in > :not(.cs-frame) { opacity: 1; transform: none; }
+.cs-features.is-armed > li.is-in > .cs-frame > img { transform: none; }
+.cs-features.cs-noanim > li, .cs-features.cs-noanim > li * { transition: none !important; }
+
+/* CarePath Highlights between 721 and 1199px (18 Nov 2026, Jay: "I don't
+   like how these screens are displayed"): a tall phone tile with the text
+   pinned to its top left a big empty space. Each feature is now one grey
+   card: the phone on the left, the text inside the card beside it,
+   centred. Phones (720 and below) stack the screen above its text in the
+   same card. Wide screens keep three tiles across.
+   Before: .verbose-backup/styles-before-highlight-cards.css */
+@media (max-width: 1199px) {
+  body.has-toc .cs-rows { gap: var(--s-5); }
+  body.has-toc .cs-row,
+  body.has-toc .cs-row:nth-child(even) {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    column-gap: var(--s-7);
+    align-items: center;
+    background: var(--tile);
+    border-radius: var(--r-3);
+    padding: var(--s-7) var(--s-7) var(--s-7) var(--s-6);
+  }
+  body.has-toc .cs-row .cs-row__media,
+  body.has-toc .cs-row:nth-child(even) .cs-row__media { background: none; padding: 0; margin: 0; }
+  body.has-toc .cs-row__media .cs-frame--phone { width: 100%; max-width: 230px; margin: 0 auto; }
+  body.has-toc .cs-row__text p { max-width: 34ch; }
+}
+@media (max-width: 720px) {
+  body.has-toc .cs-row,
+  body.has-toc .cs-row:nth-child(even) {
+    grid-template-columns: 1fr;
+    row-gap: var(--s-5);
+    padding: var(--s-6) var(--s-5) var(--s-5);
+  }
+  body.has-toc .cs-row__media .cs-frame--phone { width: 62%; max-width: 230px; }
 }

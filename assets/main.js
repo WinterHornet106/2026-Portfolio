@@ -464,7 +464,7 @@
        a phone). Scrolling down tucks the nav away and the tabs slide up to
        the top; any scroll up brings it back (polish, 10 Nov 2026). */
     if (document.body.classList.contains("has-toc")) {
-      const narrow = window.matchMedia("(max-width: 1199px)");
+      const narrow = window.matchMedia("(max-width: 767px)");
       const root = document.documentElement;
       let lastY = window.scrollY;
       window.addEventListener("scroll", () => {
@@ -2213,7 +2213,7 @@
       .filter((it) => it.target);
 
     if (items.length) {
-      const wide = window.matchMedia("(min-width: 1200px)");
+      const wide = window.matchMedia("(min-width: 768px)");
       const root = document.documentElement;
 
       // Native smooth anchor scrolling — paired with scroll-margin-top in CSS.
@@ -2338,4 +2338,132 @@
     update();
     setInterval(update, 15000);
   }
+})();
+
+/* ---------- Case-study diagrams and MEC tiles: play when fully in view ----------
+   (18 Nov 2026, Jay: "only start the animation when the whole of the grey
+   card is visible on their screen". Earlier the same day they played on
+   entry, then scrubbed with the scroll: .verbose-backup/main-before-whole-card.js.)
+   Each diagram's grey card (.cs-diagram__vp) and each MEC Solution tile's
+   picture (.cs-frame) waits until it is entirely on screen, then plays its
+   timed entrance once. Reduced motion: everything shows finished and still. */
+(() => {
+  const figs = [...document.querySelectorAll(".cs-diagram")];
+  const grids = [...document.querySelectorAll(".cs-features")];
+  if (!figs.length && !grids.length) return;
+  const W = 880, H = 495, MIN = 0.62, MAX = 1.1;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const fit = (fig) => {
+    const vp = fig.querySelector(".cs-diagram__vp");
+    const sizer = fig.querySelector(".cs-diagram__sizer");
+    const dg = fig.querySelector(".dg");
+    const s = Math.min(MAX, Math.max(MIN, vp.clientWidth / W));
+    dg.style.setProperty("--dg-s", s.toFixed(4));
+    sizer.style.width = `${W * s}px`;
+    sizer.style.height = `${H * s}px`;
+    fig.classList.toggle("is-scroll", W * s > vp.clientWidth + 1);
+  };
+
+  // Staggers: data-stagger="start,step" gives each child its own delay;
+  // data-kids adds the motion class to children that don't carry one.
+  document.querySelectorAll(".dg [data-stagger]").forEach((el) => {
+    const [start, step] = el.dataset.stagger.split(",").map(Number);
+    [...el.children].forEach((c, i) => {
+      if (c.tagName === "EM") { c.style.setProperty("--d", `${(start + 5 * step + 0.1).toFixed(2)}s`); return; }
+      if (el.dataset.kids) c.classList.add(el.dataset.kids);
+      c.style.setProperty("--d", `${(start + i * step).toFixed(2)}s`);
+    });
+  });
+
+  // Connector lines from each workshop quote to the feature it became,
+  // measured in the stage's own (unscaled) coordinates.
+  const drawLinks = (dg) => {
+    const svg = dg.querySelector("svg.links");
+    if (!svg) return;
+    const map = svg.parentElement;
+    const NS = "http://www.w3.org/2000/svg";
+    svg.innerHTML = "";
+    svg.setAttribute("viewBox", `0 0 ${map.offsetWidth} ${map.offsetHeight}`);
+    ["1", "2", "3"].forEach((k, i) => {
+      const a = dg.querySelector(`.quote[data-k="${k}"]`), b = dg.querySelector(`.feat[data-k="${k}"]`);
+      if (!a || !b) return;
+      const x1 = a.offsetLeft + a.offsetWidth, y1 = a.offsetTop + a.offsetHeight / 2;
+      const x2 = b.offsetLeft, y2 = b.offsetTop + b.offsetHeight / 2, mx = (x1 + x2) / 2;
+      const p = document.createElementNS(NS, "path");
+      p.setAttribute("d", `M${x1} ${y1} C${mx} ${y1} ${mx} ${y2} ${x2} ${y2}`);
+      p.setAttribute("fill", "none"); p.setAttribute("stroke", "#2f6b45"); p.setAttribute("stroke-width", "1.6");
+      p.setAttribute("stroke-linecap", "round"); p.setAttribute("pathLength", "1"); p.setAttribute("class", "draw");
+      p.setAttribute("style", `--d:${(0.85 + i * 0.15).toFixed(2)}s;--t:.7s`);
+      svg.appendChild(p);
+      [[x1, y1, 0.8], [x2, y2, 1.5]].forEach(([x, y, d]) => {
+        const c = document.createElementNS(NS, "circle");
+        c.setAttribute("cx", x); c.setAttribute("cy", y); c.setAttribute("r", 3.5); c.setAttribute("fill", "#2f6b45");
+        c.setAttribute("class", "p"); c.setAttribute("style", `--d:${(d + i * 0.15).toFixed(2)}s`);
+        svg.appendChild(c);
+      });
+    });
+  };
+
+  // Chart pills hug their contents: 12px, red dot, 7px, words, 14px,
+  // centred on the x given in data-pill.
+  const fitPills = (dg) => dg.querySelectorAll("[data-pill]").forEach((p) => {
+    const rect = p.querySelector("rect"), dot = p.querySelector("circle"), text = p.querySelector("text");
+    const total = text.getBBox().width + 40, x = +p.dataset.pill - total / 2;
+    rect.setAttribute("x", x); rect.setAttribute("width", total);
+    dot.setAttribute("cx", x + 15.5); text.setAttribute("x", x + 26);
+  });
+
+  // "Whole card on screen": its top and bottom both inside the window (2px
+  // allowance; a card taller than the window plays once it fills it). The
+  // observer can't do this alone: a fully shown card measures 99.9%, not
+  // 100%, so its last threshold never fires. So: check on scroll instead.
+  const pending = new Set();
+  const inView = (el) => {
+    const r = el.getBoundingClientRect(), vh = innerHeight;
+    return r.height > vh ? r.top <= 2 && r.bottom >= vh - 2 : r.top >= -2 && r.bottom <= vh + 2;
+  };
+  let queued = false;
+  const check = () => {
+    queued = false;
+    pending.forEach((el) => { if (inView(el)) { el._play(); pending.delete(el); } });
+    if (!pending.size) { removeEventListener("scroll", onScroll); removeEventListener("resize", onScroll); }
+  };
+  const onScroll = () => { if (!queued) { queued = true; requestAnimationFrame(check); } };
+  const watch = (el) => {
+    if (!pending.size) { addEventListener("scroll", onScroll, { passive: true }); addEventListener("resize", onScroll); }
+    pending.add(el);
+    onScroll();
+  };
+
+  figs.forEach(fit);
+  if (figs.length) {
+    const ro = new ResizeObserver((entries) => entries.forEach((e) => fit(e.target.closest(".cs-diagram"))));
+    figs.forEach((f) => ro.observe(f.querySelector(".cs-diagram__vp")));
+  }
+
+  // MEC tiles: hide instantly (no fade-out), number them for the beat
+  // between the two tiles of a row, then play each when its tile is in view.
+  if (!reduce) grids.forEach((g) => {
+    [...g.children].forEach((li, i) => {
+      li.style.setProperty("--i", i % 2);
+      const frame = li.querySelector(".cs-frame") || li;
+      frame._play = () => li.classList.add("is-in");
+      watch(frame);
+    });
+    g.classList.add("is-armed", "cs-noanim");
+    void g.offsetWidth;
+    g.classList.remove("cs-noanim");
+  });
+
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+    figs.forEach((f) => {
+      const dg = f.querySelector(".dg"), vp = f.querySelector(".cs-diagram__vp");
+      drawLinks(dg);
+      fitPills(dg);
+      if (reduce) { dg.classList.add("is-in"); return; }
+      vp._play = () => dg.classList.add("is-in");
+      setTimeout(() => watch(vp), 60);
+    });
+  });
 })();
