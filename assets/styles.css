@@ -3987,7 +3987,7 @@ body.has-toc .cs-insights--changes .cs-insight > .cs-pair {
   .dg .form { display: grid; gap: 7px; margin-top: 2px; }
   .dg .form .in { height: 20px; border-radius: 6px; border: 1px solid #e1e4e8; }
   .dg .form .tag { font-size: 10px; color: var(--ink-3); }
-  .dg .form .btn { height: 22px; border-radius: 6px; background: #9aa1aa; }
+  .dg .form .sbtn { height: 22px; border-radius: 6px; background: #9aa1aa; }
   .dg .sold { margin-top: 6px; display: grid; gap: 8px; }
   .dg .sold .row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
   .dg .sold .pill { font-size: 7.5px; font-weight: 500; letter-spacing: .02em; color: #fff; background: #3a3a3c; padding: 1.5px 5px; border-radius: 999px; line-height: 1.25; }
@@ -4097,29 +4097,28 @@ body.has-toc .cs-insights--changes .cs-insight > .cs-pair {
 
 
 
-/* MEC Solution tiles play in when the whole tile is on screen (18 Nov
-   2026, Jay). main.js arms the grid (hidden instantly, so nothing hides
-   without JS) and adds .is-in to each tile once its picture is fully in
-   view: the tile rises 30px and fades in, its picture settles from 1.07x,
-   then the title, line and Why note follow. The right-hand tile of a row
-   trails by 0.15s (--i). Reduced motion: not armed, shown as is. */
-.cs-features.is-armed > li {
+/* Showcase grids play in, the same on all three case studies (19 Nov 2026,
+   Jay: "match motion across all three"; first MEC's Solution tiles only).
+   main.js adds .mo to each item (MEC Solution tiles, CarePath Highlights
+   and before/after pairs, DDA posters, comparison and interaction clips;
+   nothing hides without JS) and .is-in once its picture is wholly on
+   screen: the item rises 30px and fades in on apple.com's easeInOutQuad, a
+   picture in a frame settles from 1.07x (.mo-zoom), then its text follows
+   (.mo-t; the Why note .mo-t2 a beat later). Items sharing a row trail by
+   0.15s each (--i). Reduced motion: not armed. */
+.mo {
   opacity: 0; transform: translateY(30px);
   transition: opacity .9s cubic-bezier(.455,.03,.515,.955) calc(var(--i, 0) * .15s), transform .9s cubic-bezier(.455,.03,.515,.955) calc(var(--i, 0) * .15s);
 }
-.cs-features.is-armed > li > .cs-frame > img {
-  transform: scale(1.07);
-  transition: transform 1.3s cubic-bezier(0,0,.5,1) calc(var(--i, 0) * .15s + .1s);
-}
-.cs-features.is-armed > li > :not(.cs-frame) {
+.mo .mo-zoom { transform: scale(1.07); transition: transform 1.3s cubic-bezier(0,0,.5,1) calc(var(--i, 0) * .15s + .1s); }
+.mo .mo-t {
   opacity: 0; transform: translateY(8px);
   transition: opacity .7s cubic-bezier(.455,.03,.515,.955) calc(var(--i, 0) * .15s + .3s), transform .7s cubic-bezier(.455,.03,.515,.955) calc(var(--i, 0) * .15s + .3s);
 }
-.cs-features.is-armed > li > .cs-why { transition-delay: calc(var(--i, 0) * .15s + .42s); }
-.cs-features.is-armed > li.is-in,
-.cs-features.is-armed > li.is-in > :not(.cs-frame) { opacity: 1; transform: none; }
-.cs-features.is-armed > li.is-in > .cs-frame > img { transform: none; }
-.cs-features.cs-noanim > li, .cs-features.cs-noanim > li * { transition: none !important; }
+.mo .mo-t2 { transition-delay: calc(var(--i, 0) * .15s + .42s); }
+.mo.is-in, .mo.is-in .mo-t { opacity: 1; transform: none; }
+.mo.is-in .mo-zoom { transform: none; }
+.mo-off, .mo-off * { transition: none !important; }
 
 /* CarePath Highlights between 721 and 1199px (18 Nov 2026, Jay: "I don't
    like how these screens are displayed"): a tall phone tile with the text
@@ -4153,3 +4152,136 @@ body.has-toc .cs-insights--changes .cs-insight > .cs-pair {
   }
   body.has-toc .cs-row__media .cs-frame--phone { width: 62%; max-width: 230px; }
 }
+
+/* Polish pass (19 Nov 2026, Jay: "keep looping until everything is high
+   quality"). About's "short version" table sat 96px under its heading (its
+   own margin-top, left from before the one-rhythm rule) where every other
+   section heading has 32 to 41px. The footer blurb left "& HK." alone on
+   its last line. */
+.sec-head + .kv-table { margin-top: 0; }
+.foot .blurb { text-wrap: balance; }
+/* Hero intro lines and About's table values wrap without a lone last word
+   ("& HK." on About at phone width). */
+.hero__sub .hero__tag, .kv-table .v { text-wrap: pretty; }
+/* Contact opened 192px under the nav on phones (its own 96px padding plus
+   the page's 96px, then centred in the screen), where every other page
+   opens at 96px. It now starts at the shared rhythm and keeps the centred,
+   full-height layout only on wide screens, where it reads as a poster. */
+.contact-wrap { padding-top: 0; }
+@media (max-width: 720px) { .contact-wrap { min-height: 0; align-content: start; gap: var(--s-7); } }
+/* Footer on phones: two columns squeezed the blurb into five short lines;
+   one column reads as name, blurb, contact. */
+@media (max-width: 480px) { .foot { grid-template-columns: 1fr; gap: var(--s-6); } }
+
+/* Diagrams on phones (19 Nov 2026, polish pass). Below a 600px column the
+   880 x 495 stage used to shrink to 0.62x and scroll sideways, putting its
+   small text near 8px. main.js now adds .dg-narrow there and each diagram
+   reflows into a stacked layout at full size: the four stops in a 2 x 2
+   grid, workshop quotes beside their features row by row (no connector
+   lines), the handover as three rows, the care chart full width with its
+   labels moved under it as HTML, the testing cards stacked. */
+.cs-diagram.dg-narrow .cs-diagram__vp { overflow: visible; }
+.cs-diagram.dg-narrow .cs-diagram__sizer { width: auto !important; height: auto !important; }
+.cs-diagram.dg-narrow .dg { position: relative; transform: none; width: auto; height: auto; padding: 24px 18px 22px; }
+.cs-diagram.dg-narrow .dg__title { font-size: 18px; line-height: 1.3; }
+.dg-narrow .dg :is(.steps, .map, .docs, .chart, .zones, .test, .next) { position: static; margin-top: 20px; }
+
+/* 1 · four stops */
+.dg-narrow .dg .steps { grid-template-columns: 1fr 1fr; gap: 20px 12px; }
+.dg-narrow .dg .step .card { height: 150px; padding: 12px; }
+.dg-narrow .dg .step:not(:last-child)::after { display: none; }
+.dg-narrow .dg .step .h { font-size: 13px; }
+.dg-narrow .dg .step p { font-size: 12px; }
+
+/* 2 · workshop: quote and feature side by side, one row per finding */
+.dg-narrow .dg .map { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.dg-narrow .dg .map__col { display: contents; }
+.dg-narrow .dg .map > div:not(.map__col), .dg-narrow .dg svg.links { display: none; }
+.dg-narrow .dg .map__col:first-of-type > * { grid-column: 1; }
+.dg-narrow .dg .map__col:last-of-type > * { grid-column: 2; }
+.dg-narrow .dg .map__head { grid-row: 1; }
+.dg-narrow .dg [data-k="1"] { grid-row: 2; }
+.dg-narrow .dg [data-k="2"] { grid-row: 3; }
+.dg-narrow .dg [data-k="3"] { grid-row: 4; }
+.dg-narrow .dg .map__col > .card { height: auto; min-height: 76px; }
+.dg-narrow .dg .quote { padding: 12px; font-size: 13px; }
+.dg-narrow .dg .quote span { font-size: 11px; }
+.dg-narrow .dg .feat { padding: 12px; gap: 8px; align-items: flex-start; }
+.dg-narrow .dg .feat .dot { width: 24px; height: 24px; border-radius: 7px; }
+.dg-narrow .dg .feat .h { font-size: 13px; }
+.dg-narrow .dg .feat p { font-size: 11px; }
+
+/* 3 · handover: three rows, picture left */
+.dg-narrow .dg .docs { grid-template-columns: 1fr; gap: 10px; }
+.dg-narrow .dg .doc { height: auto; display: grid; grid-template-columns: 104px 1fr; column-gap: 14px; align-items: center; padding: 12px; }
+.dg-narrow .dg .doc__art { height: 76px; grid-row: 1 / span 2; }
+.dg-narrow .dg .doc .h { margin: 0 0 2px; align-self: end; }
+.dg-narrow .dg .doc p { align-self: start; }
+.dg-narrow .dg .phones { transform: scale(.7); }
+.dg-narrow .dg .brand { transform: scale(.62); }
+.dg-narrow .dg .case { transform: scale(.78); }
+.dg-narrow .dg .next { flex-wrap: wrap; gap: 8px; font-size: 12px; }
+.dg-narrow .dg .next b { flex-basis: 100%; }
+
+/* 4 · where care stops: chart full width, its words as HTML below */
+.dg-narrow .dg .chart { height: auto; }
+.dg-narrow .dg .chart svg { height: auto; aspect-ratio: 792 / 183; }
+.dg-narrow .dg .chart svg text, .dg-narrow .dg [data-pill] { opacity: 0 !important; }
+.dg-narrow .dg .chart::after {
+  content: "Nothing links home back to the pharmacist"; display: flex; align-items: center; gap: 7px;
+  width: fit-content; margin: 12px auto 0; padding: 6px 12px; border-radius: 999px; background: #fff;
+  border: 1px solid #e3e5e8; font-size: 12px; font-weight: 500; color: var(--ink);
+}
+.dg-narrow .dg .chart::before { content: "Support (illustrative)"; display: block; margin-bottom: 8px; font-size: 11px; color: var(--ink-3); }
+.dg-narrow .dg .zones { grid-template-columns: 1fr; gap: 10px; }
+
+/* 5 · testing: cards stacked */
+.dg-narrow .dg .test { grid-template-columns: 1fr; gap: 10px; }
+.dg-narrow .dg .who, .dg-narrow .dg .res { padding: 18px; gap: 12px; }
+.dg-narrow .dg .r b { font-size: 13px; }
+.dg-narrow .dg .dots i { width: 9px; height: 9px; }
+.dg-narrow .dg .chart::after { padding-left: 26px; background: radial-gradient(circle at 14px 50%, #c8102e 3px, transparent 3.6px) #fff; }
+
+/* Two leaks from the site's own styles into the diagrams: the site-wide
+   .btn (a 44px touch target) stretched the sign-up form's button, so it is
+   .sbtn now; and ".dg .feat p" / ".dg .doc p" / ".dg .step p" also caught
+   the titles (p.h), turning them grey. */
+.dg .step .h, .dg .feat .h, .dg .doc .h { color: var(--ink); }
+.dg-narrow .dg .doc { grid-template-columns: 118px 1fr; }
+.dg-narrow .dg .case { transform: scale(.6); }
+.dg-narrow .dg .brand { transform: scale(.58); }
+/* Handover pictures at phone size: real sizes instead of a scale (a scale
+   kept their full width, so they clipped). */
+.dg-narrow .dg .brand, .dg-narrow .dg .case, .dg-narrow .dg .phones { transform: none; }
+.dg-narrow .dg .brand { gap: 6px 8px; }
+.dg-narrow .dg .sw { gap: 4px; }
+.dg-narrow .dg .sw i { width: 14px; height: 14px; border-radius: 4px; }
+.dg-narrow .dg .aa { font-size: 18px; }
+.dg-narrow .dg .case { flex-direction: column; gap: 3px; font-size: 9px; }
+.dg-narrow .dg .case span { padding: 3px 8px; }
+.dg-narrow .dg .case em { display: none; }
+.dg-narrow .dg .phones { gap: 5px; }
+.dg-narrow .dg .phones i { width: 24px; height: 50px; border-radius: 6px; }
+.dg-narrow .dg .phones i::before { left: 4px; right: 4px; top: 8px; height: 12px; }
+.dg-narrow .dg .phones i::after { left: 4px; right: 8px; top: 25px; height: 3px; box-shadow: 0 6px 0 #e3e6e9; }
+/* The care chart's lines keep their real thickness when the chart is small. */
+.dg-narrow .dg .chart svg path, .dg-narrow .dg .chart svg circle { vector-effect: non-scaling-stroke; }
+
+/* One hero type scale on every page (19 Nov 2026, Jay: "the ratios for font
+   sizes are off"). The home, About, Résumé, Side projects and side project
+   heroes put a 12px grey label beside a 16 to 18px line, under the title,
+   on two different baselines. Every hero now reads like the case studies:
+   a 13px label above the title (12px gap), the title, then the intro line
+   at lede size 16px under it, left-aligned in one column. The home title is
+   a step larger than other page titles (40 to 30px, about 1.7x the 24px
+   section heads) since it opens the site.
+   Before: .verbose-backup/before-hero-scale/ */
+.hero__rail--top { padding-bottom: 0; font-size: 13px; color: var(--ink-3); }
+.hero .hero__lead { margin-top: var(--s-3); }
+.hero__sub, .hero__sub--actions { display: block; max-width: none; margin: var(--s-4) 0 0; }
+.hero__sub .hero__tag { font-size: var(--fs-lede); line-height: 1.55; max-width: 46ch; color: var(--ink-2); }
+.hero__sub .row { margin-top: var(--s-5); }
+.hero__lead:has(.role-swap) { font-size: clamp(1.875rem, 1.35rem + 1.6vw, 2.5rem); line-height: 1.18; max-width: 30ch; }
+/* Résumé hero: its intro and buttons sat 48px apart (an older cluster gap);
+   the buttons now follow the intro by 24px like every other hero row. */
+.hero__sub--actions .hero__cluster { display: block; }

@@ -2340,7 +2340,7 @@
   }
 })();
 
-/* ---------- Case-study diagrams and MEC tiles: play when fully in view ----------
+/* ---------- Case-study diagrams and showcase grids: play when fully in view ----------
    (18 Nov 2026, Jay: "only start the animation when the whole of the grey
    card is visible on their screen". Earlier the same day they played on
    entry, then scrubbed with the scroll: .verbose-backup/main-before-whole-card.js.)
@@ -2349,8 +2349,20 @@
    timed entrance once. Reduced motion: everything shows finished and still. */
 (() => {
   const figs = [...document.querySelectorAll(".cs-diagram")];
-  const grids = [...document.querySelectorAll(".cs-features")];
-  if (!figs.length && !grids.length) return;
+  // Showcase grids on all three case studies share one entrance: each item
+  // rises in once its picture (the trigger) is fully on screen; a picture
+  // in a frame settles from 1.07x; its text follows. [items, trigger].
+  const SHOWCASE = [
+    [".cs-features > li", ".cs-frame"],                       // MEC Solution
+    [".cs-rows > .cs-row", null],                             // CarePath Highlights
+    [".cs-insights--changes > .cs-insight", ".cs-pair"],      // CarePath before/after
+    [".cs-posters > .cs-poster", "img"],                      // DDA posters
+    [".cs-compare > .cs-figure", "img"],                      // DDA functional vs expressive
+    [".cs-interactions > .cs-poster", ".cs-frame"],           // DDA interaction clips
+  ];
+  const items = [];
+  SHOWCASE.forEach(([sel, trig]) => document.querySelectorAll(sel).forEach((el) => items.push([el, (trig && el.querySelector(trig)) || el])));
+  if (!figs.length && !items.length) return;
   const W = 880, H = 495, MIN = 0.62, MAX = 1.1;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -2358,6 +2370,19 @@
     const vp = fig.querySelector(".cs-diagram__vp");
     const sizer = fig.querySelector(".cs-diagram__sizer");
     const dg = fig.querySelector(".dg");
+    // Phones get their own stacked layout at full size instead of a shrunken
+    // or sideways-scrolling stage ("Diagrams on phones" in styles.css).
+    const narrow = vp.clientWidth < 600;
+    if (fig.classList.contains("dg-narrow") !== narrow) {
+      fig.classList.toggle("dg-narrow", narrow);
+      if (fig._ready) drawLinks(dg);
+    }
+    if (narrow) {
+      dg.style.removeProperty("--dg-s");
+      sizer.style.width = sizer.style.height = "";
+      fig.classList.remove("is-scroll");
+      return;
+    }
     const s = Math.min(MAX, Math.max(MIN, vp.clientWidth / W));
     dg.style.setProperty("--dg-s", s.toFixed(4));
     sizer.style.width = `${W * s}px`;
@@ -2442,25 +2467,43 @@
     figs.forEach((f) => ro.observe(f.querySelector(".cs-diagram__vp")));
   }
 
-  // MEC tiles: hide instantly (no fade-out), number them for the beat
-  // between the two tiles of a row, then play each when its tile is in view.
-  if (!reduce) grids.forEach((g) => {
-    [...g.children].forEach((li, i) => {
-      li.style.setProperty("--i", i % 2);
-      const frame = li.querySelector(".cs-frame") || li;
-      frame._play = () => li.classList.add("is-in");
-      watch(frame);
+  // Arm the showcase items: hide instantly (no fade-out), give items that
+  // share a row a 0.15s beat each (--i), mark pictures and text, and play
+  // each item once its trigger is wholly on screen.
+  if (!reduce && items.length) {
+    const rows = new Map();
+    items.forEach(([el]) => {
+      const key = el.parentElement;
+      if (!rows.has(key)) rows.set(key, []);
+      rows.get(key).push(el);
     });
-    g.classList.add("is-armed", "cs-noanim");
-    void g.offsetWidth;
-    g.classList.remove("cs-noanim");
-  });
+    rows.forEach((list) => {
+      let rowTop = null, n = 0;
+      list.forEach((el) => {
+        const t = el.offsetTop;
+        if (rowTop === null || Math.abs(t - rowTop) > 4) { rowTop = t; n = 0; }
+        el.style.setProperty("--i", n++);
+      });
+    });
+    items.forEach(([el, trigger]) => {
+      el.classList.add("mo", "mo-off");
+      el.querySelectorAll(".cs-frame > img").forEach((m) => m.classList.add("mo-zoom"));
+      const texts = el.matches(".cs-row")
+        ? el.querySelectorAll(".cs-row__text > *")
+        : el.querySelectorAll(":scope > h3, :scope > p, :scope > figcaption > *, :scope > figcaption:not(:has(*))");
+      texts.forEach((t) => t.classList.add("mo-t", ...(t.classList.contains("cs-why") ? ["mo-t2"] : [])));
+      trigger._play = () => el.classList.add("is-in");
+    });
+    void document.body.offsetWidth;
+    items.forEach(([el, trigger]) => { el.classList.remove("mo-off"); watch(trigger); });
+  }
 
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
     figs.forEach((f) => {
       const dg = f.querySelector(".dg"), vp = f.querySelector(".cs-diagram__vp");
       drawLinks(dg);
       fitPills(dg);
+      f._ready = true;
       if (reduce) { dg.classList.add("is-in"); return; }
       vp._play = () => dg.classList.add("is-in");
       setTimeout(() => watch(vp), 60);
